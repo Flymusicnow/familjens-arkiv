@@ -226,6 +226,12 @@ html,body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;
 .dim{opacity:0.4;}
 .dim .cact{display:none;}
 
+/* BACK BUTTON */
+.back-btn{position:fixed;top:14px;left:16px;z-index:200;display:none;align-items:center;gap:6px;background:rgba(13,13,26,0.92);backdrop-filter:blur(12px);border:1px solid var(--border2);border-radius:12px;padding:8px 14px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;}
+.back-btn svg{width:16px;height:16px;stroke:var(--t2);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+.back-btn:active{transform:scale(0.95);}
+@media(min-width:768px){.back-btn{display:none!important;}}
+
 /* NAV */
 .nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:400px;background:rgba(13,13,26,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--border2);border-radius:26px;display:flex;padding:8px;z-index:100;gap:2px;box-shadow:0 16px 48px rgba(0,0,0,0.5);}
 .nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border:none;background:none;cursor:pointer;border-radius:18px;transition:background 0.2s;font-family:'DM Sans',sans-serif;}
@@ -328,7 +334,7 @@ html,body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;
 <!-- HEM -->
 <div class="screen active" id="sc-hem">
   <div class="top">
-    <div><div class="eyebrow">Måndag 16 mars, 2026</div><div class="pagetitle">Hej, <em>Franck</em> 👋</div></div>
+    <div><div class="eyebrow" id="hem-date">Måndag 16 mars, 2026</div><div class="pagetitle">Hej, <em>Franck</em> 👋</div></div>
     <div class="av">F</div>
   </div>
   <div class="hero">
@@ -349,17 +355,17 @@ html,body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;
     <div class="qa qdocs" id="qa-docs"><div class="qi"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg></div><span class="ql">Arkiv</span></div>
   </div>
   <div class="sh"><span class="sht">KRÄVER HANDLING NU</span><span class="sha" id="sh-alla">Visa alla →</span></div>
-  <div class="card cb cr">
+  <div class="card cb cr" id="hem-bill-el">
     <div class="crow"><div class="ci ired"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg></div><div class="cbody"><div class="ctitle">Elräkning mars</div><div class="cmeta">Vattenfall · Förfaller 15 mars</div></div><div class="cright"><div class="camt ared">450 kr</div><div class="cbadge" style="color:var(--red)">AKUT</div></div></div>
     <div class="cdiv"></div>
     <div class="cact"><button class="btn bout" id="snooze1">⏰ Snooze</button><button class="btn bred" id="pay1"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Markera betald</button></div>
   </div>
-  <div class="card cb cr">
+  <div class="card cb cr" id="hem-bill-telia">
     <div class="crow"><div class="ci ired"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><div class="cbody"><div class="ctitle">Telia abonnemang</div><div class="cmeta">Telia · Förfaller idag</div></div><div class="cright"><div class="camt ared">459 kr</div><div class="cbadge" style="color:var(--red)">AKUT</div></div></div>
     <div class="cdiv"></div>
     <div class="cact"><button class="btn bout" id="snooze2">⏰ Snooze</button><button class="btn bred" id="pay2"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Markera betald</button></div>
   </div>
-  <div class="card cb ca">
+  <div class="card cb ca" id="hem-bill-hyra">
     <div class="crow"><div class="ci iamb"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="cbody"><div class="ctitle">Hyra april</div><div class="cmeta">Hyresvärd · Om 8 dagar</div></div><div class="cright"><div class="camt aamb">8 400 kr</div><div class="cbadge" style="color:var(--amb)">SNART</div></div></div>
     <div class="cdiv"></div>
     <div class="cact"><button class="btn bamb" id="remind1">⏰ Påminn mig</button></div>
@@ -405,9 +411,9 @@ html,body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;
     <button class="ftab" id="ftab4">Avtal (1)</button>
   </div>
   <div style="height:14px"></div>
-  <div class="card cb cr"><div class="crow"><div class="ci ired"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div class="cbody"><div class="ctitle">Skatteverket</div><div class="cmeta">Idag 08:42 · Myndighet</div></div><div class="cright"><div class="cbadge" style="color:var(--red)">VIKTIG</div></div></div><div class="cdiv"></div><div class="cact"><button class="btn bout" id="mail-save1">📁 Spara</button><button class="btn bred" id="mail-bill1">💳 Räkning</button></div></div>
-  <div class="card cb ca"><div class="crow"><div class="ci iamb"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/></svg></div><div class="cbody"><div class="ctitle">Vattenfall faktura</div><div class="cmeta">Igår 16:30 · Räkning · 892 kr</div></div><div class="cright"><div class="camt aamb">892 kr</div></div></div><div class="cdiv"></div><div class="cact"><button class="btn bpri" id="mail-add1">✓ Lägg till som räkning</button></div></div>
-  <div class="card cb cbl"><div class="crow"><div class="ci iblu"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div class="cbody"><div class="ctitle">Försäkringsvillkor IF</div><div class="cmeta">12 mars · Avtal</div></div><div class="cright"><div class="cbadge" style="color:var(--blu)">AVTAL</div></div></div><div class="cdiv"></div><div class="cact"><button class="btn bout" style="border-color:var(--blu);color:var(--blu)" id="mail-ark1">📁 Arkivera</button></div></div>
+  <div class="card cb cr" data-mailcat="myndighet"><div class="crow"><div class="ci ired"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div class="cbody"><div class="ctitle">Skatteverket</div><div class="cmeta">Idag 08:42 · Myndighet</div></div><div class="cright"><div class="cbadge" style="color:var(--red)">VIKTIG</div></div></div><div class="cdiv"></div><div class="cact"><button class="btn bout" id="mail-save1">📁 Spara</button><button class="btn bred" id="mail-bill1">💳 Räkning</button></div></div>
+  <div class="card cb ca" data-mailcat="rakning"><div class="crow"><div class="ci iamb"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/></svg></div><div class="cbody"><div class="ctitle">Vattenfall faktura</div><div class="cmeta">Igår 16:30 · Räkning · 892 kr</div></div><div class="cright"><div class="camt aamb">892 kr</div></div></div><div class="cdiv"></div><div class="cact"><button class="btn bpri" id="mail-add1">✓ Lägg till som räkning</button></div></div>
+  <div class="card cb cbl" data-mailcat="avtal"><div class="crow"><div class="ci iblu"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div class="cbody"><div class="ctitle">Försäkringsvillkor IF</div><div class="cmeta">12 mars · Avtal</div></div><div class="cright"><div class="cbadge" style="color:var(--blu)">AVTAL</div></div></div><div class="cdiv"></div><div class="cact"><button class="btn bout" style="border-color:var(--blu);color:var(--blu)" id="mail-ark1">📁 Arkivera</button></div></div>
 </div>
 
 <!-- PROJEKT -->
@@ -438,7 +444,7 @@ html,body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;
   <div class="card cb cr" id="bill-el"><div class="crow"><div class="ci ired"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg></div><div class="cbody"><div class="ctitle">Elräkning mars</div><div class="cmeta">Vattenfall · 15 mars</div></div><div class="cright"><div class="camt ared">450 kr</div></div></div><div class="cdiv"></div><div class="cact"><button class="btn bout" id="r-snooze1">⏰ Snooze</button><button class="btn bred" id="r-pay1"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Betald</button></div></div>
   <div class="card cb cr" id="bill-telia"><div class="crow"><div class="ci ired"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><div class="cbody"><div class="ctitle">Telia abonnemang</div><div class="cmeta">Telia · Förfaller idag</div></div><div class="cright"><div class="camt ared">459 kr</div></div></div><div class="cdiv"></div><div class="cact"><button class="btn bout" id="r-snooze2">⏰ Snooze</button><button class="btn bred" id="r-pay2"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Betald</button></div></div>
   <div class="sh"><span class="sht">🟡 SNART DAGS</span></div>
-  <div class="card cb ca"><div class="crow"><div class="ci iamb"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div><div class="cbody"><div class="ctitle">Hyra april</div><div class="cmeta">Om 8 dagar</div></div><div class="cright"><div class="camt aamb">8 400 kr</div></div></div><div class="cdiv"></div><div class="cact"><button class="btn bamb" id="r-remind1">⏰ Påminnelse</button><button class="btn bout" id="r-pay3">Betald</button></div></div>
+  <div class="card cb ca" id="bill-hyra"><div class="crow"><div class="ci iamb"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div><div class="cbody"><div class="ctitle">Hyra april</div><div class="cmeta">Om 8 dagar</div></div><div class="cright"><div class="camt aamb">8 400 kr</div></div></div><div class="cdiv"></div><div class="cact"><button class="btn bamb" id="r-remind1">⏰ Påminnelse</button><button class="btn bout" id="r-pay3">Betald</button></div></div>
   <div class="sh"><span class="sht">✅ KLARA DENNA MÅNADEN</span></div>
   <div class="card dim"><div class="crow"><div class="ci igrn"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cbody"><div class="ctitle">Hemförsäkring</div><div class="cmeta">Folksam · 3 mars</div></div><div class="cright"><div class="camt agrn">890 kr</div></div></div></div>
   <div class="card dim"><div class="crow"><div class="ci igrn"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cbody"><div class="ctitle">Netflix</div><div class="cmeta">1 mars</div></div><div class="cright"><div class="camt agrn">169 kr</div></div></div></div>
@@ -457,10 +463,10 @@ html,body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;
     <button class="ftab" id="aftab5">🏛 Myndigheter</button>
   </div>
   <div style="height:14px"></div>
-  <div class="card cb cg"><div class="crow"><div class="ci igrn"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg></div><div class="cbody"><div class="ctitle">Hemförsäkring 2026</div><div class="cmeta">Folksam · 2 jan · Huset</div></div><div class="cright"><div class="cbadge" style="color:var(--grn)">SPARAT</div></div></div></div>
-  <div class="card cb ca"><div class="crow"><div class="ci iamb"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/></svg></div><div class="cbody"><div class="ctitle">Bilförsäkring 2026</div><div class="cmeta">Trygg-Hansa · 2 jan · Bilen</div></div><div class="cright"><div class="cbadge" style="color:var(--amb)">SPARAT</div></div></div></div>
-  <div class="card cb cbl"><div class="crow"><div class="ci iblu"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="cbody"><div class="ctitle">Beslut Försäkringskassan</div><div class="cmeta">FK · 8 jan · Myndigheter</div></div><div class="cright"><div class="cbadge" style="color:var(--blu)">MYNDIGHET</div></div></div></div>
-  <div class="card cb cp"><div class="crow"><div class="ci ipur"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="cbody"><div class="ctitle">Låneavtal Swedbank</div><div class="cmeta">Swedbank · 15 dec · Avtal</div></div><div class="cright"><div class="cbadge" style="color:var(--pur)">AVTAL</div></div></div></div>
+  <div class="card cb cg" data-arkivcat="huset"><div class="crow"><div class="ci igrn"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg></div><div class="cbody"><div class="ctitle">Hemförsäkring 2026</div><div class="cmeta">Folksam · 2 jan · Huset</div></div><div class="cright"><div class="cbadge" style="color:var(--grn)">SPARAT</div></div></div></div>
+  <div class="card cb ca" data-arkivcat="bilen"><div class="crow"><div class="ci iamb"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/></svg></div><div class="cbody"><div class="ctitle">Bilförsäkring 2026</div><div class="cmeta">Trygg-Hansa · 2 jan · Bilen</div></div><div class="cright"><div class="cbadge" style="color:var(--amb)">SPARAT</div></div></div></div>
+  <div class="card cb cbl" data-arkivcat="myndigheter"><div class="crow"><div class="ci iblu"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="cbody"><div class="ctitle">Beslut Försäkringskassan</div><div class="cmeta">FK · 8 jan · Myndigheter</div></div><div class="cright"><div class="cbadge" style="color:var(--blu)">MYNDIGHET</div></div></div></div>
+  <div class="card cb cp" data-arkivcat="avtal"><div class="crow"><div class="ci ipur"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="cbody"><div class="ctitle">Låneavtal Swedbank</div><div class="cmeta">Swedbank · 15 dec · Avtal</div></div><div class="cright"><div class="cbadge" style="color:var(--pur)">AVTAL</div></div></div></div>
 </div>
 
 <!-- NAV -->
@@ -472,6 +478,12 @@ html,body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;
   <button class="nb" id="nb-arkiv"><svg viewBox="0 0 24 24"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg><span>Arkiv</span></button>
 </nav>
 </div>
+
+<!-- BACK BUTTON -->
+<button class="back-btn" id="back-btn">
+  <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+  Tillbaka
+</button>
 
 <!-- SCANNER MODAL -->
 <div class="modal" id="scanModal">
@@ -554,8 +566,77 @@ html,body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;
   </div>
 </div>
 
+<!-- CONNECT MAIL MODAL -->
+<div class="modal" id="connectModal">
+  <div class="modal-head">
+    <div class="modal-title" id="connectTitle">Koppla konto</div>
+    <div class="modal-close" id="connect-close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+  </div>
+  <div class="modal-body">
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px;">
+      <div style="font-size:13px;color:var(--t2);line-height:1.6;">
+        Ange din e-postadress så kopplar vi ditt konto. Mail med räkningar och brev sorteras automatiskt av AI.
+      </div>
+    </div>
+    <div class="ocr-field">
+      <div class="ocr-label">Din e-postadress</div>
+      <input class="ocr-input" id="connect-email" type="email" placeholder="namn@exempel.com" autocomplete="email"/>
+    </div>
+    <div id="connect-provider-hint" style="font-size:12px;color:var(--t3);margin:8px 0 16px;line-height:1.5;"></div>
+    <button class="btn bpri" id="connect-confirm" style="width:100%;padding:16px;font-size:15px;border-radius:14px;">
+      <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;"><polyline points="20 6 9 17 4 12"/></svg>
+      Koppla konto
+    </button>
+    <div id="connect-disconnect-wrap" style="display:none;margin-top:10px;">
+      <button class="btn bout" id="connect-disconnect" style="width:100%;padding:14px;font-size:14px;border-radius:14px;color:var(--red);border-color:var(--red);">
+        Koppla från
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD PROJECT MODAL -->
+<div class="modal" id="addProjModal">
+  <div class="modal-head">
+    <div class="modal-title">➕ Nytt projekt</div>
+    <div class="modal-close" id="addproj-close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+  </div>
+  <div class="modal-body">
+    <div class="ocr-label" style="margin-bottom:10px;">Välj ikon</div>
+    <div id="emoji-grid" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;"></div>
+    <div class="ocr-field">
+      <div class="ocr-label">Projektnamn</div>
+      <input class="ocr-input" id="proj-name" placeholder="T.ex. FlyMusic" maxlength="40"/>
+    </div>
+    <div class="ocr-field">
+      <div class="ocr-label">Typ / roll</div>
+      <input class="ocr-input" id="proj-role" placeholder="T.ex. Artist Management" maxlength="50"/>
+    </div>
+    <div class="ocr-field">
+      <div class="ocr-label">Inkomst per månad (kr)</div>
+      <input class="ocr-input" id="proj-income" type="number" placeholder="12000" min="0"/>
+    </div>
+    <div class="ocr-field">
+      <div class="ocr-label">Mål per månad (kr)</div>
+      <input class="ocr-input" id="proj-goal" type="number" placeholder="20000" min="0"/>
+    </div>
+    <button class="btn bpri" id="proj-save" style="width:100%;margin-top:8px;margin-bottom:20px;padding:16px;font-size:15px;border-radius:14px;">
+      <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;"><polyline points="20 6 9 17 4 12"/></svg>
+      Lägg till projekt
+    </button>
+  </div>
+</div>
+
 <script>
-function go(t) {
+// ── NAVIGATION HISTORY ──────────────────────────────────────────────
+var navHistory = [];
+var currentScreen = 'hem';
+
+function go(t, addToHistory) {
+  if (addToHistory !== false && currentScreen !== t) {
+    navHistory.push(currentScreen);
+  }
+  currentScreen = t;
   var s = document.querySelectorAll('.screen');
   var n = document.querySelectorAll('.nb');
   for (var i=0;i<s.length;i++) s[i].classList.remove('active');
@@ -565,11 +646,26 @@ function go(t) {
   if(sc) sc.classList.add('active');
   if(nb) nb.classList.add('on');
   window.scrollTo(0,0);
-  // Scroll app div on desktop
   var app = document.querySelector('.app');
   if(app) app.scrollTo(0,0);
+  updateBackBtn();
 }
 
+function goBack() {
+  if (navHistory.length === 0) return;
+  var prev = navHistory.pop();
+  go(prev, false);
+}
+
+function updateBackBtn() {
+  var btn = document.getElementById('back-btn');
+  if (!btn) return;
+  btn.style.display = navHistory.length > 0 ? 'flex' : 'none';
+}
+
+wire('back-btn', goBack);
+
+// ── UTILS ────────────────────────────────────────────────────────────
 function bloom(t,s) {
   document.getElementById('bT').textContent=t;
   document.getElementById('bS').textContent=s;
@@ -595,80 +691,333 @@ function markPaid(cardId, title) {
   bloom('Betald! 🎉', title + ' markerad som klar');
 }
 
-// NAV
-wire('nb-hem',       function(){go('hem');});
-wire('nb-mail',      function(){go('mail');});
-wire('nb-projekt',   function(){go('projekt');});
-wire('nb-rakningar', function(){go('rakningar');});
-wire('nb-arkiv',     function(){go('arkiv');});
+// ── DYNAMIC DATE ─────────────────────────────────────────────────────
+(function(){
+  var days=['Söndag','Måndag','Tisdag','Onsdag','Torsdag','Fredag','Lördag'];
+  var months=['januari','februari','mars','april','maj','juni','juli','augusti','september','oktober','november','december'];
+  var now=new Date();
+  var str=days[now.getDay()]+' '+now.getDate()+' '+months[now.getMonth()]+', '+now.getFullYear();
+  var el=document.getElementById('hem-date');
+  if(el) el.textContent=str;
+})();
 
-// QA
+// ── NAV ──────────────────────────────────────────────────────────────
+wire('nb-hem',       function(){navHistory=[];go('hem',false);});
+wire('nb-mail',      function(){navHistory=[];go('mail',false);});
+wire('nb-projekt',   function(){navHistory=[];go('projekt',false);});
+wire('nb-rakningar', function(){navHistory=[];go('rakningar',false);});
+wire('nb-arkiv',     function(){navHistory=[];go('arkiv',false);});
+
+// ── QA (quick actions from Hem — add to history) ─────────────────────
 wire('qa-scan',    function(){openScanner();});
 wire('qa-mail',    function(){go('mail');});
 wire('qa-projekt', function(){go('projekt');});
 wire('qa-pay',     function(){go('rakningar');});
 wire('qa-docs',    function(){go('arkiv');});
 
-// HEM shortcuts
-wire('sh-alla',     function(){go('rakningar');});
-wire('sh-projekt',  function(){go('projekt');});
-wire('ven-preview1',function(){go('projekt');});
-wire('ven-preview2',function(){go('projekt');});
-wire('ven-preview3',function(){go('projekt');});
+// ── HEM shortcuts ────────────────────────────────────────────────────
+wire('sh-alla',      function(){go('rakningar');});
+wire('sh-projekt',   function(){go('projekt');});
+wire('ven-preview1', function(){go('projekt');});
+wire('ven-preview2', function(){go('projekt');});
+wire('ven-preview3', function(){go('projekt');});
 
-// HEM bills
-wire('snooze1', function(){bloom('Snooze satt','Påminnelse imorgon kl 09:00');});
-wire('pay1',    function(){markPaid('','Elräkning');bloom('Betald! 🎉','Elräkning markerad som klar');});
-wire('snooze2', function(){bloom('Snooze satt','Påminnelse imorgon kl 09:00');});
-wire('pay2',    function(){bloom('Betald! 🎉','Telia markerad som klar');});
-wire('remind1', function(){bloom('Påminnelse satt!','3 dagar innan förfallodatum');});
+// ── HEM bills ────────────────────────────────────────────────────────
+wire('snooze1', function(){bloom('Snooze satt 😴','Påminnelse imorgon kl 09:00');});
+wire('pay1',    function(){markPaid('hem-bill-el','Elräkning');});
+wire('snooze2', function(){bloom('Snooze satt 😴','Påminnelse imorgon kl 09:00');});
+wire('pay2',    function(){markPaid('hem-bill-telia','Telia');});
+wire('remind1', function(){bloom('Påminnelse satt! ⏰','3 dagar innan förfallodatum');});
 
-// MAIL
-wire('prov-gmail',   function(){bloom('Gmail kopplad ✓','Synkas automatiskt');});
-wire('prov-outlook', function(){bloom('Outlook','Logga in med Microsoft-konto');});
-wire('prov-apple',   function(){bloom('Apple Mail','Logga in med Apple ID');});
-wire('prov-other',   function(){bloom('Vidarebefordra','Kopiera adressen nedan');});
-wire('fwd-copy',     function(){bloom('Kopierad! 📋','Klistra in i Vidarebefordran');});
-wire('mail-save1',   function(){bloom('Arkiverad','Sparad under Myndigheter');});
-wire('mail-bill1',   function(){bloom('Räkning skapad','Dyker upp under Räkningar');});
-wire('mail-add1',    function(){bloom('Läggs till ✓','Påminnelse satt 3 dagar innan');});
-wire('mail-ark1',    function(){bloom('Arkiverad ✓','Sparad under Avtal');});
-
-// RÄKNINGAR — mark as paid with animation
-wire('r-snooze1', function(){bloom('Snooze satt','Påminnelse imorgon kl 09:00');});
+// ── RÄKNINGAR ────────────────────────────────────────────────────────
+wire('r-snooze1', function(){bloom('Snooze satt 😴','Påminnelse imorgon kl 09:00');});
 wire('r-pay1',    function(){markPaid('bill-el','Elräkning');});
-wire('r-snooze2', function(){bloom('Snooze satt','Påminnelse imorgon kl 09:00');});
+wire('r-snooze2', function(){bloom('Snooze satt 😴','Påminnelse imorgon kl 09:00');});
 wire('r-pay2',    function(){markPaid('bill-telia','Telia');});
-wire('r-remind1', function(){bloom('Påminnelse satt!','18 mars kl 08:00');});
-wire('r-pay3',    function(){bloom('Betald! ✅','Hyra klar');});
+wire('r-remind1', function(){bloom('Påminnelse satt! ⏰','18 mars kl 08:00');});
+wire('r-pay3',    function(){markPaid('bill-hyra','Hyra april');});
 
-// PROJEKT
-wire('add-ven', function(){bloom('Nytt projekt','Namn, typ och mål');});
-
-// ARKIV filter tabs
-['aftab1','aftab2','aftab3','aftab4','aftab5'].forEach(function(id){
-  wire(id,function(){
-    ['aftab1','aftab2','aftab3','aftab4','aftab5'].forEach(function(x){
-      var e=document.getElementById(x);if(e) e.classList.remove('on');
-    });
-    var el=document.getElementById(id);if(el) el.classList.add('on');
-  });
-});
-
-// MAIL filter tabs
-['ftab1','ftab2','ftab3','ftab4'].forEach(function(id){
-  wire(id,function(){
-    ['ftab1','ftab2','ftab3','ftab4'].forEach(function(x){
-      var e=document.getElementById(x);if(e) e.classList.remove('on');
-    });
-    var el=document.getElementById(id);if(el) el.classList.add('on');
-  });
-});
-
-// BLOOM close
+// ── BLOOM close ──────────────────────────────────────────────────────
 wire('bloomEl', function(){document.getElementById('bloomEl').classList.remove('on');});
 
-// SCANNER
+// ── MAIL filter tabs (actually filter content) ────────────────────────
+var mailTabMap = {ftab1:'all', ftab2:'rakning', ftab3:'myndighet', ftab4:'avtal'};
+['ftab1','ftab2','ftab3','ftab4'].forEach(function(id){
+  wire(id, function(){
+    ['ftab1','ftab2','ftab3','ftab4'].forEach(function(x){
+      var e=document.getElementById(x); if(e) e.classList.remove('on');
+    });
+    var el=document.getElementById(id); if(el) el.classList.add('on');
+    var cat = mailTabMap[id];
+    document.querySelectorAll('#sc-mail [data-mailcat]').forEach(function(card){
+      card.style.display = (cat==='all' || card.getAttribute('data-mailcat')===cat) ? '' : 'none';
+    });
+  });
+});
+
+// ── ARCHIVE filter tabs (actually filter content) ─────────────────────
+var arkivTabMap = {aftab1:'all', aftab2:'huset', aftab3:'bilen', aftab4:'avtal', aftab5:'myndigheter'};
+['aftab1','aftab2','aftab3','aftab4','aftab5'].forEach(function(id){
+  wire(id, function(){
+    ['aftab1','aftab2','aftab3','aftab4','aftab5'].forEach(function(x){
+      var e=document.getElementById(x); if(e) e.classList.remove('on');
+    });
+    var el=document.getElementById(id); if(el) el.classList.add('on');
+    var cat = arkivTabMap[id];
+    document.querySelectorAll('#sc-arkiv [data-arkivcat]').forEach(function(card){
+      card.style.display = (cat==='all' || card.getAttribute('data-arkivcat')===cat) ? '' : 'none';
+    });
+  });
+});
+
+// ── MAIL — copy forwarding address ───────────────────────────────────
+wire('fwd-copy', function(){
+  var addr = document.querySelector('.faddr');
+  if(addr && navigator.clipboard) {
+    navigator.clipboard.writeText(addr.textContent).then(function(){
+      bloom('Kopierad! 📋','Klistra in i Vidarebefordran');
+    }).catch(function(){bloom('Kopierad! 📋','Klistra in i Vidarebefordran');});
+  } else {
+    bloom('Kopierad! 📋','Klistra in i Vidarebefordran');
+  }
+});
+wire('mail-save1', function(){bloom('Arkiverad 📁','Sparad under Myndigheter');});
+wire('mail-bill1', function(){bloom('Räkning skapad 💳','Dyker upp under Räkningar');});
+wire('mail-add1',  function(){bloom('Läggs till ✓','Påminnelse satt 3 dagar innan');});
+wire('mail-ark1',  function(){bloom('Arkiverad ✓','Sparad under Avtal');});
+
+// ── MAIL ACCOUNT LINKING ─────────────────────────────────────────────
+var providerInfo = {
+  gmail:   {name:'Gmail',       hint:'Logga in med ditt Google-konto för att synka Gmail automatiskt.'},
+  outlook: {name:'Outlook',     hint:'Logga in med ditt Microsoft-konto för att synka Outlook.'},
+  apple:   {name:'Apple Mail',  hint:'Logga in med ditt Apple ID för att synka Apple Mail.'},
+  other:   {name:'Annat konto', hint:'Kopiera vidarebefordradressen nedan och lägg till den i ditt mails inställningar.'}
+};
+
+var providerState = {
+  gmail:   localStorage.getItem('arkiv_mail_gmail')   === '1',
+  outlook: localStorage.getItem('arkiv_mail_outlook') === '1',
+  apple:   localStorage.getItem('arkiv_mail_apple')   === '1',
+  other:   localStorage.getItem('arkiv_mail_other')   === '1'
+};
+
+// Gmail starts as connected in the original design
+if (localStorage.getItem('arkiv_mail_gmail') === null) {
+  providerState.gmail = true;
+  localStorage.setItem('arkiv_mail_gmail', '1');
+  localStorage.setItem('arkiv_mail_gmail_email', 'franck@gmail.com');
+}
+
+var currentProvider = null;
+
+function renderProviders() {
+  Object.keys(providerInfo).forEach(function(pid) {
+    var el = document.getElementById('prov-'+pid);
+    if (!el) return;
+    var isConn = providerState[pid];
+    el.className = 'prov ' + (isConn ? 'con' : 'dis');
+    var statEl = el.querySelector('.pstat');
+    if (statEl) {
+      var email = localStorage.getItem('arkiv_mail_'+pid+'_email');
+      statEl.textContent = isConn ? ('● ' + (email || 'Kopplad')) : '○ Ej kopplad';
+      statEl.style.color = isConn ? 'var(--grn)' : '';
+    }
+  });
+}
+
+function openConnectModal(pid) {
+  currentProvider = pid;
+  var info = providerInfo[pid];
+  document.getElementById('connectTitle').textContent = 'Koppla ' + info.name;
+  document.getElementById('connect-provider-hint').textContent = info.hint;
+  var emailInput = document.getElementById('connect-email');
+  var savedEmail = localStorage.getItem('arkiv_mail_'+pid+'_email');
+  emailInput.value = savedEmail || '';
+  // Show disconnect button if already connected
+  var discWrap = document.getElementById('connect-disconnect-wrap');
+  var confirmBtn = document.getElementById('connect-confirm');
+  if (providerState[pid]) {
+    discWrap.style.display = 'block';
+    confirmBtn.textContent = 'Uppdatera';
+  } else {
+    discWrap.style.display = 'none';
+    confirmBtn.innerHTML = '<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;"><polyline points="20 6 9 17 4 12"/></svg> Koppla konto';
+  }
+  document.getElementById('connectModal').classList.add('on');
+}
+
+['gmail','outlook','apple','other'].forEach(function(pid){
+  wire('prov-'+pid, function(){ openConnectModal(pid); });
+});
+
+wire('connect-close', function(){
+  document.getElementById('connectModal').classList.remove('on');
+  currentProvider = null;
+});
+
+wire('connect-confirm', function(){
+  if (!currentProvider) return;
+  var email = document.getElementById('connect-email').value.trim();
+  if (!email || !email.includes('@')) {
+    var inp = document.getElementById('connect-email');
+    inp.style.borderColor = 'var(--red)';
+    inp.focus();
+    setTimeout(function(){ inp.style.borderColor=''; }, 1500);
+    return;
+  }
+  providerState[currentProvider] = true;
+  localStorage.setItem('arkiv_mail_'+currentProvider, '1');
+  localStorage.setItem('arkiv_mail_'+currentProvider+'_email', email);
+  renderProviders();
+  document.getElementById('connectModal').classList.remove('on');
+  bloom('Kopplad! ✓', email + ' synkas automatiskt');
+  currentProvider = null;
+});
+
+wire('connect-disconnect', function(){
+  if (!currentProvider) return;
+  providerState[currentProvider] = false;
+  localStorage.removeItem('arkiv_mail_'+currentProvider);
+  localStorage.removeItem('arkiv_mail_'+currentProvider+'_email');
+  renderProviders();
+  document.getElementById('connectModal').classList.remove('on');
+  bloom('Frånkopplad','Kontot är inte längre kopplat');
+  currentProvider = null;
+});
+
+renderProviders();
+
+// ── ADD PROJECT MODAL ─────────────────────────────────────────────────
+var selectedEmoji = '💼';
+var emojiList = ['🎵','💼','📈','🏠','🚗','💆','🎨','💻','🏃','🍕','📚','🌱','🎯','💰','🛒','✈️','🔧','📱'];
+
+function buildEmojiGrid() {
+  var grid = document.getElementById('emoji-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  emojiList.forEach(function(em) {
+    var btn = document.createElement('button');
+    btn.textContent = em;
+    btn.style.cssText = 'width:44px;height:44px;border-radius:12px;border:1px solid var(--border2);background:var(--bg3);font-size:20px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;';
+    if (em === selectedEmoji) {
+      btn.style.background = 'var(--a)';
+      btn.style.borderColor = 'var(--a)';
+    }
+    btn.addEventListener('click', function(){
+      selectedEmoji = em;
+      buildEmojiGrid();
+    });
+    grid.appendChild(btn);
+  });
+}
+
+wire('add-ven', function(){
+  selectedEmoji = '💼';
+  buildEmojiGrid();
+  document.getElementById('proj-name').value = '';
+  document.getElementById('proj-role').value = '';
+  document.getElementById('proj-income').value = '';
+  document.getElementById('proj-goal').value = '';
+  document.getElementById('addProjModal').classList.add('on');
+});
+
+wire('addproj-close', function(){
+  document.getElementById('addProjModal').classList.remove('on');
+});
+
+wire('proj-save', function(){
+  var name   = document.getElementById('proj-name').value.trim();
+  var role   = document.getElementById('proj-role').value.trim();
+  var income = parseInt(document.getElementById('proj-income').value) || 0;
+  var goal   = parseInt(document.getElementById('proj-goal').value) || income || 1;
+
+  if (!name) {
+    var inp = document.getElementById('proj-name');
+    inp.style.borderColor = 'var(--red)';
+    inp.focus();
+    setTimeout(function(){ inp.style.borderColor=''; }, 1500);
+    return;
+  }
+
+  var pct = goal > 0 ? Math.min(100, Math.round(income / goal * 100)) : 0;
+  var incomeStr = income > 0 ? ('+' + income.toLocaleString('sv') + ' kr') : '0 kr';
+  var goalStr   = goal > 0 ? ('Mot mål ' + goal.toLocaleString('sv') + ' kr/mån') : 'Ingen målsumma satt';
+  var fills = ['fa','fo','fg'];
+  var fillClass = fills[Math.floor(Math.random() * fills.length)];
+
+  var html = '<div class="ven" style="opacity:0;transform:translateY(12px);transition:opacity 0.35s,transform 0.35s;">' +
+    '<div class="vtop">' +
+      '<div class="vlogo" style="background:var(--ad)">' + selectedEmoji + '</div>' +
+      '<div><div class="vname">' + escHtml(name) + '</div>' +
+      '<div class="vrole">' + escHtml(role || 'Aktiv') + ' · Aktiv</div></div>' +
+      '<div class="vinc" style="margin-left:auto">' + incomeStr + '</div>' +
+    '</div>' +
+    '<div class="vbar">' +
+      '<div class="vbarlabels"><span class="vbll">' + escHtml(goalStr) + '</span><span class="vblr">' + pct + '%</span></div>' +
+      '<div class="vtrack"><div class="vfill ' + fillClass + '" style="width:0%"></div></div>' +
+    '</div>' +
+    '<div class="chips"><span class="chip on">Aktiv</span></div>' +
+  '</div>';
+
+  var addCard = document.getElementById('add-ven');
+  addCard.insertAdjacentHTML('beforebegin', html);
+
+  // Animate in
+  var newVen = addCard.previousElementSibling;
+  setTimeout(function(){
+    newVen.style.opacity = '1';
+    newVen.style.transform = 'translateY(0)';
+    var bar = newVen.querySelector('.vfill');
+    if (bar) bar.style.width = pct + '%';
+  }, 30);
+
+  // Update stats
+  updateProjStats(income);
+
+  document.getElementById('addProjModal').classList.remove('on');
+  bloom('🎉 Projekt tillagt!', name + ' är nu aktivt');
+});
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function updateProjStats(addedIncome) {
+  var stats = document.querySelectorAll('#sc-projekt .stat');
+  if (stats.length < 2) return;
+
+  // Total income
+  var totalEl = stats[0].querySelector('.stv');
+  if (totalEl) {
+    var cur = parseFloat(totalEl.textContent.replace(/[^\d.]/g,'')) || 38.5;
+    var add = addedIncome / 1000;
+    var newVal = cur + add;
+    totalEl.textContent = newVal % 1 === 0 ? newVal + 'k' : newVal.toFixed(1) + 'k';
+  }
+
+  // Project count
+  var countEl = stats[1].querySelector('.stv');
+  if (countEl) {
+    var cnt = parseInt(countEl.textContent) || 4;
+    countEl.textContent = cnt + 1;
+  }
+}
+
+// ── PROJEKT (+ Lägg till button in sh) ───────────────────────────────
+// The "+ Lägg till" link in the section header
+document.querySelectorAll('#sc-projekt .sha').forEach(function(el){
+  el.addEventListener('click', function(){
+    selectedEmoji = '💼';
+    buildEmojiGrid();
+    document.getElementById('proj-name').value = '';
+    document.getElementById('proj-role').value = '';
+    document.getElementById('proj-income').value = '';
+    document.getElementById('proj-goal').value = '';
+    document.getElementById('addProjModal').classList.add('on');
+  });
+});
+
+// ── SCANNER ───────────────────────────────────────────────────────────
 function openScanner(){
   document.getElementById('scanModal').classList.add('on');
   showScanStep(1);
@@ -700,7 +1049,6 @@ document.getElementById('file-input').addEventListener('change', function(){
   }
 });
 
-// OCR category selector
 ['cat-rakn','cat-mynd','cat-avtal','cat-kvitto','cat-ovrigt'].forEach(function(id){
   wire(id,function(){
     ['cat-rakn','cat-mynd','cat-avtal','cat-kvitto','cat-ovrigt'].forEach(function(x){
@@ -715,7 +1063,7 @@ wire('scan-save', function(){
   bloom('Sparat! 📄','Dokumentet är arkiverat och kategoriserat');
 });
 
-// Animate progress bars
+// ── ANIMATE PROGRESS BARS ─────────────────────────────────────────────
 setTimeout(function(){
   document.querySelectorAll('.vfill').forEach(function(f){
     var w=f.style.width; f.style.width='0';
