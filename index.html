@@ -232,6 +232,59 @@ html,body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;
 .back-btn:active{transform:scale(0.95);}
 @media(min-width:768px){.back-btn{display:none!important;}}
 
+/* MOTIVATIONAL LINE */
+.motiv{font-size:13px;color:var(--t3);font-weight:500;margin-top:4px;font-style:italic;letter-spacing:0.01em;}
+
+/* AVATAR CLICKABLE */
+.av{cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;}
+.av:active{transform:scale(0.9);}
+
+/* EMPTY STATE */
+.empty-state{margin:0 18px 10px;padding:28px 20px;background:var(--bg2);border:1px dashed var(--border2);border-radius:20px;text-align:center;display:none;}
+.empty-state .es-ico{font-size:36px;margin-bottom:10px;}
+.empty-state .es-title{font-size:15px;font-weight:700;color:var(--t2);margin-bottom:4px;}
+.empty-state .es-sub{font-size:12px;color:var(--t3);line-height:1.5;}
+
+/* STAT PULSE */
+@keyframes statpulse{0%{transform:scale(1)}40%{transform:scale(1.25)}100%{transform:scale(1)}}
+.stat-pulse{animation:statpulse 0.35s ease-out;}
+
+/* SEARCH COUNT */
+.search-count{font-size:12px;color:var(--t3);font-weight:500;padding:8px 18px 0;display:none;}
+
+/* SNOOZE BADGE */
+.snooze-badge{display:inline-block;font-size:11px;font-weight:600;color:var(--t3);background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:3px 8px;margin-top:5px;}
+
+/* CONFETTI */
+.confetti-wrap{position:fixed;inset:0;pointer-events:none;z-index:600;overflow:hidden;}
+@keyframes conffall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+.cp-dot{position:absolute;border-radius:50%;animation:conffall linear forwards;}
+
+/* PROFILE MODAL */
+.profile-modal{position:fixed;inset:0;z-index:400;background:rgba(8,8,22,0.92);backdrop-filter:blur(16px);display:none;align-items:flex-end;justify-content:center;}
+.profile-modal.on{display:flex;animation:fi 0.2s ease;}
+.profile-sheet{background:var(--bg2);border:1px solid var(--border2);border-radius:28px 28px 0 0;padding:32px 24px 40px;width:100%;max-width:430px;animation:slideup 0.3s cubic-bezier(0.34,1.2,0.64,1);}
+@keyframes slideup{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
+.profile-av-big{width:72px;height:72px;border-radius:22px;background:linear-gradient(135deg,var(--a),var(--pur));display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#fff;margin:0 auto 20px;box-shadow:0 0 0 3px var(--bg2),0 0 0 5px rgba(123,110,255,0.3);}
+.profile-title{font-size:18px;font-weight:800;color:var(--t1);text-align:center;margin-bottom:4px;letter-spacing:-0.4px;}
+.profile-sub{font-size:12px;color:var(--t3);text-align:center;margin-bottom:24px;}
+@media(min-width:768px){
+  .profile-sheet{border-radius:24px;margin:auto;max-width:380px;}
+  .profile-modal.on{align-items:center;}
+}
+
+/* HOVER STATES (desktop/trackpad) */
+@media(hover:hover){
+  .btn:hover{filter:brightness(1.12);}
+  .card:hover{border-color:var(--border2);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.2);}
+  .ven:hover{border-color:rgba(123,110,255,0.18);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.2);}
+  .nb:hover{background:rgba(255,255,255,0.04);}
+  .prov:hover{border-color:rgba(255,255,255,0.18);}
+  .av:hover{box-shadow:0 0 0 2px var(--bg),0 0 0 5px rgba(123,110,255,0.5);}
+  .addcard:hover{background:rgba(255,255,255,0.03);border-color:rgba(255,255,255,0.18);}
+  .qi:hover{border-color:rgba(255,255,255,0.22);transform:scale(1.05);}
+}
+
 /* NAV */
 .nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:400px;background:rgba(13,13,26,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--border2);border-radius:26px;display:flex;padding:8px;z-index:100;gap:2px;box-shadow:0 16px 48px rgba(0,0,0,0.5);}
 .nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border:none;background:none;cursor:pointer;border-radius:18px;transition:background 0.2s;font-family:'DM Sans',sans-serif;}
@@ -334,17 +387,21 @@ html,body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;
 <!-- HEM -->
 <div class="screen active" id="sc-hem">
   <div class="top">
-    <div><div class="eyebrow" id="hem-date">Måndag 16 mars, 2026</div><div class="pagetitle">Hej, <em>Franck</em> 👋</div></div>
-    <div class="av">F</div>
+    <div>
+      <div class="eyebrow" id="hem-date">Måndag 16 mars, 2026</div>
+      <div class="pagetitle" id="hem-greeting"><span id="hem-prefix">Hej, </span><em id="hem-name">Franck</em><span id="hem-emoji"> 👋</span></div>
+      <div class="motiv" id="hem-motiv"></div>
+    </div>
+    <div class="av" id="av-btn"><span id="av-initial">F</span></div>
   </div>
   <div class="hero">
     <div class="hl">Utestående denna månad</div>
-    <div class="ha">12 340 kr</div>
-    <div class="hs">Fördelat på 3 räkningar</div>
-    <div class="pills">
-      <div class="pill"><div class="dot" style="background:var(--red)"></div>2 Akuta</div>
-      <div class="pill"><div class="dot" style="background:var(--amb)"></div>1 Snart</div>
-      <div class="pill"><div class="dot" style="background:var(--grn)"></div>7 Klara</div>
+    <div class="ha" id="hero-amount">12 340 kr</div>
+    <div class="hs" id="hero-sub">Fördelat på 3 räkningar</div>
+    <div class="pills" id="hero-pills">
+      <div class="pill" id="pill-akut"><div class="dot" style="background:var(--red)"></div><span id="pill-akut-txt">2 Akuta</span></div>
+      <div class="pill" id="pill-snart"><div class="dot" style="background:var(--amb)"></div><span id="pill-snart-txt">1 Snart</span></div>
+      <div class="pill" id="pill-klara"><div class="dot" style="background:var(--grn)"></div><span id="pill-klara-txt">7 Klara</span></div>
     </div>
   </div>
   <div class="qa-wrap">
@@ -355,20 +412,26 @@ html,body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;
     <div class="qa qdocs" id="qa-docs"><div class="qi"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg></div><span class="ql">Arkiv</span></div>
   </div>
   <div class="sh"><span class="sht">KRÄVER HANDLING NU</span><span class="sha" id="sh-alla">Visa alla →</span></div>
-  <div class="card cb cr" id="hem-bill-el">
+  <div class="card cb cr" id="hem-bill-el" data-amount="450">
     <div class="crow"><div class="ci ired"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg></div><div class="cbody"><div class="ctitle">Elräkning mars</div><div class="cmeta">Vattenfall · Förfaller 15 mars</div></div><div class="cright"><div class="camt ared">450 kr</div><div class="cbadge" style="color:var(--red)">AKUT</div></div></div>
     <div class="cdiv"></div>
     <div class="cact"><button class="btn bout" id="snooze1">⏰ Snooze</button><button class="btn bred" id="pay1"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Markera betald</button></div>
   </div>
-  <div class="card cb cr" id="hem-bill-telia">
+  <div class="card cb cr" id="hem-bill-telia" data-amount="459">
     <div class="crow"><div class="ci ired"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><div class="cbody"><div class="ctitle">Telia abonnemang</div><div class="cmeta">Telia · Förfaller idag</div></div><div class="cright"><div class="camt ared">459 kr</div><div class="cbadge" style="color:var(--red)">AKUT</div></div></div>
     <div class="cdiv"></div>
     <div class="cact"><button class="btn bout" id="snooze2">⏰ Snooze</button><button class="btn bred" id="pay2"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Markera betald</button></div>
   </div>
-  <div class="card cb ca" id="hem-bill-hyra">
+  <div class="card cb ca" id="hem-bill-hyra" data-amount="8400">
     <div class="crow"><div class="ci iamb"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="cbody"><div class="ctitle">Hyra april</div><div class="cmeta">Hyresvärd · Om 8 dagar</div></div><div class="cright"><div class="camt aamb">8 400 kr</div><div class="cbadge" style="color:var(--amb)">SNART</div></div></div>
     <div class="cdiv"></div>
     <div class="cact"><button class="btn bamb" id="remind1">⏰ Påminn mig</button></div>
+  </div>
+  <div class="card cg" id="hem-allclear" style="display:none">
+    <div class="crow">
+      <div class="ci igrn" style="font-size:22px">✅</div>
+      <div class="cbody"><div class="ctitle">Ni har koll idag!</div><div class="cmeta">Inga akuta räkningar just nu 🎉</div></div>
+    </div>
   </div>
   <div class="sh"><span class="sht">AKTIVA PROJEKT</span><span class="sha" id="sh-projekt">Alla →</span></div>
   <div class="ven" id="ven-preview1">
@@ -411,6 +474,7 @@ html,body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;
     <button class="ftab" id="ftab4">Avtal (1)</button>
   </div>
   <div style="height:14px"></div>
+  <div class="empty-state" id="mail-empty"><div class="es-ico">📭</div><div class="es-title">Inkorgen är tom!</div><div class="es-sub">Ni är fantastiska. Allt är sorterat.</div></div>
   <div class="card cb cr" data-mailcat="myndighet"><div class="crow"><div class="ci ired"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div class="cbody"><div class="ctitle">Skatteverket</div><div class="cmeta">Idag 08:42 · Myndighet</div></div><div class="cright"><div class="cbadge" style="color:var(--red)">VIKTIG</div></div></div><div class="cdiv"></div><div class="cact"><button class="btn bout" id="mail-save1">📁 Spara</button><button class="btn bred" id="mail-bill1">💳 Räkning</button></div></div>
   <div class="card cb ca" data-mailcat="rakning"><div class="crow"><div class="ci iamb"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/></svg></div><div class="cbody"><div class="ctitle">Vattenfall faktura</div><div class="cmeta">Igår 16:30 · Räkning · 892 kr</div></div><div class="cright"><div class="camt aamb">892 kr</div></div></div><div class="cdiv"></div><div class="cact"><button class="btn bpri" id="mail-add1">✓ Lägg till som räkning</button></div></div>
   <div class="card cb cbl" data-mailcat="avtal"><div class="crow"><div class="ci iblu"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div class="cbody"><div class="ctitle">Försäkringsvillkor IF</div><div class="cmeta">12 mars · Avtal</div></div><div class="cright"><div class="cbadge" style="color:var(--blu)">AVTAL</div></div></div><div class="cdiv"></div><div class="cact"><button class="btn bout" style="border-color:var(--blu);color:var(--blu)" id="mail-ark1">📁 Arkivera</button></div></div>
@@ -436,15 +500,17 @@ html,body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;
 <div class="screen" id="sc-rakningar">
   <div class="top"><div><div class="eyebrow">Full kontroll</div><div class="pagetitle"><em>Räkningar</em></div></div></div>
   <div class="stats">
-    <div class="stat"><div class="stl">Akut</div><div class="stv" style="color:var(--red)">2</div><div class="sts">idag</div></div>
-    <div class="stat"><div class="stl">Snart</div><div class="stv" style="color:var(--amb)">1</div><div class="sts">7 dagar</div></div>
-    <div class="stat"><div class="stl">Klara</div><div class="stv" style="color:var(--grn)">7</div><div class="sts">månaden</div></div>
+    <div class="stat" id="stat-akut-wrap"><div class="stl">Akut</div><div class="stv" id="stat-akut" style="color:var(--red)">2</div><div class="sts">idag</div></div>
+    <div class="stat" id="stat-snart-wrap"><div class="stl">Snart</div><div class="stv" id="stat-snart" style="color:var(--amb)">1</div><div class="sts">7 dagar</div></div>
+    <div class="stat" id="stat-klara-wrap"><div class="stl">Klara</div><div class="stv" id="stat-klara" style="color:var(--grn)">7</div><div class="sts">månaden</div></div>
   </div>
-  <div class="sh"><span class="sht">🔴 AKUT JUST NU</span></div>
-  <div class="card cb cr" id="bill-el"><div class="crow"><div class="ci ired"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg></div><div class="cbody"><div class="ctitle">Elräkning mars</div><div class="cmeta">Vattenfall · 15 mars</div></div><div class="cright"><div class="camt ared">450 kr</div></div></div><div class="cdiv"></div><div class="cact"><button class="btn bout" id="r-snooze1">⏰ Snooze</button><button class="btn bred" id="r-pay1"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Betald</button></div></div>
-  <div class="card cb cr" id="bill-telia"><div class="crow"><div class="ci ired"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><div class="cbody"><div class="ctitle">Telia abonnemang</div><div class="cmeta">Telia · Förfaller idag</div></div><div class="cright"><div class="camt ared">459 kr</div></div></div><div class="cdiv"></div><div class="cact"><button class="btn bout" id="r-snooze2">⏰ Snooze</button><button class="btn bred" id="r-pay2"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Betald</button></div></div>
+  <div class="sh" id="sh-akut"><span class="sht">🔴 AKUT JUST NU</span></div>
+  <div class="card cb cr" id="bill-el" data-amount="450" data-urgency="akut"><div class="crow"><div class="ci ired"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg></div><div class="cbody"><div class="ctitle">Elräkning mars</div><div class="cmeta" id="el-meta">Vattenfall · 15 mars</div></div><div class="cright"><div class="camt ared">450 kr</div></div></div><div class="cdiv"></div><div class="cact"><button class="btn bout" id="r-snooze1">⏰ Snooze</button><button class="btn bred" id="r-pay1"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Betald</button></div></div>
+  <div class="card cb cr" id="bill-telia" data-amount="459" data-urgency="akut"><div class="crow"><div class="ci ired"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><div class="cbody"><div class="ctitle">Telia abonnemang</div><div class="cmeta" id="telia-meta">Telia · Förfaller idag</div></div><div class="cright"><div class="camt ared">459 kr</div></div></div><div class="cdiv"></div><div class="cact"><button class="btn bout" id="r-snooze2">⏰ Snooze</button><button class="btn bred" id="r-pay2"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Betald</button></div></div>
+  <div class="empty-state" id="empty-akut"><div class="es-ico">✅</div><div class="es-title">Inga akuta räkningar!</div><div class="es-sub">Ni har koll. Pusta ut.</div></div>
   <div class="sh"><span class="sht">🟡 SNART DAGS</span></div>
-  <div class="card cb ca" id="bill-hyra"><div class="crow"><div class="ci iamb"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div><div class="cbody"><div class="ctitle">Hyra april</div><div class="cmeta">Om 8 dagar</div></div><div class="cright"><div class="camt aamb">8 400 kr</div></div></div><div class="cdiv"></div><div class="cact"><button class="btn bamb" id="r-remind1">⏰ Påminnelse</button><button class="btn bout" id="r-pay3">Betald</button></div></div>
+  <div class="card cb ca" id="bill-hyra" data-amount="8400" data-urgency="snart"><div class="crow"><div class="ci iamb"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div><div class="cbody"><div class="ctitle">Hyra april</div><div class="cmeta" id="hyra-meta">Om 8 dagar</div></div><div class="cright"><div class="camt aamb">8 400 kr</div></div></div><div class="cdiv"></div><div class="cact"><button class="btn bamb" id="r-remind1">⏰ Påminnelse</button><button class="btn bout" id="r-pay3">Betald</button></div></div>
+  <div class="empty-state" id="empty-snart"><div class="es-ico">🟡</div><div class="es-title">Inga snart förfallna</div><div class="es-sub">Lugnt en stund till!</div></div>
   <div class="sh"><span class="sht">✅ KLARA DENNA MÅNADEN</span></div>
   <div class="card dim"><div class="crow"><div class="ci igrn"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cbody"><div class="ctitle">Hemförsäkring</div><div class="cmeta">Folksam · 3 mars</div></div><div class="cright"><div class="camt agrn">890 kr</div></div></div></div>
   <div class="card dim"><div class="crow"><div class="ci igrn"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cbody"><div class="ctitle">Netflix</div><div class="cmeta">1 mars</div></div><div class="cright"><div class="camt agrn">169 kr</div></div></div></div>
@@ -454,7 +520,8 @@ html,body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;
 <!-- ARKIV -->
 <div class="screen" id="sc-arkiv">
   <div class="top"><div><div class="eyebrow">Familjens minne</div><div class="pagetitle"><em>Arkiv</em></div></div></div>
-  <div class="sbar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input placeholder="Sök företag, datum, belopp..."/></div>
+  <div class="sbar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input id="arkiv-search" placeholder="Sök företag, datum, belopp..."/></div>
+  <div class="search-count" id="arkiv-count"></div>
   <div class="frow">
     <button class="ftab on" id="aftab1">Alla</button>
     <button class="ftab" id="aftab2">🏠 Huset</button>
@@ -463,6 +530,7 @@ html,body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;
     <button class="ftab" id="aftab5">🏛 Myndigheter</button>
   </div>
   <div style="height:14px"></div>
+  <div class="empty-state" id="arkiv-empty"><div class="es-ico">🔍</div><div class="es-title" id="arkiv-empty-title">Inga dokument här</div><div class="es-sub" id="arkiv-empty-sub">Prova ett annat sökord eller kategori.</div></div>
   <div class="card cb cg" data-arkivcat="huset"><div class="crow"><div class="ci igrn"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg></div><div class="cbody"><div class="ctitle">Hemförsäkring 2026</div><div class="cmeta">Folksam · 2 jan · Huset</div></div><div class="cright"><div class="cbadge" style="color:var(--grn)">SPARAT</div></div></div></div>
   <div class="card cb ca" data-arkivcat="bilen"><div class="crow"><div class="ci iamb"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/></svg></div><div class="cbody"><div class="ctitle">Bilförsäkring 2026</div><div class="cmeta">Trygg-Hansa · 2 jan · Bilen</div></div><div class="cright"><div class="cbadge" style="color:var(--amb)">SPARAT</div></div></div></div>
   <div class="card cb cbl" data-arkivcat="myndigheter"><div class="crow"><div class="ci iblu"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="cbody"><div class="ctitle">Beslut Försäkringskassan</div><div class="cmeta">FK · 8 jan · Myndigheter</div></div><div class="cright"><div class="cbadge" style="color:var(--blu)">MYNDIGHET</div></div></div></div>
@@ -479,11 +547,34 @@ html,body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;
 </nav>
 </div>
 
+<!-- CONFETTI CONTAINER -->
+<div class="confetti-wrap" id="confetti-wrap"></div>
+
 <!-- BACK BUTTON -->
 <button class="back-btn" id="back-btn">
   <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
   Tillbaka
 </button>
+
+<!-- PROFILE MODAL -->
+<div class="profile-modal" id="profileModal">
+  <div class="profile-sheet">
+    <div class="profile-av-big" id="profile-av-big">F</div>
+    <div class="profile-title" id="profile-title">Hej!</div>
+    <div class="profile-sub">Anpassa din upplevelse</div>
+    <div class="ocr-field">
+      <div class="ocr-label">Ditt namn</div>
+      <input class="ocr-input" id="profile-name-input" placeholder="Skriv ditt namn" maxlength="30" autocomplete="given-name"/>
+    </div>
+    <button class="btn bpri" id="profile-save" style="width:100%;margin-top:12px;padding:15px;font-size:15px;border-radius:14px;">
+      <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;"><polyline points="20 6 9 17 4 12"/></svg>
+      Spara
+    </button>
+    <button class="btn bout" id="profile-close" style="width:100%;margin-top:8px;padding:13px;font-size:14px;border-radius:14px;">
+      Avbryt
+    </button>
+  </div>
+</div>
 
 <!-- SCANNER MODAL -->
 <div class="modal" id="scanModal">
@@ -628,9 +719,14 @@ html,body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;
 </div>
 
 <script>
-// ── NAVIGATION HISTORY ──────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════════
+// FAMILJENS ARKIV — Full JS
+// ══════════════════════════════════════════════════════════════════════
+
+// ── NAVIGATION HISTORY ───────────────────────────────────────────────
 var navHistory = [];
 var currentScreen = 'hem';
+var hasUnreadMail = true;
 
 function go(t, addToHistory) {
   if (addToHistory !== false && currentScreen !== t) {
@@ -649,6 +745,12 @@ function go(t, addToHistory) {
   var app = document.querySelector('.app');
   if(app) app.scrollTo(0,0);
   updateBackBtn();
+  // Clear mail badge when visiting mail
+  if (t === 'mail' && hasUnreadMail) {
+    hasUnreadMail = false;
+    var dot = document.querySelector('#nb-mail .nbdot');
+    if (dot) { dot.style.transition='opacity 0.3s'; dot.style.opacity='0'; setTimeout(function(){dot.style.display='none';},300); }
+  }
 }
 
 function goBack() {
@@ -680,25 +782,169 @@ function wire(id,fn) {
   el.addEventListener('touchend',function(e){e.preventDefault();fn();});
 }
 
-function markPaid(cardId, title) {
+// ── CONFETTI ─────────────────────────────────────────────────────────
+function confetti() {
+  var wrap = document.getElementById('confetti-wrap');
+  if (!wrap) return;
+  var colors = ['#7B6EFF','#00C896','#F5A623','#FF4B6E','#C67BFF','#38B6FF','#fff'];
+  for (var i = 0; i < 48; i++) {
+    (function(i) {
+      setTimeout(function() {
+        var p = document.createElement('div');
+        p.className = 'cp-dot';
+        var size = 5 + Math.random() * 9;
+        var left = 10 + Math.random() * 80;
+        var dur = 1.4 + Math.random() * 0.8;
+        var delay = Math.random() * 0.4;
+        p.style.cssText = 'width:'+size+'px;height:'+size+'px;left:'+left+'%;top:-10px;background:'+colors[i%colors.length]+';animation-duration:'+dur+'s;animation-delay:'+delay+'s;';
+        wrap.appendChild(p);
+        setTimeout(function(){ if(p.parentNode) p.parentNode.removeChild(p); }, (dur + delay + 0.5) * 1000);
+      }, i * 18);
+    })(i);
+  }
+}
+
+// ── STAT PULSE ───────────────────────────────────────────────────────
+function pulseStat(el) {
+  if (!el) return;
+  el.classList.remove('stat-pulse');
+  void el.offsetWidth; // reflow
+  el.classList.add('stat-pulse');
+  setTimeout(function(){ el.classList.remove('stat-pulse'); }, 400);
+}
+
+// ── HERO AMOUNT COUNTER ───────────────────────────────────────────────
+var heroTotal = 12340;
+var heroBillCount = 3;
+var heroAkutCount = 2;
+var heroSnartCount = 1;
+var heroKlaraCount = 7;
+
+function animateNumber(el, from, to, duration) {
+  if (!el) return;
+  var start = null;
+  function step(ts) {
+    if (!start) start = ts;
+    var prog = Math.min((ts - start) / duration, 1);
+    var cur = Math.round(from + (to - from) * prog);
+    el.textContent = cur.toLocaleString('sv') + ' kr';
+    if (prog < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function updateHeroTotal(subtractAmt, urgency) {
+  var prev = heroTotal;
+  heroTotal = Math.max(0, heroTotal - subtractAmt);
+  animateNumber(document.getElementById('hero-amount'), prev, heroTotal, 600);
+
+  if (urgency === 'akut') { heroAkutCount = Math.max(0, heroAkutCount - 1); }
+  else if (urgency === 'snart') { heroSnartCount = Math.max(0, heroSnartCount - 1); }
+  heroKlaraCount++;
+
+  heroBillCount = Math.max(0, heroBillCount - 1);
+  var subEl = document.getElementById('hero-sub');
+  if (subEl) subEl.textContent = heroBillCount === 0 ? 'Ni är fantastiska! 🎉' : 'Fördelat på ' + heroBillCount + (heroBillCount===1?' räkning':' räkningar');
+
+  var akutEl = document.getElementById('pill-akut-txt');
+  var snartEl = document.getElementById('pill-snart-txt');
+  var klaraEl = document.getElementById('pill-klara-txt');
+  if (akutEl) akutEl.textContent = heroAkutCount + ' Akuta';
+  if (snartEl) snartEl.textContent = heroSnartCount + ' Snart';
+  if (klaraEl) klaraEl.textContent = heroKlaraCount + ' Klara';
+
+  // Hide zero pills
+  var pillAkut = document.getElementById('pill-akut');
+  if (pillAkut) pillAkut.style.display = heroAkutCount === 0 ? 'none' : '';
+}
+
+// ── BILL STATS UPDATE ────────────────────────────────────────────────
+function updateBillStats(urgency) {
+  var akutEl = document.getElementById('stat-akut');
+  var snartEl = document.getElementById('stat-snart');
+  var klaraEl = document.getElementById('stat-klara');
+
+  if (urgency === 'akut') {
+    var cur = parseInt(akutEl.textContent) || 0;
+    akutEl.textContent = Math.max(0, cur - 1);
+    pulseStat(akutEl);
+    // Check if all urgent cleared
+    if (parseInt(akutEl.textContent) === 0) {
+      var emptyAkut = document.getElementById('empty-akut');
+      if (emptyAkut) { emptyAkut.style.display = 'block'; }
+      var shAkut = document.getElementById('sh-akut');
+      if (shAkut) shAkut.querySelector('.sht').textContent = '✅ AKUTA KLARA!';
+      setTimeout(function() { confetti(); bloom('🎉 Alla akuta klara!', 'Fantastiskt jobbat! Ni är ett drömlag.'); }, 400);
+    }
+  } else if (urgency === 'snart') {
+    var cur2 = parseInt(snartEl.textContent) || 0;
+    snartEl.textContent = Math.max(0, cur2 - 1);
+    pulseStat(snartEl);
+    if (parseInt(snartEl.textContent) === 0) {
+      var emptySnart = document.getElementById('empty-snart');
+      if (emptySnart) emptySnart.style.display = 'block';
+    }
+  }
+  var klaraCur = parseInt(klaraEl.textContent) || 7;
+  klaraEl.textContent = klaraCur + 1;
+  pulseStat(klaraEl);
+}
+
+// ── HEM ALL-CLEAR ─────────────────────────────────────────────────────
+function checkHemAllClear() {
+  var urgent = document.querySelectorAll('#sc-hem .card.cr, #sc-hem .card.ca');
+  var visible = 0;
+  urgent.forEach(function(c){ if (c.style.display !== 'none' && c.id !== 'hem-allclear') visible++; });
+  var allclear = document.getElementById('hem-allclear');
+  if (allclear) allclear.style.display = visible === 0 ? 'block' : 'none';
+}
+
+// ── MARK PAID ────────────────────────────────────────────────────────
+function markPaid(cardId, title, urgency, amount) {
   var card = document.getElementById(cardId);
   if(card) {
     card.style.transition = 'opacity 0.4s, transform 0.4s';
     card.style.opacity = '0';
     card.style.transform = 'translateX(20px)';
-    setTimeout(function(){ card.style.display='none'; }, 400);
+    setTimeout(function(){ card.style.display='none'; checkHemAllClear(); }, 420);
   }
+  if (urgency) updateBillStats(urgency);
+  if (amount) updateHeroTotal(amount, urgency);
   bloom('Betald! 🎉', title + ' markerad som klar');
 }
 
-// ── DYNAMIC DATE ─────────────────────────────────────────────────────
+// ── DYNAMIC DATE + TIME-AWARE GREETING ──────────────────────────────
 (function(){
   var days=['Söndag','Måndag','Tisdag','Onsdag','Torsdag','Fredag','Lördag'];
   var months=['januari','februari','mars','april','maj','juni','juli','augusti','september','oktober','november','december'];
   var now=new Date();
   var str=days[now.getDay()]+' '+now.getDate()+' '+months[now.getMonth()]+', '+now.getFullYear();
-  var el=document.getElementById('hem-date');
-  if(el) el.textContent=str;
+  var dateEl=document.getElementById('hem-date');
+  if(dateEl) dateEl.textContent=str;
+
+  var h = now.getHours();
+  var emoji    = h>=5&&h<12 ? ' ☀️' : h>=12&&h<18 ? ' 👋' : h>=18&&h<23 ? ' 🌙' : ' 🦉';
+  var greeting = h>=5&&h<12 ? 'God morgon, ' : h>=12&&h<18 ? 'God eftermiddag, ' : h>=18&&h<23 ? 'God kväll, ' : 'Natt-uggla, ';
+  var prefEl = document.getElementById('hem-prefix');
+  var emojEl = document.getElementById('hem-emoji');
+  if (prefEl) prefEl.textContent = greeting;
+  if (emojEl) emojEl.textContent = emoji;
+})();
+
+// ── MOTIVATIONAL MESSAGES ─────────────────────────────────────────────
+(function(){
+  var msgs = [
+    'En sak i taget. Du klarar det.',
+    'Börja litet. Fortsätt stolt.',
+    'Idag räknas.',
+    'Du är mer kapabel än du tror.',
+    'Lite framsteg är fortfarande framsteg.',
+    'Din familj har dig. Det spelar roll.',
+    'Fokus på nästa steg — bara det.',
+    'Du behöver inte göra allt. Bara det viktigaste.'
+  ];
+  var el = document.getElementById('hem-motiv');
+  if (el) el.textContent = msgs[Math.floor(Math.random() * msgs.length)];
 })();
 
 // ── NAV ──────────────────────────────────────────────────────────────
@@ -723,19 +969,42 @@ wire('ven-preview2', function(){go('projekt');});
 wire('ven-preview3', function(){go('projekt');});
 
 // ── HEM bills ────────────────────────────────────────────────────────
-wire('snooze1', function(){bloom('Snooze satt 😴','Påminnelse imorgon kl 09:00');});
-wire('pay1',    function(){markPaid('hem-bill-el','Elräkning');});
-wire('snooze2', function(){bloom('Snooze satt 😴','Påminnelse imorgon kl 09:00');});
-wire('pay2',    function(){markPaid('hem-bill-telia','Telia');});
-wire('remind1', function(){bloom('Påminnelse satt! ⏰','3 dagar innan förfallodatum');});
+wire('snooze1', function(){ snoozeCard('hem-bill-el','el-meta'); });
+wire('pay1',    function(){ markPaid('hem-bill-el','Elräkning','akut',450); });
+wire('snooze2', function(){ snoozeCard('hem-bill-telia','telia-meta'); });
+wire('pay2',    function(){ markPaid('hem-bill-telia','Telia','akut',459); });
+wire('remind1', function(){ bloom('Påminnelse satt! ⏰','3 dagar innan förfallodatum'); });
 
 // ── RÄKNINGAR ────────────────────────────────────────────────────────
-wire('r-snooze1', function(){bloom('Snooze satt 😴','Påminnelse imorgon kl 09:00');});
-wire('r-pay1',    function(){markPaid('bill-el','Elräkning');});
-wire('r-snooze2', function(){bloom('Snooze satt 😴','Påminnelse imorgon kl 09:00');});
-wire('r-pay2',    function(){markPaid('bill-telia','Telia');});
-wire('r-remind1', function(){bloom('Påminnelse satt! ⏰','18 mars kl 08:00');});
-wire('r-pay3',    function(){markPaid('bill-hyra','Hyra april');});
+wire('r-snooze1', function(){ snoozeCard('bill-el','el-meta'); });
+wire('r-pay1',    function(){ markPaid('bill-el','Elräkning','akut',450); });
+wire('r-snooze2', function(){ snoozeCard('bill-telia','telia-meta'); });
+wire('r-pay2',    function(){ markPaid('bill-telia','Telia','akut',459); });
+wire('r-remind1', function(){ bloom('Påminnelse satt! ⏰','18 mars kl 08:00'); });
+wire('r-pay3',    function(){ markPaid('bill-hyra','Hyra april','snart',8400); });
+
+// ── SNOOZE VISUAL FEEDBACK ───────────────────────────────────────────
+function snoozeCard(cardId, metaId) {
+  var card = document.getElementById(cardId);
+  var meta = document.getElementById(metaId);
+  if (!card) { bloom('Snooze satt 😴','Påminnelse imorgon kl 09:00'); return; }
+  // Dim the card
+  card.style.opacity = '0.65';
+  // Add badge to meta
+  if (meta && !meta.querySelector('.snooze-badge')) {
+    var badge = document.createElement('span');
+    badge.className = 'snooze-badge';
+    badge.textContent = '😴 Imorgon 09:00';
+    meta.appendChild(badge);
+  }
+  // Disable snooze buttons on this card
+  card.querySelectorAll('[id^="snooze"],[id^="r-snooze"]').forEach(function(btn){
+    btn.textContent = '✓ Snoozad';
+    btn.disabled = true;
+    btn.style.opacity = '0.5';
+  });
+  bloom('Snooze satt 😴','Påminnelse imorgon kl 09:00');
+}
 
 // ── BLOOM close ──────────────────────────────────────────────────────
 wire('bloomEl', function(){document.getElementById('bloomEl').classList.remove('on');});
@@ -749,9 +1018,14 @@ var mailTabMap = {ftab1:'all', ftab2:'rakning', ftab3:'myndighet', ftab4:'avtal'
     });
     var el=document.getElementById(id); if(el) el.classList.add('on');
     var cat = mailTabMap[id];
+    var visible = 0;
     document.querySelectorAll('#sc-mail [data-mailcat]').forEach(function(card){
-      card.style.display = (cat==='all' || card.getAttribute('data-mailcat')===cat) ? '' : 'none';
+      var show = cat==='all' || card.getAttribute('data-mailcat')===cat;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
     });
+    var emptyEl = document.getElementById('mail-empty');
+    if (emptyEl) emptyEl.style.display = visible === 0 ? 'block' : 'none';
   });
 });
 
@@ -764,11 +1038,67 @@ var arkivTabMap = {aftab1:'all', aftab2:'huset', aftab3:'bilen', aftab4:'avtal',
     });
     var el=document.getElementById(id); if(el) el.classList.add('on');
     var cat = arkivTabMap[id];
+    // clear search when switching tabs
+    var searchInput = document.getElementById('arkiv-search');
+    if (searchInput) searchInput.value = '';
+    var visible = 0;
     document.querySelectorAll('#sc-arkiv [data-arkivcat]').forEach(function(card){
-      card.style.display = (cat==='all' || card.getAttribute('data-arkivcat')===cat) ? '' : 'none';
+      var show = cat==='all' || card.getAttribute('data-arkivcat')===cat;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
     });
+    var emptyEl = document.getElementById('arkiv-empty');
+    var countEl = document.getElementById('arkiv-count');
+    if (emptyEl) emptyEl.style.display = visible === 0 ? 'block' : 'none';
+    if (countEl) { countEl.textContent = ''; countEl.style.display='none'; }
   });
 });
+
+// ── ARCHIVE LIVE SEARCH ───────────────────────────────────────────────
+(function(){
+  var inp = document.getElementById('arkiv-search');
+  if (!inp) return;
+  inp.addEventListener('input', function(){
+    var q = inp.value.trim().toLowerCase();
+    var countEl = document.getElementById('arkiv-count');
+    var emptyEl = document.getElementById('arkiv-empty');
+    var emptyTitle = document.getElementById('arkiv-empty-title');
+    var emptySub = document.getElementById('arkiv-empty-sub');
+
+    if (!q) {
+      // restore tab filter
+      var activeTab = document.querySelector('#sc-arkiv .ftab.on');
+      var cat = activeTab ? arkivTabMap[activeTab.id] : 'all';
+      var vis = 0;
+      document.querySelectorAll('#sc-arkiv [data-arkivcat]').forEach(function(card){
+        var show = cat==='all' || card.getAttribute('data-arkivcat')===cat;
+        card.style.display = show ? '' : 'none';
+        if (show) vis++;
+      });
+      if (countEl) { countEl.style.display='none'; countEl.textContent=''; }
+      if (emptyEl) emptyEl.style.display = vis===0 ? 'block' : 'none';
+      return;
+    }
+
+    var found = 0;
+    document.querySelectorAll('#sc-arkiv [data-arkivcat]').forEach(function(card){
+      var text = (card.querySelector('.ctitle')||{}).textContent||'' + ' ' + (card.querySelector('.cmeta')||{}).textContent||'';
+      var match = text.toLowerCase().indexOf(q) > -1;
+      card.style.display = match ? '' : 'none';
+      if (match) found++;
+    });
+
+    if (countEl) {
+      countEl.style.display = 'block';
+      countEl.textContent = found > 0 ? found + ' dokument hittade' : '';
+    }
+    if (emptyEl) {
+      emptyEl.style.display = found === 0 ? 'block' : 'none';
+      if (emptyTitle) emptyTitle.textContent = 'Inget hittades';
+      if (emptySub) emptySub.textContent = 'Prova "' + q + '" med andra stavningar.';
+    }
+  });
+})();
 
 // ── MAIL — copy forwarding address ───────────────────────────────────
 wire('fwd-copy', function(){
@@ -887,6 +1217,79 @@ wire('connect-disconnect', function(){
 
 renderProviders();
 
+// ── PROFILE MODAL ─────────────────────────────────────────────────────
+function initProfile() {
+  var saved = localStorage.getItem('arkiv_user_name') || 'Franck';
+  updateGreeting(saved);
+}
+
+function updateGreeting(name) {
+  var nameEl = document.getElementById('hem-name');
+  if (nameEl) nameEl.textContent = name;
+  var avInitEl = document.getElementById('av-initial');
+  var initial = name.charAt(0).toUpperCase();
+  if (avInitEl) avInitEl.textContent = initial;
+  var bigAv = document.getElementById('profile-av-big');
+  if (bigAv) bigAv.textContent = initial;
+  var profTitle = document.getElementById('profile-title');
+  if (profTitle) profTitle.textContent = 'Hej, ' + name + '!';
+}
+
+function openProfileModal() {
+  var saved = localStorage.getItem('arkiv_user_name') || 'Franck';
+  var inp = document.getElementById('profile-name-input');
+  if (inp) { inp.value = saved; }
+  updateGreeting(saved);
+  document.getElementById('profileModal').classList.add('on');
+  setTimeout(function(){ if(inp){ inp.focus(); inp.select(); } }, 300);
+}
+
+wire('av-btn', openProfileModal);
+wire('profile-close', function(){ document.getElementById('profileModal').classList.remove('on'); });
+wire('profile-save', function(){
+  var inp = document.getElementById('profile-name-input');
+  var name = inp ? inp.value.trim() : '';
+  if (!name) {
+    if(inp){ inp.style.borderColor='var(--red)'; setTimeout(function(){inp.style.borderColor='';},1500); }
+    return;
+  }
+  localStorage.setItem('arkiv_user_name', name);
+  updateGreeting(name);
+  document.getElementById('profileModal').classList.remove('on');
+  bloom('Sparat! 👋', 'Hej, ' + name + '!');
+});
+
+// Close profile modal by clicking backdrop
+document.getElementById('profileModal').addEventListener('click', function(e){
+  if (e.target === this) this.classList.remove('on');
+});
+
+initProfile();
+
+// ── ENTER KEY SUPPORT IN FORMS ────────────────────────────────────────
+(function(){
+  // Profile modal
+  var profInp = document.getElementById('profile-name-input');
+  if (profInp) profInp.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); document.getElementById('profile-save').click(); } });
+
+  // Connect modal
+  var connInp = document.getElementById('connect-email');
+  if (connInp) connInp.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); document.getElementById('connect-confirm').click(); } });
+
+  // Add project modal — Tab through fields, Enter on last submits
+  ['proj-name','proj-role','proj-income','proj-goal'].forEach(function(id, idx, arr){
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (idx < arr.length - 1) { var next = document.getElementById(arr[idx+1]); if(next) next.focus(); }
+        else document.getElementById('proj-save').click();
+      }
+    });
+  });
+})();
+
 // ── ADD PROJECT MODAL ─────────────────────────────────────────────────
 var selectedEmoji = '💼';
 var emojiList = ['🎵','💼','📈','🏠','🚗','💆','🎨','💻','🏃','🍕','📚','🌱','🎯','💰','🛒','✈️','🔧','📱'];
@@ -975,6 +1378,8 @@ wire('proj-save', function(){
   updateProjStats(income);
 
   document.getElementById('addProjModal').classList.remove('on');
+  var projCount = document.querySelectorAll('#sc-projekt .ven').length;
+  if (projCount <= 1) { setTimeout(confetti, 200); }
   bloom('🎉 Projekt tillagt!', name + ' är nu aktivt');
 });
 
