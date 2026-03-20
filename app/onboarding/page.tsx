@@ -3,7 +3,7 @@
 export const dynamic = 'force-dynamic'
 
 import { useState, useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase-browser'
 
 type Step = 'email' | 'verify-code' | 'choose' | 'create' | 'join'
@@ -13,7 +13,6 @@ function generateInviteCode() {
 }
 
 export default function OnboardingPage() {
-  const router = useRouter()
   const supabase = createClient()
   const searchParams = useSearchParams()
 
@@ -87,7 +86,7 @@ export default function OnboardingPage() {
         return
       }
     }
-    router.push('/hem')
+    window.location.href = '/hem'
   }
 
   async function createFamily() {
@@ -115,7 +114,7 @@ export default function OnboardingPage() {
     })
     setLoading(false)
     if (memErr) { setError(memErr.message); return }
-    router.push('/hem')
+    window.location.href = '/hem'
   }
 
   async function joinFamily() {
@@ -142,7 +141,7 @@ export default function OnboardingPage() {
     })
     setLoading(false)
     if (memErr) { setError(memErr.message); return }
-    router.push('/hem')
+    window.location.href = '/hem'
   }
 
   return (
