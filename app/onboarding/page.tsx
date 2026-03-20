@@ -105,7 +105,7 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-dvh flex flex-col items-center justify-center px-5 py-10"
+    <div className="min-h-dvh flex flex-col items-center justify-center p-6"
       style={{ background: '#0D0D1A' }}>
       {/* Ambient orbs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
@@ -115,14 +115,14 @@ export default function OnboardingPage() {
           style={{ background: '#C67BFF', filter: 'blur(80px)' }} />
       </div>
 
-      <div className="relative z-10 w-full max-w-sm">
+      <div className="relative z-10 w-full" style={{ maxWidth: '360px' }}>
         {/* Logo */}
-        <div className="text-center mb-10">
-          <div className="text-4xl mb-3">🏠</div>
-          <div className="text-2xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.5px' }}>
+        <div className="text-center mb-8">
+          <div className="text-5xl mb-4">🏠</div>
+          <div className="text-3xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.5px' }}>
             Familjens Arkiv
           </div>
-          <div className="text-sm mt-1" style={{ color: '#9898B8' }}>
+          <div className="text-sm mt-2" style={{ color: '#9898B8' }}>
             Ert digitala familjehem
           </div>
         </div>
@@ -226,10 +226,10 @@ export default function OnboardingPage() {
 
 function Card({ title, sub, children }: { title: string; sub: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-3xl p-6 space-y-4" style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.07)' }}>
+    <div className="rounded-3xl p-7 space-y-5" style={{ background: '#1E1E35', border: '1.5px solid rgba(123,110,255,0.25)', boxShadow: '0 8px 40px rgba(0,0,0,0.5)' }}>
       <div>
-        <h1 className="text-xl font-bold" style={{ color: '#F2F2FF' }}>{title}</h1>
-        <p className="text-sm mt-1" style={{ color: '#9898B8' }}>{sub}</p>
+        <h1 className="text-2xl font-bold" style={{ color: '#F2F2FF' }}>{title}</h1>
+        <p className="text-sm mt-1.5" style={{ color: '#9898B8' }}>{sub}</p>
       </div>
       {children}
     </div>
