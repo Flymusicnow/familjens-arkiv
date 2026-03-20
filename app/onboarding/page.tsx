@@ -27,6 +27,10 @@ export default function OnboardingPage() {
   const [error, setError] = useState('')
 
   useEffect(() => {
+    const urlStep = searchParams.get('step') as Step | null
+    if (urlStep && ['choose', 'create', 'join'].includes(urlStep)) {
+      setStep(urlStep)
+    }
     const urlError = searchParams.get('error')
     if (urlError === 'otp_expired' || urlError === 'access_denied') {
       setError('Din inloggningslänk har gått ut. Ange din e-post igen för att få en ny länk.')
