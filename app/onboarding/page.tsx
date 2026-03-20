@@ -161,6 +161,11 @@ export default function OnboardingPage() {
             <Btn onClick={sendOtp} loading={loading}>
               Skicka länk →
             </Btn>
+            <button onClick={() => { window.location.href = '/hem' }}
+              className="w-full text-sm py-2 mt-1"
+              style={{ color: '#555570' }}>
+              Hoppa över (testa utan inloggning)
+            </button>
           </Card>
         )}
 
