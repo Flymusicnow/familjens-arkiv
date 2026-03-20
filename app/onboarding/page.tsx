@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase-browser'
 
-type Step = 'email' | 'verify-code' | 'choose' | 'create' | 'join'
+type Step = 'email' | 'check-email' | 'choose' | 'create' | 'join'
 
 function generateInviteCode() {
   return Math.random().toString(36).slice(2, 8).toUpperCase()
@@ -18,7 +18,6 @@ export default function OnboardingPage() {
 
   const [step, setStep] = useState<Step>('email')
   const [email, setEmail] = useState('')
-  const [otpCode, setOtpCode] = useState('')
   const [name, setName] = useState('')
   const [familyName, setFamilyName] = useState('')
   const [inviteCode, setInviteCode] = useState('')
@@ -54,39 +53,14 @@ export default function OnboardingPage() {
     setError('')
     const { error: err } = await supabase.auth.signInWithOtp({
       email: email.trim(),
-      options: { shouldCreateUser: true },
+      options: {
+        shouldCreateUser: true,
+        emailRedirectTo: window.location.origin + '/auth/callback',
+      },
     })
     setLoading(false)
     if (err) { setError(err.message); return }
-    setStep('verify-code')
-  }
-
-  async function verifyCode() {
-    if (!otpCode.trim()) return
-    setLoading(true)
-    setError('')
-    const { error: err } = await supabase.auth.verifyOtp({
-      email: email.trim(),
-      token: otpCode.trim(),
-      type: 'email',
-    })
-    setLoading(false)
-    if (err) { setError('Fel kod — kontrollera igen eller begär en ny.'); return }
-
-    // Check if user has a workspace
-    const { data: { user } } = await supabase.auth.getUser()
-    if (user) {
-      const { data: member } = await supabase
-        .from('family_members')
-        .select('workspace_id')
-        .eq('user_id', user.id)
-        .maybeSingle()
-      if (!member?.workspace_id) {
-        setStep('choose')
-        return
-      }
-    }
-    window.location.href = '/hem'
+    setStep('check-email')
   }
 
   async function createFamily() {
@@ -94,7 +68,7 @@ export default function OnboardingPage() {
     setLoading(true)
     setError('')
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user) { setError('Inte inloggad — kontrollera din kod.'); setLoading(false); return }
+    if (!user) { setError('Inte inloggad — försök logga in igen.'); setLoading(false); return }
 
     const code = generateInviteCode()
     const { data: ws, error: wsErr } = await supabase
@@ -122,7 +96,7 @@ export default function OnboardingPage() {
     setLoading(true)
     setError('')
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user) { setError('Inte inloggad — kontrollera din kod.'); setLoading(false); return }
+    if (!user) { setError('Inte inloggad — försök logga in igen.'); setLoading(false); return }
 
     const { data: ws, error: wsErr } = await supabase
       .from('family_workspace')
@@ -185,33 +159,19 @@ export default function OnboardingPage() {
             />
             {error && <p className="text-sm mt-2" style={{ color: '#FF4B6E' }}>{error}</p>}
             <Btn onClick={sendOtp} loading={loading}>
-              Skicka kod →
+              Skicka länk →
             </Btn>
           </Card>
         )}
 
-        {/* Step: Verify OTP code */}
-        {step === 'verify-code' && (
-          <Card title="Ange din kod 🔢" sub={`Vi skickade en 6-siffrig kod till ${email}`}>
-            <input
-              type="text"
-              inputMode="numeric"
-              placeholder="123456"
-              value={otpCode}
-              onChange={e => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-              onKeyDown={e => e.key === 'Enter' && verifyCode()}
-              className="w-full px-4 py-4 rounded-xl text-2xl font-bold outline-none tracking-[0.5em] text-center"
-              style={{
-                background: 'rgba(255,255,255,0.06)',
-                border: '1px solid rgba(255,255,255,0.11)',
-                color: '#F2F2FF',
-              }}
-            />
+        {/* Step: Check email */}
+        {step === 'check-email' && (
+          <Card title="Kolla din inkorg ✉️" sub={`Vi skickade en inloggningslänk till ${email}`}>
+            <p className="text-sm text-center" style={{ color: '#9898B8' }}>
+              Klicka på länken i mailet för att logga in. Länken är giltig i 1 timme.
+            </p>
             {error && <p className="text-sm mt-2" style={{ color: '#FF4B6E' }}>{error}</p>}
-            <Btn onClick={verifyCode} loading={loading}>
-              Logga in →
-            </Btn>
-            <button onClick={() => { setStep('email'); setOtpCode(''); setError('') }}
+            <button onClick={() => { setStep('email'); setError('') }}
               className="w-full text-sm py-2 mt-1"
               style={{ color: '#555570' }}>
               ← Annan e-post
