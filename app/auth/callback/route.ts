@@ -41,5 +41,13 @@ export async function GET(request: Request) {
     }
   }
 
+  // Handle Supabase error params (e.g. otp_expired)
+  const error = searchParams.get('error')
+  const errorCode = searchParams.get('error_code')
+  if (error || errorCode) {
+    const params = new URLSearchParams({ error: errorCode || error || 'unknown' })
+    return NextResponse.redirect(`${origin}/onboarding?${params}`)
+  }
+
   return NextResponse.redirect(`${origin}/onboarding`)
 }

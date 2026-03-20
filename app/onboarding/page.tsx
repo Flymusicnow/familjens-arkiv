@@ -2,8 +2,8 @@
 
 export const dynamic = 'force-dynamic'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase-browser'
 
 type Step = 'email' | 'check-email' | 'choose' | 'create' | 'join'
@@ -16,6 +16,8 @@ export default function OnboardingPage() {
   const router = useRouter()
   const supabase = createClient()
 
+  const searchParams = useSearchParams()
+
   const [step, setStep] = useState<Step>('email')
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
@@ -23,6 +25,13 @@ export default function OnboardingPage() {
   const [inviteCode, setInviteCode] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    const urlError = searchParams.get('error')
+    if (urlError === 'otp_expired' || urlError === 'access_denied') {
+      setError('Din inloggningslänk har gått ut. Ange din e-post igen för att få en ny länk.')
+    }
+  }, [searchParams])
 
   async function sendMagicLink() {
     if (!email.trim()) return
@@ -96,7 +105,7 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-5 py-12"
+    <div className="min-h-dvh flex flex-col items-center justify-center px-5 py-10"
       style={{ background: '#0D0D1A' }}>
       {/* Ambient orbs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
