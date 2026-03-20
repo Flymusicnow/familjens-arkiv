@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Familjens Arkiv</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 :root{
@@ -530,6 +531,7 @@ html,body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;
     <button class="ftab" id="aftab5">🏛 Myndigheter</button>
   </div>
   <div style="height:14px"></div>
+  <div id="arkiv-loading" style="display:none;text-align:center;padding:18px 0;font-size:13px;color:var(--t3);">Laddar dokument...</div>
   <div class="empty-state" id="arkiv-empty"><div class="es-ico">🔍</div><div class="es-title" id="arkiv-empty-title">Inga dokument här</div><div class="es-sub" id="arkiv-empty-sub">Prova ett annat sökord eller kategori.</div></div>
   <div class="card cb cg" data-arkivcat="huset"><div class="crow"><div class="ci igrn"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg></div><div class="cbody"><div class="ctitle">Hemförsäkring 2026</div><div class="cmeta">Folksam · 2 jan · Huset</div></div><div class="cright"><div class="cbadge" style="color:var(--grn)">SPARAT</div></div></div></div>
   <div class="card cb ca" data-arkivcat="bilen"><div class="crow"><div class="ci iamb"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/></svg></div><div class="cbody"><div class="ctitle">Bilförsäkring 2026</div><div class="cmeta">Trygg-Hansa · 2 jan · Bilen</div></div><div class="cright"><div class="cbadge" style="color:var(--amb)">SPARAT</div></div></div></div>
@@ -723,6 +725,16 @@ html,body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;
 // FAMILJENS ARKIV — Full JS
 // ══════════════════════════════════════════════════════════════════════
 
+// ── SUPABASE ──────────────────────────────────────────────────────────
+var SUPA_URL = 'https://quwvkseznginhoqctmis.supabase.co';
+var SUPA_KEY = 'sb_publishable_eax-JaB_7iUtaQv2O-XkUQ_aDnMGY_q';
+var supa = supabase.createClient(SUPA_URL, SUPA_KEY);
+var SESSION_ID = localStorage.getItem('arkiv_session_id');
+if (!SESSION_ID) {
+  SESSION_ID = crypto.randomUUID ? crypto.randomUUID() : 'sess-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+  localStorage.setItem('arkiv_session_id', SESSION_ID);
+}
+
 // ── NAVIGATION HISTORY ───────────────────────────────────────────────
 var navHistory = [];
 var currentScreen = 'hem';
@@ -745,6 +757,8 @@ function go(t, addToHistory) {
   var app = document.querySelector('.app');
   if(app) app.scrollTo(0,0);
   updateBackBtn();
+  // Load documents when visiting arkiv
+  if (t === 'arkiv') setTimeout(loadDocuments, 50);
   // Clear mail badge when visiting mail
   if (t === 'mail' && hasUnreadMail) {
     hasUnreadMail = false;
@@ -1463,10 +1477,82 @@ document.getElementById('file-input').addEventListener('change', function(){
   });
 });
 
-wire('scan-save', function(){
+wire('scan-save', async function(){
+  var sender   = (document.getElementById('ocr-sender').value || '').trim();
+  var amount   = (document.getElementById('ocr-amount').value || '').trim();
+  var dueDate  = (document.getElementById('ocr-date').value || '').trim();
+  var ocrRef   = (document.getElementById('ocr-ref').value || '').trim();
+  var catEl    = document.querySelector('.ocr-cat.on');
+  var catId    = catEl ? catEl.id.replace('cat-','') : 'ovrigt';
+  var catMap   = {rakn:'rakning', mynd:'myndighet', avtal:'avtal', kvitto:'kvitto', ovrigt:'ovrigt'};
+  var category = catMap[catId] || 'ovrigt';
+
   document.getElementById('scanModal').classList.remove('on');
-  bloom('Sparat! 📄','Dokumentet är arkiverat och kategoriserat');
+  bloom('Sparar... ⏳','Dokumentet läggs in i arkivet');
+
+  var res = await supa.from('documents').insert({
+    session_id: SESSION_ID,
+    sender: sender || 'Okänt',
+    amount: amount || null,
+    due_date: dueDate || null,
+    ocr_ref: ocrRef || null,
+    category: category
+  });
+
+  if (res.error) {
+    bloom('Fel! ❌','Kunde inte spara. Kontrollera anslutning.');
+    return;
+  }
+  bloom('Sparat! 📄', (sender || 'Dokument') + ' finns nu i Arkivet');
+  if (currentScreen === 'arkiv') loadDocuments();
 });
+
+// ── LOAD DOCUMENTS FROM SUPABASE ─────────────────────────────────────
+async function loadDocuments() {
+  var loadingEl = document.getElementById('arkiv-loading');
+  if (loadingEl) loadingEl.style.display = 'block';
+
+  var res = await supa.from('documents').select('*')
+    .eq('session_id', SESSION_ID)
+    .order('created_at', { ascending: false });
+
+  if (loadingEl) loadingEl.style.display = 'none';
+  if (res.error || !res.data) return;
+
+  // Remove previously rendered DB cards
+  document.querySelectorAll('#sc-arkiv .db-card').forEach(function(el){ el.remove(); });
+
+  var insertBefore = document.querySelector('#sc-arkiv [data-arkivcat]');
+  var catColors  = {rakning:'ca', myndighet:'cbl', avtal:'cp', kvitto:'cg', ovrigt:'cg'};
+  var catLabels  = {rakning:'RÄKNING', myndighet:'MYNDIGHET', avtal:'AVTAL', kvitto:'KVITTO', ovrigt:'SPARAT'};
+  var catIcons   = {rakning:'ired', myndighet:'iblu', avtal:'ipur', kvitto:'igrn', ovrigt:'igrn'};
+  var catArkiv   = {rakning:'rakning', myndighet:'myndigheter', avtal:'avtal', kvitto:'huset', ovrigt:'huset'};
+
+  res.data.forEach(function(doc) {
+    var cat     = doc.category || 'ovrigt';
+    var dateStr = doc.created_at ? new Date(doc.created_at).toLocaleDateString('sv-SE') : '';
+    var html = '<div class="card cb ' + (catColors[cat]||'cg') + ' db-card" data-arkivcat="' + (catArkiv[cat]||'huset') + '">' +
+      '<div class="crow">' +
+        '<div class="ci ' + (catIcons[cat]||'igrn') + '">' +
+          '<svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>' +
+        '</div>' +
+        '<div class="cbody">' +
+          '<div class="ctitle">' + escHtml(doc.sender || 'Okänd') + '</div>' +
+          '<div class="cmeta">' + dateStr + (doc.amount ? ' · ' + escHtml(doc.amount) : '') + '</div>' +
+        '</div>' +
+        '<div class="cright"><div class="cbadge" style="color:var(--grn)">' + (catLabels[cat]||'SPARAT') + '</div></div>' +
+      '</div>' +
+    '</div>';
+    if (insertBefore) {
+      insertBefore.insertAdjacentHTML('beforebegin', html);
+    } else {
+      document.getElementById('sc-arkiv').insertAdjacentHTML('beforeend', html);
+    }
+  });
+}
+
+// ── INITIAL LOAD ──────────────────────────────────────────────────────
+loadDocuments();
 
 // ── ANIMATE PROGRESS BARS ─────────────────────────────────────────────
 setTimeout(function(){
