@@ -33,9 +33,21 @@ export default function OnboardingPage() {
     }
     const urlError = searchParams.get('error')
     if (urlError === 'otp_expired' || urlError === 'access_denied') {
-      setError('Din kod har gått ut. Ange din e-post igen för att få en ny kod.')
+      setError('Din inloggningslänk har gått ut. Ange din e-post igen för att få en ny länk.')
     }
   }, [searchParams])
+
+  useEffect(() => {
+    const hash = window.location.hash.slice(1)
+    if (!hash) return
+    const params = new URLSearchParams(hash)
+    const errorCode = params.get('error_code')
+    const err = params.get('error')
+    if (errorCode === 'otp_expired' || err === 'access_denied' || errorCode === 'access_denied') {
+      setError('Din inloggningslänk har gått ut. Ange din e-post igen för att få en ny länk.')
+      window.history.replaceState(null, '', window.location.pathname + window.location.search)
+    }
+  }, [])
 
   async function sendOtp() {
     if (!email.trim()) return
