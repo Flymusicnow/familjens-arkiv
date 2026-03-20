@@ -1,12 +1,27 @@
-import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase-server'
 import HemClient from './HemClient'
+
+const GUEST_MEMBER = {
+  id: 'guest',
+  user_id: 'guest',
+  workspace_id: 'guest',
+  name: 'Gäst',
+  email: '',
+  avatar_color: '#7B6EFF',
+  role: 'adult',
+  family_workspace: { name: 'Familjens Arkiv', invite_code: '' },
+}
 
 export default async function HemPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  if (!user) redirect('/onboarding')
+  const today = new Date().toISOString().split('T')[0]
+  const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0]
+
+  if (!user) {
+    return <HemClient member={GUEST_MEMBER as any} bills={[]} events={[]} tasks={[]} today={today} />
+  }
 
   const { data: member } = await supabase
     .from('family_members')
@@ -14,10 +29,9 @@ export default async function HemPage() {
     .eq('user_id', user.id)
     .single()
 
-  if (!member) redirect('/onboarding')
-
-  const today = new Date().toISOString().split('T')[0]
-  const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0]
+  if (!member) {
+    return <HemClient member={GUEST_MEMBER as any} bills={[]} events={[]} tasks={[]} today={today} />
+  }
 
   // Fetch urgent + soon bills
   const { data: bills } = await supabase

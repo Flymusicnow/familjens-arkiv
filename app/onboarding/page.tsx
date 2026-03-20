@@ -136,6 +136,11 @@ export default function OnboardingPage() {
             <Btn onClick={sendMagicLink} loading={loading}>
               Skicka inloggningslänk →
             </Btn>
+            <button onClick={() => { window.location.href = '/hem' }}
+              className="w-full text-sm py-2 mt-1"
+              style={{ color: '#555570' }}>
+              Hoppa över (testa utan inloggning)
+            </button>
           </Card>
         )}
 
