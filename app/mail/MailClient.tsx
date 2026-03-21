@@ -3,6 +3,26 @@
 import { useState } from 'react'
 import { bloom } from '@/components/Bloom'
 
+function GmailIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z" fill="rgba(255,255,255,0.15)"/>
+      <path d="M20 4L12 13 4 4" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+      <text x="12" y="17" textAnchor="middle" fill="white" fontSize="7" fontWeight="bold" fontFamily="sans-serif">G</text>
+    </svg>
+  )
+}
+
+function OutlookIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <rect x="2" y="4" width="20" height="16" rx="2" fill="rgba(255,255,255,0.15)"/>
+      <path d="M2 8l8 5a2 2 0 002 0l8-5" stroke="white" strokeWidth="1.5"/>
+      <text x="12" y="17" textAnchor="middle" fill="white" fontSize="7" fontWeight="bold" fontFamily="sans-serif">O</text>
+    </svg>
+  )
+}
+
 type MailCategory = 'alla' | 'rakningar' | 'myndigheter' | 'avtal' | 'ovrigt'
 
 const categories: { id: MailCategory; label: string; emoji: string; color: string }[] = [
@@ -40,6 +60,30 @@ export default function MailClient() {
         <div>
           <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: '#555570' }}>Inkorg</div>
           <h1 className="text-2xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.5px' }}>Mail</h1>
+        </div>
+
+        {/* Connect email providers */}
+        <div className="rounded-2xl p-5 space-y-3" style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.07)' }}>
+          <div>
+            <div className="font-bold" style={{ color: '#F2F2FF' }}>Anslut din e-post</div>
+            <div className="text-xs mt-0.5" style={{ color: '#9898B8' }}>Importera räkningar automatiskt</div>
+          </div>
+          <button
+            onClick={() => bloom('Kommer snart 🔜', 'Gmail-integration är under utveckling')}
+            className="w-full flex items-center gap-3 px-4 py-4 rounded-2xl font-bold text-white transition-all active:scale-95"
+            style={{ background: 'linear-gradient(135deg, #EA4335cc, #EA433599)', border: '1px solid rgba(234,67,53,0.4)' }}>
+            <GmailIcon />
+            <span className="text-sm">Anslut Gmail</span>
+            <span className="ml-auto text-xs font-normal opacity-60">→</span>
+          </button>
+          <button
+            onClick={() => bloom('Kommer snart 🔜', 'Outlook-integration är under utveckling')}
+            className="w-full flex items-center gap-3 px-4 py-4 rounded-2xl font-bold text-white transition-all active:scale-95"
+            style={{ background: 'linear-gradient(135deg, #0078D4cc, #0078D499)', border: '1px solid rgba(0,120,212,0.4)' }}>
+            <OutlookIcon />
+            <span className="text-sm">Anslut Outlook</span>
+            <span className="ml-auto text-xs font-normal opacity-60">→</span>
+          </button>
         </div>
 
         {/* Forward address card */}

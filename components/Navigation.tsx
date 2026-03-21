@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 const primaryNav = [
   { href: '/hem',       label: 'Hem',        icon: HemIcon },
@@ -17,19 +18,44 @@ const newNav = [
   { href: '/mail',      label: 'Mail',       icon: MailIcon },
 ]
 
-const navItems = [...primaryNav, ...newNav]
-
 const sidebarExtra = [
   { href: '/foretag', label: 'Företag', icon: ForetagIcon },
 ]
 
+// Mobile bottom bar: 5 fixed items
+const mobileBottomNav = [
+  { href: '/hem',       label: 'Hem',        icon: HemIcon },
+  { href: '/rakningar', label: 'Räkningar',  icon: RakningarIcon },
+  { href: '/mail',      label: 'Mail',       icon: MailIcon },
+  { href: '/projekt',   label: 'Projekt',    icon: ProjektIcon },
+]
+
+// Items shown in the "Mer" drawer
+const merDrawerNav = [
+  { href: '/kalender',  label: 'Kalender',   icon: KalenderIcon },
+  { href: '/uppgifter', label: 'Uppgifter',  icon: UppgifterIcon },
+  { href: '/ekonomi',   label: 'Ekonomi',    icon: EkonomiIcon },
+  { href: '/arkiv',     label: 'Arkiv',      icon: ArkivIcon },
+]
+
 export default function Navigation() {
   const path = usePathname()
+  const router = useRouter()
+  const [showMore, setShowMore] = useState(false)
+
   if (path === '/onboarding' || path === '/') return null
+
+  // Is current path one of the "Mer" drawer items?
+  const merActive = merDrawerNav.some(item => path.startsWith(item.href))
+
+  function handleDrawerNav(href: string) {
+    setShowMore(false)
+    router.push(href)
+  }
 
   return (
     <>
-      {/* Mobile bottom bar — horizontally scrollable */}
+      {/* Mobile bottom bar — 5 fixed items */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden"
         style={{
           background: 'rgba(13,13,26,0.94)',
@@ -37,20 +63,76 @@ export default function Navigation() {
           borderTop: '1px solid rgba(255,255,255,0.07)',
           paddingBottom: 'env(safe-area-inset-bottom)',
         }}>
-        <div className="flex overflow-x-auto h-16 px-2 gap-1" style={{ scrollbarWidth: 'none' }}>
-          {navItems.map(({ href, label, icon: Icon }) => {
+        <div className="flex h-16">
+          {mobileBottomNav.map(({ href, label, icon: Icon }) => {
             const active = path.startsWith(href)
             return (
               <Link key={href} href={href}
-                className="flex flex-col items-center justify-center gap-0.5 flex-shrink-0 px-3 py-2 transition-all"
-                style={{ color: active ? '#7B6EFF' : '#555570', minWidth: 56 }}>
+                className="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 transition-all"
+                style={{ color: active ? '#7B6EFF' : '#555570' }}>
                 <Icon active={active} />
                 <span className="text-[9px] font-semibold tracking-wide leading-none whitespace-nowrap">{label}</span>
               </Link>
             )
           })}
+
+          {/* Mer button */}
+          <button
+            onClick={() => setShowMore(s => !s)}
+            className="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 transition-all"
+            style={{ color: merActive || showMore ? '#7B6EFF' : '#555570' }}>
+            <MerIcon active={merActive || showMore} />
+            <span className="text-[9px] font-semibold tracking-wide leading-none">Mer</span>
+          </button>
         </div>
       </nav>
+
+      {/* "Mer" drawer */}
+      {showMore && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 z-[60] md:hidden"
+            onClick={() => setShowMore(false)}
+            style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}
+          />
+          {/* Drawer sheet */}
+          <div
+            className="fixed left-0 right-0 z-[70] md:hidden"
+            style={{
+              bottom: 'calc(64px + env(safe-area-inset-bottom))',
+              background: 'rgba(13,13,26,0.97)',
+              backdropFilter: 'blur(20px)',
+              borderTop: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '20px 20px 0 0',
+              padding: '16px 16px 8px',
+            }}>
+            <div className="w-10 h-1 rounded-full mx-auto mb-4" style={{ background: 'rgba(255,255,255,0.15)' }} />
+            <div className="text-[10px] font-bold tracking-widest uppercase mb-3 px-2" style={{ color: '#333355' }}>
+              Mer
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              {merDrawerNav.map(({ href, label, icon: Icon }) => {
+                const active = path.startsWith(href)
+                return (
+                  <button
+                    key={href}
+                    onClick={() => handleDrawerNav(href)}
+                    className="flex items-center gap-3 px-4 py-3 rounded-2xl transition-all text-left"
+                    style={{
+                      background: active ? 'rgba(123,110,255,0.15)' : 'rgba(255,255,255,0.04)',
+                      color: active ? '#9D93FF' : '#9898B8',
+                      border: active ? '1px solid rgba(123,110,255,0.3)' : '1px solid rgba(255,255,255,0.06)',
+                    }}>
+                    <Icon active={active} />
+                    <span className="text-sm font-semibold">{label}</span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        </>
+      )}
 
       {/* Desktop sidebar */}
       <aside className="hidden md:flex fixed left-0 top-0 bottom-0 w-56 flex-col z-50 overflow-y-auto"
@@ -197,6 +279,15 @@ function MailIcon({ active }: { active: boolean }) {
       strokeLinecap="round" strokeLinejoin="round">
       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
       <polyline points="22,6 12,13 2,6"/>
+    </svg>
+  )
+}
+function MerIcon({ active }: { active: boolean }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+      stroke={active ? '#7B6EFF' : '#555570'} strokeWidth="2"
+      strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
     </svg>
   )
 }

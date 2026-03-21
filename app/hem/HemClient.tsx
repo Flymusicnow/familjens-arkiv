@@ -93,6 +93,28 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       baseY: 12,
       borderRadius: '44px 44px 44px 44px',
     },
+    {
+      href: '/ekonomi',
+      label: 'Ekonomi',
+      emoji: '💰',
+      color: '#F5A623',
+      glow: 'rgba(245,166,35,0.35)',
+      status: 'Din ekonomi',
+      depth: 13,
+      baseY: -6,
+      borderRadius: '40px 56px 40px 56px',
+    },
+    {
+      href: '/kalender',
+      label: 'Kalender',
+      emoji: '📅',
+      color: '#9D93FF',
+      glow: 'rgba(157,147,255,0.35)',
+      status: 'Din kalender',
+      depth: 17,
+      baseY: 8,
+      borderRadius: '56px 40px 56px 40px',
+    },
   ]
 
   // Parallax effect
@@ -252,7 +274,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
               onPointerCancel={() => handlePointerUp(i)}
               onMouseEnter={() => handleMouseEnter(i)}
               onMouseLeave={() => handleMouseLeave(i)}
-              className={i === 4 ? 'col-span-2 md:col-span-1' : ''}
+              className={i === cards.length - 1 && cards.length % 2 !== 0 ? 'col-span-2 md:col-span-1' : ''}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
