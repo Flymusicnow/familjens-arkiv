@@ -3,16 +3,21 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-const navItems = [
+const primaryNav = [
   { href: '/hem',       label: 'Hem',        icon: HemIcon },
   { href: '/kalender',  label: 'Kalender',   icon: KalenderIcon },
   { href: '/uppgifter', label: 'Uppgifter',  icon: UppgifterIcon },
   { href: '/ekonomi',   label: 'Ekonomi',    icon: EkonomiIcon },
   { href: '/arkiv',     label: 'Arkiv',      icon: ArkivIcon },
+]
+
+const newNav = [
   { href: '/rakningar', label: 'Räkningar',  icon: RakningarIcon },
   { href: '/projekt',   label: 'Projekt',    icon: ProjektIcon },
   { href: '/mail',      label: 'Mail',       icon: MailIcon },
 ]
+
+const navItems = [...primaryNav, ...newNav]
 
 const sidebarExtra = [
   { href: '/foretag', label: 'Företag', icon: ForetagIcon },
@@ -62,8 +67,26 @@ export default function Navigation() {
             Arkiv
           </div>
         </div>
-        <div className="flex-1 px-3 py-2 space-y-1">
-          {[...navItems, ...sidebarExtra].map(({ href, label, icon: Icon }) => {
+        <div className="flex-1 px-3 py-2 space-y-0.5">
+          {primaryNav.map(({ href, label, icon: Icon }) => {
+            const active = path.startsWith(href)
+            return (
+              <Link key={href} href={href}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all"
+                style={{
+                  background: active ? 'rgba(123,110,255,0.15)' : 'transparent',
+                  color: active ? '#9D93FF' : '#9898B8',
+                }}>
+                <Icon active={active} />
+                <span className="text-sm font-semibold">{label}</span>
+              </Link>
+            )
+          })}
+
+          <div className="my-2 mx-3" style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
+          <div className="px-3 pb-1 text-[10px] font-bold tracking-widest uppercase" style={{ color: '#333355' }}>Nytt</div>
+
+          {[...newNav, ...sidebarExtra].map(({ href, label, icon: Icon }) => {
             const active = path.startsWith(href)
             return (
               <Link key={href} href={href}

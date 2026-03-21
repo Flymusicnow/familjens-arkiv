@@ -208,29 +208,29 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
   }
 
   return (
-    <div className="page-in min-h-screen px-4 pt-12 pb-28 md:pb-8 overflow-x-hidden" style={{ background: '#0D0D1A' }}>
+    <div className="page-in min-h-screen px-4 md:px-8 pt-12 pb-28 md:pb-8 overflow-x-hidden" style={{ background: '#0D0D1A' }}>
 
       {/* Animated background blobs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden>
         <div ref={el => { bgBlobsRef.current[0] = el }}
-          className="absolute w-[500px] h-[500px] rounded-full"
+          className="absolute w-[600px] h-[600px] rounded-full"
           style={{ top: '-150px', right: '-150px', background: 'radial-gradient(circle, rgba(123,110,255,0.18) 0%, transparent 70%)', filter: 'blur(40px)' }} />
         <div ref={el => { bgBlobsRef.current[1] = el }}
-          className="absolute w-[400px] h-[400px] rounded-full"
+          className="absolute w-[500px] h-[500px] rounded-full"
           style={{ bottom: '10%', left: '-120px', background: 'radial-gradient(circle, rgba(255,75,110,0.14) 0%, transparent 70%)', filter: 'blur(40px)' }} />
         <div ref={el => { bgBlobsRef.current[2] = el }}
-          className="absolute w-[350px] h-[350px] rounded-full"
+          className="absolute w-[400px] h-[400px] rounded-full"
           style={{ top: '50%', left: '50%', transform: 'translate(-50%,-50%)', background: 'radial-gradient(circle, rgba(0,200,150,0.1) 0%, transparent 70%)', filter: 'blur(60px)' }} />
       </div>
 
-      <div className="relative z-10 max-w-lg mx-auto">
+      <div className="relative z-10 max-w-3xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-8 md:mb-12">
           <div>
             <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: '#555570' }}>
               {member.family_workspace.name}
             </div>
-            <h1 className="text-2xl font-extrabold leading-tight" style={{ color: '#F2F2FF', letterSpacing: '-0.5px' }}>
+            <h1 className="text-2xl md:text-3xl font-extrabold leading-tight" style={{ color: '#F2F2FF', letterSpacing: '-0.5px' }}>
               {greeting.text} {greeting.emoji}
             </h1>
           </div>
@@ -241,7 +241,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
         </div>
 
         {/* Bubble grid */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-10">
           {cards.map((card, i) => (
             <Link
               key={card.href}
@@ -252,14 +252,14 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
               onPointerCancel={() => handlePointerUp(i)}
               onMouseEnter={() => handleMouseEnter(i)}
               onMouseLeave={() => handleMouseLeave(i)}
-              className={i === 4 ? 'col-span-2' : ''}
+              className={i === 4 ? 'col-span-2 md:col-span-1' : ''}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 10,
-                padding: i === 4 ? '28px 20px' : '32px 16px',
+                gap: 12,
+                padding: '36px 20px',
                 borderRadius: card.borderRadius,
                 background: `rgba(255,255,255,0.04)`,
                 backdropFilter: 'blur(20px)',
@@ -272,6 +272,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
                 WebkitUserSelect: 'none',
                 position: 'relative',
                 overflow: 'hidden',
+                minHeight: 160,
               }}>
               {/* Card glow overlay */}
               <div className="absolute inset-0 opacity-20 pointer-events-none"
@@ -280,17 +281,17 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
                   borderRadius: 'inherit',
                 }} />
 
-              <span style={{ fontSize: i === 4 ? 44 : 40, lineHeight: 1 }}>{card.emoji}</span>
+              <span style={{ fontSize: 44, lineHeight: 1 }}>{card.emoji}</span>
               <div style={{ textAlign: 'center' }}>
-                <div className="font-extrabold" style={{ color: '#F2F2FF', fontSize: 16, letterSpacing: '-0.3px' }}>
+                <div className="font-extrabold" style={{ color: '#F2F2FF', fontSize: 17, letterSpacing: '-0.3px' }}>
                   {card.label}
                 </div>
-                <div className="mt-1.5">
+                <div className="mt-2">
                   <span style={{
                     display: 'inline-block',
                     fontSize: 11,
                     fontWeight: 700,
-                    padding: '3px 10px',
+                    padding: '4px 12px',
                     borderRadius: 20,
                     background: `${card.color}20`,
                     color: card.color,
@@ -354,7 +355,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
 
         {/* Camera FAB */}
         <Link href="/arkiv?scan=1"
-          className="fixed bottom-24 right-5 md:bottom-8 w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg z-40"
+          className="fixed bottom-24 right-5 md:bottom-10 md:right-10 w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg z-40"
           style={{
             background: 'linear-gradient(135deg, #7B6EFF, #9D93FF)',
             boxShadow: '0 4px 24px rgba(123,110,255,0.5)',
