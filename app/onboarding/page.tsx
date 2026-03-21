@@ -2,7 +2,7 @@
 
 export const dynamic = 'force-dynamic'
 
-import { useState, useEffect } from 'react'
+import { Suspense, useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase-browser'
 
@@ -12,7 +12,7 @@ function generateInviteCode() {
   return Math.random().toString(36).slice(2, 8).toUpperCase()
 }
 
-export default function OnboardingPage() {
+function OnboardingInner() {
   const supabase = createClient()
   const searchParams = useSearchParams()
 
@@ -236,6 +236,14 @@ export default function OnboardingPage() {
         )}
       </div>
     </div>
+  )
+}
+
+export default function OnboardingPage() {
+  return (
+    <Suspense>
+      <OnboardingInner />
+    </Suspense>
   )
 }
 
