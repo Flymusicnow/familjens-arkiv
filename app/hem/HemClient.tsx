@@ -46,7 +46,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       glow: 'rgba(255,75,110,0.35)',
       status: akutCount > 0 ? `🚨 ${akutCount} akuta` : snartCount > 0 ? `⏰ ${snartCount} snart` : '✅ Allt klart',
       depth: 20,
-      baseY: 18,
+      baseY: 8,
       borderRadius: '52px 36px 52px 36px',
     },
     {
@@ -57,7 +57,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       glow: 'rgba(0,200,150,0.35)',
       status: 'Dina ventures',
       depth: 14,
-      baseY: -10,
+      baseY: -5,
       borderRadius: '36px 56px 36px 56px',
     },
     {
@@ -68,7 +68,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       glow: 'rgba(56,182,255,0.35)',
       status: 'Vidarebefordra post',
       depth: 18,
-      baseY: 6,
+      baseY: 3,
       borderRadius: '48px 32px 48px 32px',
     },
     {
@@ -79,7 +79,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       glow: 'rgba(245,166,35,0.35)',
       status: 'Dina dokument',
       depth: 12,
-      baseY: -18,
+      baseY: -8,
       borderRadius: '32px 52px 32px 52px',
     },
     {
@@ -90,7 +90,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       glow: 'rgba(123,110,255,0.35)',
       status: todoCount > 0 ? `${todoCount} att göra` : '🎉 Allt klart',
       depth: 16,
-      baseY: 12,
+      baseY: 6,
       borderRadius: '44px 44px 44px 44px',
     },
     {
@@ -101,7 +101,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       glow: 'rgba(245,166,35,0.35)',
       status: 'Din ekonomi',
       depth: 13,
-      baseY: -6,
+      baseY: -3,
       borderRadius: '40px 56px 40px 56px',
     },
     {
@@ -112,7 +112,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       glow: 'rgba(157,147,255,0.35)',
       status: 'Din kalender',
       depth: 17,
-      baseY: 8,
+      baseY: 4,
       borderRadius: '56px 40px 56px 40px',
     },
   ]
@@ -247,7 +247,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
 
       <div className="relative z-10 max-w-3xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8 md:mb-12">
+        <div className="flex items-center justify-between mb-10 md:mb-14">
           <div>
             <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: '#555570' }}>
               {member.family_workspace.name}
@@ -263,7 +263,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
         </div>
 
         {/* Bubble grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-7 mb-8 md:mb-12">
           {cards.map((card, i) => (
             <Link
               key={card.href}
@@ -280,8 +280,8 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 12,
-                padding: '36px 20px',
+                gap: 14,
+                padding: '40px 24px',
                 borderRadius: card.borderRadius,
                 background: `rgba(255,255,255,0.04)`,
                 backdropFilter: 'blur(20px)',
@@ -294,7 +294,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
                 WebkitUserSelect: 'none',
                 position: 'relative',
                 overflow: 'hidden',
-                minHeight: 160,
+                minHeight: 185,
               }}>
               {/* Card glow overlay */}
               <div className="absolute inset-0 opacity-20 pointer-events-none"

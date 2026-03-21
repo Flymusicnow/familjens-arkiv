@@ -48,14 +48,14 @@ export default function MailClient() {
   }
 
   return (
-    <div className="page-in max-w-xl mx-auto px-4 pt-14 pb-28 md:pb-8">
+    <div className="page-in max-w-xl mx-auto px-4 pt-16 pb-28 md:pb-8">
       {/* Ambient */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden>
         <div className="absolute top-[-100px] right-[-80px] w-96 h-96 rounded-full opacity-10"
           style={{ background: '#38B6FF', filter: 'blur(80px)' }} />
       </div>
 
-      <div className="relative z-10 space-y-5">
+      <div className="relative z-10 space-y-6">
         {/* Header */}
         <div>
           <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: '#555570' }}>Inkorg</div>
@@ -63,10 +63,10 @@ export default function MailClient() {
         </div>
 
         {/* Connect email providers */}
-        <div className="rounded-2xl p-5 space-y-3" style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.07)' }}>
-          <div>
-            <div className="font-bold" style={{ color: '#F2F2FF' }}>Anslut din e-post</div>
-            <div className="text-xs mt-0.5" style={{ color: '#9898B8' }}>Importera räkningar automatiskt</div>
+        <div className="rounded-2xl p-6 space-y-4" style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.07)' }}>
+          <div className="pb-1">
+            <div className="font-bold text-base" style={{ color: '#F2F2FF' }}>Anslut din e-post</div>
+            <div className="text-xs mt-1" style={{ color: '#9898B8' }}>Importera räkningar automatiskt</div>
           </div>
           <button
             onClick={() => bloom('Kommer snart 🔜', 'Gmail-integration är under utveckling')}
@@ -87,7 +87,7 @@ export default function MailClient() {
         </div>
 
         {/* Forward address card */}
-        <div className="rounded-2xl p-5" style={{ background: 'linear-gradient(135deg,#001220,#000a14)', border: '1px solid rgba(56,182,255,0.25)' }}>
+        <div className="rounded-2xl p-6" style={{ background: 'linear-gradient(135deg,#001220,#000a14)', border: '1px solid rgba(56,182,255,0.25)' }}>
           <div className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#38B6FF' }}>
             📨 Din vidarebefordringsadress
           </div>
@@ -108,7 +108,7 @@ export default function MailClient() {
         </div>
 
         {/* How-to steps */}
-        <div className="rounded-2xl p-5 space-y-4" style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.07)' }}>
+        <div className="rounded-2xl p-6 space-y-5" style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.07)' }}>
           <h2 className="font-bold" style={{ color: '#F2F2FF' }}>Hur det fungerar</h2>
           {[
             { step: '1', text: 'Kopiera adressen ovan', icon: '📋' },

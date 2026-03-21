@@ -129,7 +129,7 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
           style={{ background: '#FF4B6E', filter: 'blur(80px)' }} />
       </div>
 
-      <div className="relative z-10 space-y-5">
+      <div className="relative z-10 space-y-7">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
@@ -144,7 +144,7 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
         </div>
 
         {/* Summary bar */}
-        <div className="rounded-2xl p-5" style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.07)', borderLeft: '4px solid #FF4B6E' }}>
+        <div className="rounded-2xl p-6" style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.07)', borderLeft: '4px solid #FF4B6E' }}>
           <div className="text-xs font-semibold tracking-wider uppercase mb-1" style={{ color: 'rgba(255,255,255,0.45)' }}>Totalt att betala</div>
           <div className="text-3xl font-extrabold" style={{ color: '#fff', letterSpacing: '-1px' }}>{formatAmt(totalOwed)}</div>
           <div className="flex gap-3 mt-3 flex-wrap">
@@ -181,7 +181,7 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
         {/* KLARA section */}
         {klar.length > 0 && (
           <div>
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2 mb-4">
               <span className="text-base">✅</span>
               <h2 className="text-xs font-bold tracking-widest uppercase" style={{ color: '#00C896' }}>Betalda</h2>
             </div>
@@ -253,7 +253,7 @@ interface SectionProps {
 function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, emptyMsg }: SectionProps) {
   return (
     <div>
-      <div className="flex items-center gap-2 mb-3">
+      <div className="flex items-center gap-2 mb-4">
         <span className="text-base">{emoji}</span>
         <h2 className="text-xs font-bold tracking-widest uppercase" style={{ color }}>{title}</h2>
         {bills.length > 0 && (
@@ -273,7 +273,7 @@ function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, empty
             <div key={bill.id}
               className={removing.has(bill.id) ? 'slide-out' : ''}
               style={{ overflow: 'hidden', borderRadius: 20 }}>
-              <div className="rounded-2xl p-4"
+              <div className="rounded-2xl p-5"
                 style={{
                   background: '#1A1A2E',
                   border: '1px solid rgba(255,255,255,0.07)',
