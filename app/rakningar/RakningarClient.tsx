@@ -136,7 +136,7 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
             <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: '#555570' }}>Ekonomi</div>
             <h1 className="text-2xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.5px' }}>Räkningar</h1>
           </div>
-          <button onClick={() => setShowAdd(s => !s)}
+          <button onClick={() => setShowAdd(true)}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm text-white"
             style={{ background: '#FF4B6E', minHeight: 44 }}>
             + Lägg till
@@ -144,7 +144,7 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
         </div>
 
         {/* Summary bar */}
-        <div className="rounded-2xl p-5" style={{ background: 'linear-gradient(135deg,#2a0d14,#1a0a0f)', border: '1px solid rgba(255,75,110,0.25)' }}>
+        <div className="rounded-2xl p-5" style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.07)', borderLeft: '4px solid #FF4B6E' }}>
           <div className="text-xs font-semibold tracking-wider uppercase mb-1" style={{ color: 'rgba(255,255,255,0.45)' }}>Totalt att betala</div>
           <div className="text-3xl font-extrabold" style={{ color: '#fff', letterSpacing: '-1px' }}>{formatAmt(totalOwed)}</div>
           <div className="flex gap-3 mt-3 flex-wrap">
@@ -154,32 +154,11 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
           </div>
         </div>
 
-        {/* Add form */}
-        {showAdd && (
-          <div className="rounded-2xl p-5 space-y-3" style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.09)' }}>
-            <h3 className="font-bold" style={{ color: '#F2F2FF' }}>Ny räkning</h3>
-            <Field label="Titel" placeholder="T.ex. Elräkning" value={form.title} onChange={v => setForm(f => ({ ...f, title: v }))} />
-            <Field label="Avsändare" placeholder="T.ex. Vattenfall" value={form.sender} onChange={v => setForm(f => ({ ...f, sender: v }))} />
-            <div className="grid grid-cols-2 gap-3">
-              <Field label="Belopp (kr)" placeholder="0" value={form.amount} onChange={v => setForm(f => ({ ...f, amount: v }))} type="number" />
-              <Field label="Förfallodatum" placeholder="" value={form.due_date} onChange={v => setForm(f => ({ ...f, due_date: v }))} type="date" />
-            </div>
-            <Field label="OCR-nummer" placeholder="Betalningsreferens" value={form.ocr_number} onChange={v => setForm(f => ({ ...f, ocr_number: v }))} />
-            <button onClick={addBill} disabled={saving}
-              className="w-full py-3 rounded-xl font-bold text-sm text-white"
-              style={{ background: saving ? '#4A4280' : '#7B6EFF', minHeight: 48 }}>
-              {saving ? 'Sparar...' : 'Spara räkning'}
-            </button>
-          </div>
-        )}
-
         {/* AKUT section */}
         <Section
           title="Akuta"
           emoji="🔴"
           color="#FF4B6E"
-          bg="linear-gradient(135deg, #2a0d14, #1a0a0f)"
-          border="rgba(255,75,110,0.25)"
           bills={akut}
           removing={removing}
           onPaid={markPaid}
@@ -192,8 +171,6 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
           title="Snart förfaller"
           emoji="🟡"
           color="#F5A623"
-          bg="linear-gradient(135deg, #1e1500, #140e00)"
-          border="rgba(245,166,35,0.2)"
           bills={snart}
           removing={removing}
           onPaid={markPaid}
@@ -211,7 +188,7 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
             <div className="space-y-2">
               {klar.slice(0, 10).map(bill => (
                 <div key={bill.id} className="rounded-2xl px-5 py-3 flex items-center gap-3"
-                  style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.05)', opacity: 0.55 }}>
+                  style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.05)', borderLeft: '4px solid #00C896', opacity: 0.55 }}>
                   <div className="flex-1 min-w-0">
                     <div className="font-semibold text-sm truncate" style={{ color: '#F2F2FF', textDecoration: 'line-through' }}>{bill.title}</div>
                     <div className="text-xs mt-0.5" style={{ color: '#9898B8' }}>{bill.sender} · {formatAmt(bill.amount)}</div>
@@ -224,6 +201,38 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
           </div>
         )}
       </div>
+
+      {/* Add bill modal */}
+      {showAdd && (
+        <div
+          className="fixed inset-0 z-[100] flex items-end md:items-center justify-center p-4"
+          style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(6px)' }}
+          onClick={e => { if (e.target === e.currentTarget) setShowAdd(false) }}>
+          <div className="w-full max-w-sm rounded-3xl p-6 space-y-4"
+            style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.09)' }}>
+            <div className="flex items-center justify-between">
+              <h3 className="font-bold text-lg" style={{ color: '#F2F2FF' }}>Ny räkning</h3>
+              <button onClick={() => setShowAdd(false)}
+                className="w-8 h-8 rounded-full flex items-center justify-center text-lg"
+                style={{ background: 'rgba(255,255,255,0.08)', color: '#9898B8' }}>
+                ✕
+              </button>
+            </div>
+            <Field label="Titel" placeholder="T.ex. Elräkning" value={form.title} onChange={v => setForm(f => ({ ...f, title: v }))} />
+            <Field label="Avsändare" placeholder="T.ex. Vattenfall" value={form.sender} onChange={v => setForm(f => ({ ...f, sender: v }))} />
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Belopp (kr)" placeholder="0" value={form.amount} onChange={v => setForm(f => ({ ...f, amount: v }))} type="number" />
+              <Field label="Förfallodatum" placeholder="" value={form.due_date} onChange={v => setForm(f => ({ ...f, due_date: v }))} type="date" />
+            </div>
+            <Field label="OCR-nummer" placeholder="Betalningsreferens" value={form.ocr_number} onChange={v => setForm(f => ({ ...f, ocr_number: v }))} />
+            <button onClick={addBill} disabled={saving}
+              className="w-full py-3 rounded-xl font-bold text-sm text-white"
+              style={{ background: saving ? '#4A4280' : '#FF4B6E', minHeight: 48 }}>
+              {saving ? 'Sparar...' : 'Spara räkning'}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -234,8 +243,6 @@ interface SectionProps {
   title: string
   emoji: string
   color: string
-  bg: string
-  border: string
   bills: Bill[]
   removing: Set<string>
   onPaid: (b: Bill) => void
@@ -243,7 +250,7 @@ interface SectionProps {
   emptyMsg: string
 }
 
-function Section({ title, emoji, color, bg, border, bills, removing, onPaid, onSnooze, emptyMsg }: SectionProps) {
+function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, emptyMsg }: SectionProps) {
   return (
     <div>
       <div className="flex items-center gap-2 mb-3">
@@ -266,7 +273,12 @@ function Section({ title, emoji, color, bg, border, bills, removing, onPaid, onS
             <div key={bill.id}
               className={removing.has(bill.id) ? 'slide-out' : ''}
               style={{ overflow: 'hidden', borderRadius: 20 }}>
-              <div className="rounded-2xl p-4" style={{ background: bg, border: `1px solid ${border}` }}>
+              <div className="rounded-2xl p-4"
+                style={{
+                  background: '#1A1A2E',
+                  border: '1px solid rgba(255,255,255,0.07)',
+                  borderLeft: `4px solid ${color}`,
+                }}>
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <div className="flex-1 min-w-0">
                     <div className="font-bold text-[15px] truncate" style={{ color: '#F2F2FF' }}>{bill.title}</div>
