@@ -102,3 +102,30 @@ html, body {
   z-index: 9999;
   animation: confettiFall 1.4s ease-in forwards;
 }
+
+/* Bubble card glow pulse (on press) */
+@keyframes glowPulse {
+  0%   { opacity: 0.7; transform: scale(0.3); }
+  100% { opacity: 0;   transform: scale(2.5); }
+}
+.glow-pulse {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: glowPulse 0.5s ease-out forwards;
+}
+
+/* Animated gradient mesh background */
+@keyframes gradientDrift {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+.gradient-mesh {
+  background: linear-gradient(135deg, #0D0D1A, #1A0A2E, #0D1A1A, #0D0D1A);
+  background-size: 400% 400%;
+  animation: gradientDrift 20s ease infinite;
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide { scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }

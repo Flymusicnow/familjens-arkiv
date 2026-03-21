@@ -19,10 +19,9 @@ export default async function HemPage() {
   const { data: { user } } = await supabase.auth.getUser()
 
   const today = new Date().toISOString().split('T')[0]
-  const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0]
 
   if (!user) {
-    return <HemClient member={GUEST_MEMBER as any} bills={[]} events={[]} tasks={[]} today={today} />
+    return <HemClient member={GUEST_MEMBER as any} bills={[]} tasks={[]} today={today} />
   }
 
   const { data: member } = await supabase
@@ -32,7 +31,7 @@ export default async function HemPage() {
     .single()
 
   if (!member) {
-    return <HemClient member={GUEST_MEMBER as any} bills={[]} events={[]} tasks={[]} today={today} />
+    return <HemClient member={GUEST_MEMBER as any} bills={[]} tasks={[]} today={today} />
   }
 
   // Fetch urgent + soon bills
@@ -43,16 +42,6 @@ export default async function HemPage() {
     .in('status', ['akut', 'snart'])
     .order('due_date', { ascending: true })
     .limit(5)
-
-  // Fetch today's events
-  const { data: events } = await supabase
-    .from('calendar_events')
-    .select('*')
-    .eq('workspace_id', member.workspace_id)
-    .gte('start_time', today + 'T00:00:00')
-    .lt('start_time', tomorrow + 'T00:00:00')
-    .order('start_time', { ascending: true })
-    .limit(3)
 
   // Fetch today's tasks for this member
   const { data: tasks } = await supabase
@@ -68,7 +57,6 @@ export default async function HemPage() {
     <HemClient
       member={member}
       bills={bills || []}
-      events={events || []}
       tasks={tasks || []}
       today={today}
     />
