@@ -4,15 +4,18 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const navItems = [
-  { href: '/hem',      label: 'Hem',       icon: HemIcon },
-  { href: '/kalender', label: 'Kalender',  icon: KalenderIcon },
-  { href: '/uppgifter',label: 'Uppgifter', icon: UppgifterIcon },
-  { href: '/ekonomi',  label: 'Ekonomi',   icon: EkonomiIcon },
-  { href: '/arkiv',    label: 'Arkiv',     icon: ArkivIcon },
+  { href: '/hem',       label: 'Hem',        icon: HemIcon },
+  { href: '/kalender',  label: 'Kalender',   icon: KalenderIcon },
+  { href: '/uppgifter', label: 'Uppgifter',  icon: UppgifterIcon },
+  { href: '/ekonomi',   label: 'Ekonomi',    icon: EkonomiIcon },
+  { href: '/arkiv',     label: 'Arkiv',      icon: ArkivIcon },
+  { href: '/rakningar', label: 'Räkningar',  icon: RakningarIcon },
+  { href: '/projekt',   label: 'Projekt',    icon: ProjektIcon },
+  { href: '/mail',      label: 'Mail',       icon: MailIcon },
 ]
 
 const sidebarExtra = [
-  { href: '/foretag',  label: 'Företag',   icon: ForetagIcon },
+  { href: '/foretag', label: 'Företag', icon: ForetagIcon },
 ]
 
 export default function Navigation() {
@@ -21,23 +24,23 @@ export default function Navigation() {
 
   return (
     <>
-      {/* Mobile bottom bar */}
+      {/* Mobile bottom bar — horizontally scrollable */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden"
         style={{
-          background: 'rgba(13,13,26,0.92)',
+          background: 'rgba(13,13,26,0.94)',
           backdropFilter: 'blur(16px)',
           borderTop: '1px solid rgba(255,255,255,0.07)',
           paddingBottom: 'env(safe-area-inset-bottom)',
         }}>
-        <div className="flex justify-around items-center h-16 max-w-lg mx-auto px-2">
+        <div className="flex overflow-x-auto h-16 px-2 gap-1" style={{ scrollbarWidth: 'none' }}>
           {navItems.map(({ href, label, icon: Icon }) => {
             const active = path.startsWith(href)
             return (
               <Link key={href} href={href}
-                className="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 transition-all"
-                style={{ color: active ? '#7B6EFF' : '#555570' }}>
+                className="flex flex-col items-center justify-center gap-0.5 flex-shrink-0 px-3 py-2 transition-all"
+                style={{ color: active ? '#7B6EFF' : '#555570', minWidth: 56 }}>
                 <Icon active={active} />
-                <span className="text-[10px] font-semibold tracking-wide leading-none">{label}</span>
+                <span className="text-[9px] font-semibold tracking-wide leading-none whitespace-nowrap">{label}</span>
               </Link>
             )
           })}
@@ -45,13 +48,13 @@ export default function Navigation() {
       </nav>
 
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex fixed left-0 top-0 bottom-0 w-56 flex-col z-50"
+      <aside className="hidden md:flex fixed left-0 top-0 bottom-0 w-56 flex-col z-50 overflow-y-auto"
         style={{
           background: 'rgba(13,13,26,0.96)',
           backdropFilter: 'blur(16px)',
           borderRight: '1px solid rgba(255,255,255,0.07)',
         }}>
-        <div className="px-5 pt-8 pb-4">
+        <div className="px-5 pt-8 pb-4 flex-shrink-0">
           <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: '#555570' }}>
             Familjens
           </div>
@@ -138,6 +141,39 @@ function ForetagIcon({ active }: { active: boolean }) {
       strokeLinecap="round" strokeLinejoin="round">
       <rect x="2" y="7" width="20" height="14" rx="2"/>
       <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>
+    </svg>
+  )
+}
+function RakningarIcon({ active }: { active: boolean }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+      stroke={active ? '#FF4B6E' : '#555570'} strokeWidth="2"
+      strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="5" width="20" height="14" rx="2"/>
+      <line x1="2" y1="10" x2="22" y2="10"/>
+      <line x1="6" y1="15" x2="9" y2="15"/>
+      <line x1="12" y1="15" x2="15" y2="15"/>
+    </svg>
+  )
+}
+function ProjektIcon({ active }: { active: boolean }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+      stroke={active ? '#00C896' : '#555570'} strokeWidth="2"
+      strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="20" x2="18" y2="10"/>
+      <line x1="12" y1="20" x2="12" y2="4"/>
+      <line x1="6" y1="20" x2="6" y2="14"/>
+    </svg>
+  )
+}
+function MailIcon({ active }: { active: boolean }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+      stroke={active ? '#38B6FF' : '#555570'} strokeWidth="2"
+      strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+      <polyline points="22,6 12,13 2,6"/>
     </svg>
   )
 }

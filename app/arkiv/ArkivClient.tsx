@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase-browser'
 import { bloom } from '@/components/Bloom'
 import type { Document } from '@/lib/types'
 
-type Category = 'all' | 'räkning' | 'myndighet' | 'avtal' | 'skola' | 'kvitto' | 'övrigt'
+type Category = 'all' | 'huset' | 'bilen' | 'avtal' | 'myndigheter' | 'räkning' | 'myndighet' | 'övrigt'
 
 interface Props {
   initialDocs: Document[]
@@ -85,9 +85,28 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
   }
 
   const filtered = docs.filter(doc => {
-    const matchCat = catFilter === 'all' || doc.category === catFilter || doc.category === catFilter.replace('ö', 'o')
     const q = search.toLowerCase()
-    const matchSearch = !q || (doc.sender || '').toLowerCase().includes(q) || (doc.title || '').toLowerCase().includes(q)
+    const matchSearch = !q
+      || (doc.sender || '').toLowerCase().includes(q)
+      || (doc.title || '').toLowerCase().includes(q)
+
+    let matchCat = false
+    if (catFilter === 'all') {
+      matchCat = true
+    } else if (catFilter === 'huset') {
+      matchCat = (doc.title || '').toLowerCase().includes('hus')
+        || (doc.sender || '').toLowerCase().includes('hus')
+    } else if (catFilter === 'bilen') {
+      matchCat = (doc.title || '').toLowerCase().includes('bil')
+        || (doc.sender || '').toLowerCase().includes('bil')
+    } else if (catFilter === 'avtal') {
+      matchCat = doc.category === 'avtal'
+    } else if (catFilter === 'myndigheter') {
+      matchCat = doc.category === 'myndighet'
+    } else {
+      matchCat = doc.category === catFilter || doc.category === (catFilter as string).replace('ö', 'o')
+    }
+
     return matchCat && matchSearch
   })
 
@@ -124,15 +143,21 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
         </div>
 
         {/* Category filter */}
-        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-          {(['all', 'räkning', 'myndighet', 'avtal', 'kvitto', 'övrigt'] as const).map(cat => (
-            <button key={cat} onClick={() => setCatFilter(cat)}
-              className="flex-shrink-0 px-3 py-2 rounded-xl text-xs font-bold transition-all"
+        <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
+          {[
+            { id: 'all',         label: 'Alla',        emoji: '📂' },
+            { id: 'huset',       label: 'Huset',       emoji: '🏠' },
+            { id: 'bilen',       label: 'Bilen',       emoji: '🚗' },
+            { id: 'avtal',       label: 'Avtal',       emoji: '📜' },
+            { id: 'myndigheter', label: 'Myndigheter', emoji: '🏛' },
+          ].map(cat => (
+            <button key={cat.id} onClick={() => setCatFilter(cat.id as Category)}
+              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all"
               style={{
-                background: catFilter === cat ? '#7B6EFF' : 'rgba(255,255,255,0.05)',
-                color: catFilter === cat ? 'white' : '#9898B8',
+                background: catFilter === cat.id ? '#F5A623' : 'rgba(255,255,255,0.05)',
+                color: catFilter === cat.id ? 'white' : '#9898B8',
               }}>
-              {cat === 'all' ? 'Alla' : cat.charAt(0).toUpperCase() + cat.slice(1)}
+              {cat.emoji} {cat.label}
             </button>
           ))}
         </div>
