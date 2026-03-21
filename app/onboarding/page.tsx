@@ -1,7 +1,9 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+export const dynamic = 'force-dynamic'
+
+import { Suspense, useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase-browser'
 
 type Step = 'email' | 'check-email' | 'choose' | 'create' | 'join'
@@ -10,9 +12,9 @@ function generateInviteCode() {
   return Math.random().toString(36).slice(2, 8).toUpperCase()
 }
 
-export default function OnboardingPage() {
-  const router = useRouter()
+function OnboardingInner() {
   const supabase = createClient()
+  const searchParams = useSearchParams()
 
   const [step, setStep] = useState<Step>('email')
   const [email, setEmail] = useState('')
@@ -22,15 +24,38 @@ export default function OnboardingPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  async function sendMagicLink() {
+  useEffect(() => {
+    const urlStep = searchParams.get('step') as Step | null
+    if (urlStep && ['choose', 'create', 'join'].includes(urlStep)) {
+      setStep(urlStep)
+    }
+    const urlError = searchParams.get('error')
+    if (urlError === 'otp_expired' || urlError === 'access_denied') {
+      setError('Din inloggningslänk har gått ut. Ange din e-post igen för att få en ny länk.')
+    }
+  }, [searchParams])
+
+  useEffect(() => {
+    const hash = window.location.hash.slice(1)
+    if (!hash) return
+    const params = new URLSearchParams(hash)
+    const errorCode = params.get('error_code')
+    const err = params.get('error')
+    if (errorCode === 'otp_expired' || err === 'access_denied' || errorCode === 'access_denied') {
+      setError('Din inloggningslänk har gått ut. Ange din e-post igen för att få en ny länk.')
+      window.history.replaceState(null, '', window.location.pathname + window.location.search)
+    }
+  }, [])
+
+  async function sendOtp() {
     if (!email.trim()) return
     setLoading(true)
     setError('')
     const { error: err } = await supabase.auth.signInWithOtp({
       email: email.trim(),
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
         shouldCreateUser: true,
+        emailRedirectTo: window.location.origin + '/auth/callback',
       },
     })
     setLoading(false)
@@ -43,7 +68,7 @@ export default function OnboardingPage() {
     setLoading(true)
     setError('')
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user) { setError('Inte inloggad — kontrollera din e-postlänk.'); setLoading(false); return }
+    if (!user) { setError('Inte inloggad — försök logga in igen.'); setLoading(false); return }
 
     const code = generateInviteCode()
     const { data: ws, error: wsErr } = await supabase
@@ -63,7 +88,7 @@ export default function OnboardingPage() {
     })
     setLoading(false)
     if (memErr) { setError(memErr.message); return }
-    router.push('/hem')
+    window.location.href = '/hem'
   }
 
   async function joinFamily() {
@@ -71,7 +96,7 @@ export default function OnboardingPage() {
     setLoading(true)
     setError('')
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user) { setError('Inte inloggad — kontrollera din e-postlänk.'); setLoading(false); return }
+    if (!user) { setError('Inte inloggad — försök logga in igen.'); setLoading(false); return }
 
     const { data: ws, error: wsErr } = await supabase
       .from('family_workspace')
@@ -90,11 +115,11 @@ export default function OnboardingPage() {
     })
     setLoading(false)
     if (memErr) { setError(memErr.message); return }
-    router.push('/hem')
+    window.location.href = '/hem'
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-5 py-12"
+    <div className="min-h-dvh flex flex-col items-center justify-center p-6"
       style={{ background: '#0D0D1A' }}>
       {/* Ambient orbs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
@@ -104,14 +129,14 @@ export default function OnboardingPage() {
           style={{ background: '#C67BFF', filter: 'blur(80px)' }} />
       </div>
 
-      <div className="relative z-10 w-full max-w-sm">
+      <div className="relative z-10 w-full" style={{ maxWidth: '360px' }}>
         {/* Logo */}
-        <div className="text-center mb-10">
-          <div className="text-4xl mb-3">🏠</div>
-          <div className="text-2xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.5px' }}>
+        <div className="text-center mb-8">
+          <div className="text-5xl mb-4">🏠</div>
+          <div className="text-3xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.5px' }}>
             Familjens Arkiv
           </div>
-          <div className="text-sm mt-1" style={{ color: '#9898B8' }}>
+          <div className="text-sm mt-2" style={{ color: '#9898B8' }}>
             Ert digitala familjehem
           </div>
         </div>
@@ -124,7 +149,7 @@ export default function OnboardingPage() {
               placeholder="din@email.se"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && sendMagicLink()}
+              onKeyDown={e => e.key === 'Enter' && sendOtp()}
               className="w-full px-4 py-3.5 rounded-xl text-base font-medium outline-none transition-all"
               style={{
                 background: 'rgba(255,255,255,0.06)',
@@ -133,23 +158,26 @@ export default function OnboardingPage() {
               }}
             />
             {error && <p className="text-sm mt-2" style={{ color: '#FF4B6E' }}>{error}</p>}
-            <Btn onClick={sendMagicLink} loading={loading}>
-              Skicka inloggningslänk →
+            <Btn onClick={sendOtp} loading={loading}>
+              Skicka länk →
             </Btn>
+            <button onClick={() => { window.location.href = '/hem' }}
+              className="w-full text-sm py-2 mt-1"
+              style={{ color: '#555570' }}>
+              Hoppa över (testa utan inloggning)
+            </button>
           </Card>
         )}
 
         {/* Step: Check email */}
         {step === 'check-email' && (
-          <Card title="Kolla din e-post! 📬" sub={`Vi skickade en länk till ${email}`}>
-            <div className="text-center py-4">
-              <div className="text-5xl mb-3">✉️</div>
-              <p className="text-sm" style={{ color: '#9898B8' }}>
-                Klicka på länken i mailet för att fortsätta. Du kan stänga denna sida.
-              </p>
-            </div>
-            <button onClick={() => setStep('email')}
-              className="w-full text-sm py-2 mt-2"
+          <Card title="Kolla din inkorg ✉️" sub={`Vi skickade en inloggningslänk till ${email}`}>
+            <p className="text-sm text-center" style={{ color: '#9898B8' }}>
+              Klicka på länken i mailet för att logga in. Länken är giltig i 1 timme.
+            </p>
+            {error && <p className="text-sm mt-2" style={{ color: '#FF4B6E' }}>{error}</p>}
+            <button onClick={() => { setStep('email'); setError('') }}
+              className="w-full text-sm py-2 mt-1"
               style={{ color: '#555570' }}>
               ← Annan e-post
             </button>
@@ -211,14 +239,22 @@ export default function OnboardingPage() {
   )
 }
 
+export default function OnboardingPage() {
+  return (
+    <Suspense>
+      <OnboardingInner />
+    </Suspense>
+  )
+}
+
 // ── Sub-components ────────────────────────────────────────────────────
 
 function Card({ title, sub, children }: { title: string; sub: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-3xl p-6 space-y-4" style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.07)' }}>
+    <div className="rounded-3xl p-7 space-y-5" style={{ background: '#1E1E35', border: '1.5px solid rgba(123,110,255,0.25)', boxShadow: '0 8px 40px rgba(0,0,0,0.5)' }}>
       <div>
-        <h1 className="text-xl font-bold" style={{ color: '#F2F2FF' }}>{title}</h1>
-        <p className="text-sm mt-1" style={{ color: '#9898B8' }}>{sub}</p>
+        <h1 className="text-2xl font-bold" style={{ color: '#F2F2FF' }}>{title}</h1>
+        <p className="text-sm mt-1.5" style={{ color: '#9898B8' }}>{sub}</p>
       </div>
       {children}
     </div>

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase-server'
 
@@ -6,7 +8,7 @@ export default async function RootPage() {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    redirect('/onboarding')
+    redirect('/hem')
   }
 
   // Check if user has a workspace
