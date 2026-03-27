@@ -15,6 +15,7 @@ const primaryNav = [
 const newNav = [
   { href: '/rakningar', label: 'Räkningar',  icon: RakningarIcon },
   { href: '/projekt',   label: 'Projekt',    icon: ProjektIcon },
+  { href: '/mat',       label: 'Mat & Hälsa', icon: MatIcon },
   { href: '/mail',      label: 'Mail',       icon: MailIcon },
 ]
 
@@ -36,6 +37,7 @@ const merDrawerNav = [
   { href: '/uppgifter', label: 'Uppgifter',  icon: UppgifterIcon },
   { href: '/ekonomi',   label: 'Ekonomi',    icon: EkonomiIcon },
   { href: '/arkiv',     label: 'Arkiv',      icon: ArkivIcon },
+  { href: '/mat',       label: 'Mat & Hälsa', icon: MatIcon },
 ]
 
 export default function Navigation() {
@@ -279,6 +281,17 @@ function MailIcon({ active }: { active: boolean }) {
       strokeLinecap="round" strokeLinejoin="round">
       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
       <polyline points="22,6 12,13 2,6"/>
+    </svg>
+  )
+}
+function MatIcon({ active }: { active: boolean }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+      stroke={active ? '#00C896' : '#555570'} strokeWidth="2"
+      strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2a5 5 0 015 5c0 3-2 5-5 7-3-2-5-4-5-7a5 5 0 015-5z"/>
+      <path d="M12 22V14"/>
+      <path d="M8 18h8"/>
     </svg>
   )
 }
