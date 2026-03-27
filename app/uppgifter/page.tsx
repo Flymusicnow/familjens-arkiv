@@ -1,22 +1,27 @@
 export const dynamic = 'force-dynamic'
 
-import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase-server'
 import UppgifterClient from './UppgifterClient'
 
 export default async function UppgifterPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/onboarding')
+
+  const today = new Date().toISOString().split('T')[0]
+
+  if (!user) {
+    return <UppgifterClient tasks={[]} members={[]} currentMemberId="guest" workspaceId="guest" today={today} />
+  }
 
   const { data: member } = await supabase
     .from('family_members')
     .select('workspace_id, id')
     .eq('user_id', user.id)
     .single()
-  if (!member) redirect('/onboarding')
 
-  const today = new Date().toISOString().split('T')[0]
+  if (!member) {
+    return <UppgifterClient tasks={[]} members={[]} currentMemberId="guest" workspaceId="guest" today={today} />
+  }
 
   const { data: tasks } = await supabase
     .from('tasks')

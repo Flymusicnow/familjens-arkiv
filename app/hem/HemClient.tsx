@@ -115,6 +115,17 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       baseY: 8,
       borderRadius: '56px 40px 56px 40px',
     },
+    {
+      href: '/mat',
+      label: 'Mat & Hälsa',
+      emoji: '🥦',
+      color: '#00C896',
+      glow: 'rgba(0,200,150,0.35)',
+      status: 'Veckomatsedel',
+      depth: 15,
+      baseY: -14,
+      borderRadius: '40px 40px 40px 40px',
+    },
   ]
 
   // Parallax effect
@@ -230,7 +241,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
   }
 
   return (
-    <div className="page-in min-h-screen px-4 md:px-8 pt-12 pb-28 md:pb-8 overflow-x-hidden" style={{ background: '#0D0D1A' }}>
+    <div className="page-in min-h-screen px-4 md:px-8 lg:px-12 pt-12 pb-28 md:pb-8 overflow-x-hidden" style={{ background: '#0D0D1A' }}>
 
       {/* Animated background blobs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden>
@@ -245,7 +256,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
           style={{ top: '50%', left: '50%', transform: 'translate(-50%,-50%)', background: 'radial-gradient(circle, rgba(0,200,150,0.1) 0%, transparent 70%)', filter: 'blur(60px)' }} />
       </div>
 
-      <div className="relative z-10 max-w-3xl mx-auto">
+      <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8 md:mb-12">
           <div>
@@ -263,7 +274,8 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
         </div>
 
         {/* Bubble grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-10">
+        <div className="grid gap-4 md:gap-6 mb-6 md:mb-10"
+          style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))' }}>
           {cards.map((card, i) => (
             <Link
               key={card.href}
@@ -274,7 +286,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
               onPointerCancel={() => handlePointerUp(i)}
               onMouseEnter={() => handleMouseEnter(i)}
               onMouseLeave={() => handleMouseLeave(i)}
-              className={i === cards.length - 1 && cards.length % 2 !== 0 ? 'col-span-2 md:col-span-1' : ''}
+              className=""
               style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -330,7 +342,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
 
         {/* Akut bills if any */}
         {bills.filter(b => b.status === 'akut' && !paidBills.has(b.id)).length > 0 && (
-          <div className="rounded-2xl p-5 mb-4"
+          <div className="rounded-2xl p-5 mb-4 max-w-2xl"
             style={{ background: 'linear-gradient(135deg, #2a0d14, #1a0a0f)', border: '1px solid rgba(255,75,110,0.3)' }}>
             <div className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color: '#FF4B6E' }}>
               🚨 Akuta räkningar
@@ -356,7 +368,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
 
         {/* Today's tasks */}
         {tasks.filter(t => t.status === 'todo').length > 0 && (
-          <div className="rounded-2xl px-5 py-4"
+          <div className="rounded-2xl px-5 py-4 max-w-2xl"
             style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.07)' }}>
             <h2 className="text-xs font-bold tracking-wider uppercase mb-3" style={{ color: '#555570' }}>
               ✅ Idag

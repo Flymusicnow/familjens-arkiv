@@ -1,13 +1,15 @@
 export const dynamic = 'force-dynamic'
 
 import { createClient } from '@/lib/supabase-server'
-import { redirect } from 'next/navigation'
 import ArkivClient from './ArkivClient'
 
 export default async function ArkivPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/onboarding')
+
+  if (!user) {
+    return <ArkivClient initialDocs={[]} workspaceId={null} memberId={null} />
+  }
 
   const { data: member } = await supabase
     .from('family_members')
