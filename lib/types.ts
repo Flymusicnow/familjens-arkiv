@@ -1,4 +1,5 @@
 export type MemberRole = 'adult' | 'teen' | 'child'
+export type MealType = 'frukost' | 'lunch' | 'middag'
 export type BillStatus = 'akut' | 'snart' | 'klar' | 'betald'
 export type BillSource = 'manual' | 'gmail' | 'drive' | 'scan'
 export type TaskStatus = 'todo' | 'done'
@@ -80,6 +81,27 @@ export interface Document {
   due_date: string | null
   sender: string | null
   ocr_ref: string | null
+  created_at: string
+}
+
+export interface Meal {
+  id: string
+  workspace_id: string
+  date: string
+  meal_type: MealType
+  name: string
+  recipe_url: string | null
+  notes: string | null
+  created_at: string
+}
+
+export interface VitaminLog {
+  id: string
+  workspace_id: string
+  member_id: string | null
+  date: string
+  vitamin: string
+  taken: boolean
   created_at: string
 }
 
