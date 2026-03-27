@@ -1,20 +1,25 @@
 export const dynamic = 'force-dynamic'
 
-import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase-server'
 import EkonomiClient from './EkonomiClient'
 
 export default async function EkonomiPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/onboarding')
+
+  if (!user) {
+    return <EkonomiClient workspaceId="guest" memberId="guest" initialBills={[]} initialPaid={[]} />
+  }
 
   const { data: member } = await supabase
     .from('family_members')
     .select('workspace_id, id')
     .eq('user_id', user.id)
     .single()
-  if (!member) redirect('/onboarding')
+
+  if (!member) {
+    return <EkonomiClient workspaceId="guest" memberId="guest" initialBills={[]} initialPaid={[]} />
+  }
 
   const { data: bills } = await supabase
     .from('bills')
