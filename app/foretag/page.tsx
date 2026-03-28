@@ -15,7 +15,7 @@ export default function ForetagPage() {
           <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: '#555570' }}>
             Familjens
           </div>
-          <h1 className="text-2xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.5px' }}>
+          <h1 className="text-3xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.8px' }}>
             Företag
           </h1>
         </div>

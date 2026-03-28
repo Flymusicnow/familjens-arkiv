@@ -122,7 +122,7 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
   const totalOwed = [...akut, ...snart].reduce((s, b) => s + (b.amount || 0), 0)
 
   return (
-    <div className="page-in max-w-xl mx-auto px-4 pt-14 pb-28 md:pb-8">
+    <div className="page-in max-w-xl mx-auto px-5 pt-14 pb-28 md:pb-10">
       {/* Ambient */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden>
         <div className="absolute top-[-100px] right-[-80px] w-96 h-96 rounded-full opacity-10"
@@ -134,7 +134,7 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
         <div className="flex items-center justify-between">
           <div>
             <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: '#555570' }}>Ekonomi</div>
-            <h1 className="text-2xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.5px' }}>Räkningar</h1>
+            <h1 className="text-3xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.8px' }}>Räkningar</h1>
           </div>
           <button onClick={() => setShowAdd(true)}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm text-white"
@@ -264,8 +264,10 @@ function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, empty
       </div>
 
       {bills.length === 0 ? (
-        <div className="rounded-2xl px-5 py-6 text-center" style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.06)' }}>
-          <div className="text-sm" style={{ color: '#9898B8' }}>{emptyMsg}</div>
+        <div className="rounded-3xl px-6 py-10 text-center flex flex-col items-center gap-3"
+          style={{ background: 'linear-gradient(135deg,#0D1A0D,#1A1A2E)', border: '1px solid rgba(0,200,150,0.15)', minHeight: 140 }}>
+          <span className="text-4xl">✅</span>
+          <div className="font-bold text-base" style={{ color: '#F2F2FF' }}>{emptyMsg}</div>
         </div>
       ) : (
         <div className="space-y-3">

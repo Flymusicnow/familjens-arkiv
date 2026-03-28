@@ -65,7 +65,7 @@ export default function Navigation() {
           borderTop: '1px solid rgba(255,255,255,0.07)',
           paddingBottom: 'env(safe-area-inset-bottom)',
         }}>
-        <div className="flex h-16">
+        <div className="flex h-[68px]">
           {mobileBottomNav.map(({ href, label, icon: Icon }) => {
             const active = path.startsWith(href)
             return (
@@ -73,7 +73,7 @@ export default function Navigation() {
                 className="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 transition-all"
                 style={{ color: active ? '#7B6EFF' : '#555570' }}>
                 <Icon active={active} />
-                <span className="text-[9px] font-semibold tracking-wide leading-none whitespace-nowrap">{label}</span>
+                <span className="text-[10px] font-bold tracking-wide leading-none whitespace-nowrap">{label}</span>
               </Link>
             )
           })}
@@ -84,7 +84,7 @@ export default function Navigation() {
             className="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 transition-all"
             style={{ color: merActive || showMore ? '#7B6EFF' : '#555570' }}>
             <MerIcon active={merActive || showMore} />
-            <span className="text-[9px] font-semibold tracking-wide leading-none">Mer</span>
+            <span className="text-[10px] font-bold tracking-wide leading-none">Mer</span>
           </button>
         </div>
       </nav>
