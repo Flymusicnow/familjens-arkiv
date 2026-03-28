@@ -8,7 +8,7 @@ export default async function EkonomiPage() {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    return <EkonomiClient workspaceId="guest" memberId="guest" initialBills={[]} initialPaid={[]} />
+    return <EkonomiClient workspaceId="guest" memberId="guest" initialEntries={[]} />
   }
 
   const { data: member } = await supabase
@@ -18,30 +18,20 @@ export default async function EkonomiPage() {
     .single()
 
   if (!member) {
-    return <EkonomiClient workspaceId="guest" memberId="guest" initialBills={[]} initialPaid={[]} />
+    return <EkonomiClient workspaceId="guest" memberId="guest" initialEntries={[]} />
   }
 
-  const { data: bills } = await supabase
-    .from('bills')
+  const { data: entries } = await supabase
+    .from('economy_entries')
     .select('*')
     .eq('workspace_id', member.workspace_id)
-    .neq('status', 'betald')
-    .order('due_date', { ascending: true })
-
-  const { data: paid } = await supabase
-    .from('bills')
-    .select('*')
-    .eq('workspace_id', member.workspace_id)
-    .eq('status', 'betald')
-    .order('paid_at', { ascending: false })
-    .limit(10)
+    .order('created_at', { ascending: true })
 
   return (
     <EkonomiClient
       workspaceId={member.workspace_id}
       memberId={member.id}
-      initialBills={bills || []}
-      initialPaid={paid || []}
+      initialEntries={entries || []}
     />
   )
 }
