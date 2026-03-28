@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <BloomToast />
         <Navigation />
         {/* Desktop: offset for 224px sidebar; mobile: offset for bottom nav */}
-        <main className="md:ml-56 pb-24 md:pb-6 min-h-screen">
+        <main className="md:ml-[220px] pb-24 md:pb-6 min-h-screen">
           {children}
         </main>
       </body>

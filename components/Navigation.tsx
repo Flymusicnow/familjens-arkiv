@@ -137,7 +137,7 @@ export default function Navigation() {
       )}
 
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex fixed left-0 top-0 bottom-0 w-56 flex-col z-50 overflow-y-auto"
+      <aside className="hidden md:flex fixed left-0 top-0 bottom-0 w-[220px] flex-col z-50 overflow-y-auto"
         style={{
           background: 'rgba(13,13,26,0.96)',
           backdropFilter: 'blur(16px)',

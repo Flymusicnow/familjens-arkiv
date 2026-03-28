@@ -221,7 +221,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
   }
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden" style={{ background: '#0D0D1A' }}>
+    <div className="relative min-h-screen" style={{ background: '#0D0D1A', overflowX: 'clip' }}>
 
       {/* Animated background shapes */}
       <HeroShapes />
