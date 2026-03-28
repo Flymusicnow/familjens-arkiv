@@ -1,20 +1,27 @@
 export const dynamic = 'force-dynamic'
 
-import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase-server'
 import MatClient from './MatClient'
 
 export default async function MatPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/onboarding')
+
+  if (!user) {
+    const today = new Date().toISOString().split('T')[0]
+    return <MatClient meals={[]} vitaminLogs={[]} members={[]} workspaceId="guest" currentMemberId="guest" today={today} weekStart={getMondayOfWeek(today)} weekEnd={getSundayOfWeek(today)} />
+  }
 
   const { data: member } = await supabase
     .from('family_members')
     .select('workspace_id, id')
     .eq('user_id', user.id)
     .single()
-  if (!member) redirect('/onboarding')
+
+  if (!member) {
+    const today = new Date().toISOString().split('T')[0]
+    return <MatClient meals={[]} vitaminLogs={[]} members={[]} workspaceId="guest" currentMemberId="guest" today={today} weekStart={getMondayOfWeek(today)} weekEnd={getSundayOfWeek(today)} />
+  }
 
   const today = new Date().toISOString().split('T')[0]
   // Fetch meals for current week (Mon–Sun)
