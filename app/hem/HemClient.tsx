@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { createClient } from '@/lib/supabase-browser'
 import { bloom } from '@/components/Bloom'
+import { HeroShapes } from '@/components/ui/shape-landing-hero'
 import type { FamilyMember, Bill, Task } from '@/lib/types'
 
 interface Props {
@@ -28,7 +29,6 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
   const [tasks, setTasks] = useState(initialTasks)
   const [paidBills, setPaidBills] = useState<Set<string>>(new Set())
   const cardsRef = useRef<(HTMLAnchorElement | null)[]>([])
-  const bgBlobsRef = useRef<(HTMLDivElement | null)[]>([])
   const [pressedIdx, setPressedIdx] = useState<number | null>(null)
 
   const greeting = getGreeting(member.name)
@@ -36,7 +36,6 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
   const snartCount = bills.filter(b => b.status === 'snart' && !paidBills.has(b.id)).length
   const todoCount = tasks.filter(t => t.status === 'todo').length
 
-  // 5 main screen cards
   const cards = [
     {
       href: '/rakningar',
@@ -46,8 +45,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       glow: 'rgba(255,75,110,0.35)',
       status: akutCount > 0 ? `🚨 ${akutCount} akuta` : snartCount > 0 ? `⏰ ${snartCount} snart` : '✅ Allt klart',
       depth: 20,
-      baseY: 18,
-      borderRadius: '52px 36px 52px 36px',
+      baseY: 8,
     },
     {
       href: '/projekt',
@@ -57,8 +55,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       glow: 'rgba(0,200,150,0.35)',
       status: 'Dina ventures',
       depth: 14,
-      baseY: -10,
-      borderRadius: '36px 56px 36px 56px',
+      baseY: -6,
     },
     {
       href: '/mail',
@@ -68,8 +65,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       glow: 'rgba(56,182,255,0.35)',
       status: 'Vidarebefordra post',
       depth: 18,
-      baseY: 6,
-      borderRadius: '48px 32px 48px 32px',
+      baseY: 4,
     },
     {
       href: '/arkiv',
@@ -79,8 +75,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       glow: 'rgba(245,166,35,0.35)',
       status: 'Dina dokument',
       depth: 12,
-      baseY: -18,
-      borderRadius: '32px 52px 32px 52px',
+      baseY: -10,
     },
     {
       href: '/uppgifter',
@@ -90,8 +85,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       glow: 'rgba(123,110,255,0.35)',
       status: todoCount > 0 ? `${todoCount} att göra` : '🎉 Allt klart',
       depth: 16,
-      baseY: 12,
-      borderRadius: '44px 44px 44px 44px',
+      baseY: 6,
     },
     {
       href: '/ekonomi',
@@ -101,8 +95,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       glow: 'rgba(245,166,35,0.35)',
       status: 'Din ekonomi',
       depth: 13,
-      baseY: -6,
-      borderRadius: '40px 56px 40px 56px',
+      baseY: -4,
     },
     {
       href: '/kalender',
@@ -113,7 +106,6 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       status: 'Din kalender',
       depth: 17,
       baseY: 8,
-      borderRadius: '56px 40px 56px 40px',
     },
     {
       href: '/mat',
@@ -123,12 +115,11 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       glow: 'rgba(0,200,150,0.35)',
       status: 'Veckomatsedel',
       depth: 15,
-      baseY: -14,
-      borderRadius: '40px 40px 40px 40px',
+      baseY: -8,
     },
   ]
 
-  // Parallax effect
+  // Parallax on mouse / device orientation
   const animFrame = useRef<number | null>(null)
   const targetParallax = useRef({ x: 0, y: 0 })
   const currentParallax = useRef({ x: 0, y: 0 })
@@ -138,17 +129,11 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
     currentParallax.current.x = lerp(currentParallax.current.x, targetParallax.current.x, 0.08)
     currentParallax.current.y = lerp(currentParallax.current.y, targetParallax.current.y, 0.08)
     const { x, y } = currentParallax.current
-
     cardsRef.current.forEach((el, i) => {
       if (!el || pressedIdx === i) return
       const d = cards[i].depth
       const baseY = cards[i].baseY
-      el.style.transform = `translate(${x * d}px, ${baseY + y * d}px)`
-    })
-    bgBlobsRef.current.forEach((el, i) => {
-      if (!el) return
-      const d = (i + 1) * 3
-      el.style.transform = `translate(${-x * d}px, ${-y * d}px)`
+      el.style.transform = `translate(${x * d * 0.5}px, ${baseY + y * d * 0.5}px)`
     })
     animFrame.current = requestAnimationFrame(applyParallax)
   }, [pressedIdx])
@@ -172,7 +157,6 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
     }
   }, [applyParallax])
 
-  // Apply initial baseY transforms
   useEffect(() => {
     cardsRef.current.forEach((el, i) => {
       if (!el) return
@@ -184,21 +168,17 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
     setPressedIdx(idx)
     const el = cardsRef.current[idx]
     if (!el) return
-    const baseY = cards[idx].baseY
     el.style.transition = 'transform 0.12s ease'
-    el.style.transform = `translate(0px, ${baseY}px) scale(0.94)`
+    el.style.transform = `translate(0px, ${cards[idx].baseY}px) scale(0.94)`
   }
 
   function handlePointerUp(idx: number) {
     setPressedIdx(null)
     const el = cardsRef.current[idx]
     if (!el) return
-    const baseY = cards[idx].baseY
     el.style.transition = 'transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1)'
-    el.style.transform = `translate(0px, ${baseY}px) scale(1)`
-    setTimeout(() => {
-      if (el) el.style.transition = ''
-    }, 600)
+    el.style.transform = `translate(0px, ${cards[idx].baseY}px) scale(1)`
+    setTimeout(() => { if (el) el.style.transition = '' }, 600)
   }
 
   function handleMouseEnter(idx: number) {
@@ -209,7 +189,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
     const baseY = cards[idx].baseY
     const d = cards[idx].depth
     const { x, y } = currentParallax.current
-    el.style.transform = `translate(${x * d}px, ${baseY + y * d - 8}px) rotate(1.5deg)`
+    el.style.transform = `translate(${x * d * 0.5}px, ${baseY + y * d * 0.5 - 8}px) rotate(1.5deg)`
   }
 
   function handleMouseLeave(idx: number) {
@@ -220,7 +200,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
     const baseY = cards[idx].baseY
     const d = cards[idx].depth
     const { x, y } = currentParallax.current
-    el.style.transform = `translate(${x * d}px, ${baseY + y * d}px)`
+    el.style.transform = `translate(${x * d * 0.5}px, ${baseY + y * d * 0.5}px)`
     setTimeout(() => { if (el) el.style.transition = '' }, 350)
   }
 
@@ -241,24 +221,23 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
   }
 
   return (
-    <div className="page-in min-h-screen px-5 md:px-10 lg:px-16 pt-14 pb-28 md:pb-10 overflow-x-hidden" style={{ background: '#0D0D1A' }}>
+    <div className="relative min-h-screen overflow-x-hidden" style={{ background: '#0D0D1A' }}>
 
-      {/* Animated background blobs */}
+      {/* Animated background shapes */}
+      <HeroShapes />
+
+      {/* Static bg glows */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden>
-        <div ref={el => { bgBlobsRef.current[0] = el }}
-          className="absolute w-[600px] h-[600px] rounded-full"
-          style={{ top: '-150px', right: '-150px', background: 'radial-gradient(circle, rgba(123,110,255,0.18) 0%, transparent 70%)', filter: 'blur(40px)' }} />
-        <div ref={el => { bgBlobsRef.current[1] = el }}
-          className="absolute w-[500px] h-[500px] rounded-full"
-          style={{ bottom: '10%', left: '-120px', background: 'radial-gradient(circle, rgba(255,75,110,0.14) 0%, transparent 70%)', filter: 'blur(40px)' }} />
-        <div ref={el => { bgBlobsRef.current[2] = el }}
-          className="absolute w-[400px] h-[400px] rounded-full"
-          style={{ top: '50%', left: '50%', transform: 'translate(-50%,-50%)', background: 'radial-gradient(circle, rgba(0,200,150,0.1) 0%, transparent 70%)', filter: 'blur(60px)' }} />
+        <div className="absolute w-[600px] h-[600px] rounded-full"
+          style={{ top: '-150px', right: '-150px', background: 'radial-gradient(circle, rgba(123,110,255,0.15) 0%, transparent 70%)', filter: 'blur(40px)' }} />
+        <div className="absolute w-[500px] h-[500px] rounded-full"
+          style={{ bottom: '10%', left: '-120px', background: 'radial-gradient(circle, rgba(255,75,110,0.12) 0%, transparent 70%)', filter: 'blur(40px)' }} />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto">
+      <div className="relative z-10 px-4 sm:px-6 md:px-8 lg:px-12 pt-14 pb-28 md:pb-10 max-w-7xl mx-auto">
+
         {/* Header */}
-        <div className="flex items-center justify-between mb-8 md:mb-12">
+        <div className="flex items-center justify-between mb-8 md:mb-10">
           <div>
             <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: '#555570' }}>
               {member.family_workspace.name}
@@ -273,9 +252,8 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
           </div>
         </div>
 
-        {/* Bubble grid */}
-        <div className="grid gap-5 md:gap-7 mb-8 md:mb-12"
-          style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
+        {/* Card grid — 1 col mobile / 2 col tablet / 3 col desktop */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 mb-8">
           {cards.map((card, i) => (
             <Link
               key={card.href}
@@ -286,19 +264,18 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
               onPointerCancel={() => handlePointerUp(i)}
               onMouseEnter={() => handleMouseEnter(i)}
               onMouseLeave={() => handleMouseLeave(i)}
-              className=""
               style={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 16,
-                padding: '44px 28px',
-                borderRadius: card.borderRadius,
-                background: `rgba(255,255,255,0.045)`,
+                padding: '40px 24px',
+                borderRadius: '32px',
+                background: 'rgba(255,255,255,0.045)',
                 backdropFilter: 'blur(24px)',
                 WebkitBackdropFilter: 'blur(24px)',
-                border: `1px solid rgba(255,255,255,0.11)`,
+                border: '1px solid rgba(255,255,255,0.11)',
                 boxShadow: `0 16px 56px ${card.glow}, 0 4px 16px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1)`,
                 willChange: 'transform',
                 textDecoration: 'none',
@@ -307,16 +284,17 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
                 position: 'relative',
                 overflow: 'hidden',
                 minHeight: 200,
-                aspectRatio: '4/3',
               }}>
-              {/* Card glow overlay */}
+              {/* Glow overlay */}
               <div className="absolute inset-0 opacity-20 pointer-events-none"
                 style={{
                   background: `radial-gradient(ellipse at top left, ${card.color}40 0%, transparent 60%)`,
                   borderRadius: 'inherit',
                 }} />
 
-              <span style={{ fontSize: 60, lineHeight: 1, filter: `drop-shadow(0 4px 12px ${card.glow})` }}>{card.emoji}</span>
+              <span style={{ fontSize: 60, lineHeight: 1, filter: `drop-shadow(0 4px 12px ${card.glow})` }}>
+                {card.emoji}
+              </span>
               <div style={{ textAlign: 'center' }}>
                 <div style={{ color: '#F2F2FF', fontSize: 21, fontWeight: 900, letterSpacing: '-0.5px', lineHeight: 1.2 }}>
                   {card.label}
@@ -342,7 +320,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
           ))}
         </div>
 
-        {/* Akut bills if any */}
+        {/* Akut bills */}
         {bills.filter(b => b.status === 'akut' && !paidBills.has(b.id)).length > 0 && (
           <div className="rounded-2xl p-5 mb-4 max-w-2xl"
             style={{ background: 'linear-gradient(135deg, #2a0d14, #1a0a0f)', border: '1px solid rgba(255,75,110,0.3)' }}>
@@ -388,17 +366,17 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
             ))}
           </div>
         )}
-
-        {/* Camera FAB */}
-        <Link href="/arkiv?scan=1"
-          className="fixed bottom-24 right-5 md:bottom-10 md:right-10 w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg z-40"
-          style={{
-            background: 'linear-gradient(135deg, #7B6EFF, #9D93FF)',
-            boxShadow: '0 4px 24px rgba(123,110,255,0.5)',
-          }}>
-          📷
-        </Link>
       </div>
+
+      {/* Camera FAB */}
+      <Link href="/arkiv?scan=1"
+        className="fixed bottom-24 right-5 md:bottom-10 md:right-10 w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg z-40"
+        style={{
+          background: 'linear-gradient(135deg, #7B6EFF, #9D93FF)',
+          boxShadow: '0 4px 24px rgba(123,110,255,0.5)',
+        }}>
+        📷
+      </Link>
     </div>
   )
 }
