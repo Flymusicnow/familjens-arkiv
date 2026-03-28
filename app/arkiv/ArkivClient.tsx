@@ -123,7 +123,7 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
         <div className="flex items-center justify-between">
           <div>
             <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: '#555570' }}>Familjens minne</div>
-            <h1 className="text-2xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.5px' }}>Arkiv</h1>
+            <h1 className="text-3xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.8px' }}>Arkiv</h1>
           </div>
           <button onClick={() => { setShowScanner(true); setScanStep('choose') }}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm text-white"

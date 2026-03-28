@@ -241,7 +241,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
   }
 
   return (
-    <div className="page-in min-h-screen px-4 md:px-8 lg:px-12 pt-12 pb-28 md:pb-8 overflow-x-hidden" style={{ background: '#0D0D1A' }}>
+    <div className="page-in min-h-screen px-5 md:px-10 lg:px-16 pt-14 pb-28 md:pb-10 overflow-x-hidden" style={{ background: '#0D0D1A' }}>
 
       {/* Animated background blobs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden>
@@ -263,7 +263,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
             <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: '#555570' }}>
               {member.family_workspace.name}
             </div>
-            <h1 className="text-2xl md:text-3xl font-extrabold leading-tight" style={{ color: '#F2F2FF', letterSpacing: '-0.5px' }}>
+            <h1 className="text-3xl md:text-4xl font-extrabold leading-tight" style={{ color: '#F2F2FF', letterSpacing: '-0.8px' }}>
               {greeting.text} {greeting.emoji}
             </h1>
           </div>
@@ -274,8 +274,8 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
         </div>
 
         {/* Bubble grid */}
-        <div className="grid gap-4 md:gap-6 mb-6 md:mb-10"
-          style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))' }}>
+        <div className="grid gap-5 md:gap-7 mb-8 md:mb-12"
+          style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
           {cards.map((card, i) => (
             <Link
               key={card.href}
@@ -292,21 +292,22 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 12,
-                padding: '36px 20px',
+                gap: 16,
+                padding: '44px 28px',
                 borderRadius: card.borderRadius,
-                background: `rgba(255,255,255,0.04)`,
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                border: `1px solid rgba(255,255,255,0.1)`,
-                boxShadow: `0 8px 32px ${card.glow}, inset 0 1px 0 rgba(255,255,255,0.08)`,
+                background: `rgba(255,255,255,0.045)`,
+                backdropFilter: 'blur(24px)',
+                WebkitBackdropFilter: 'blur(24px)',
+                border: `1px solid rgba(255,255,255,0.11)`,
+                boxShadow: `0 16px 56px ${card.glow}, 0 4px 16px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1)`,
                 willChange: 'transform',
                 textDecoration: 'none',
                 userSelect: 'none',
                 WebkitUserSelect: 'none',
                 position: 'relative',
                 overflow: 'hidden',
-                minHeight: 160,
+                minHeight: 200,
+                aspectRatio: '4/3',
               }}>
               {/* Card glow overlay */}
               <div className="absolute inset-0 opacity-20 pointer-events-none"
@@ -315,22 +316,23 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
                   borderRadius: 'inherit',
                 }} />
 
-              <span style={{ fontSize: 44, lineHeight: 1 }}>{card.emoji}</span>
+              <span style={{ fontSize: 60, lineHeight: 1, filter: `drop-shadow(0 4px 12px ${card.glow})` }}>{card.emoji}</span>
               <div style={{ textAlign: 'center' }}>
-                <div className="font-extrabold" style={{ color: '#F2F2FF', fontSize: 17, letterSpacing: '-0.3px' }}>
+                <div style={{ color: '#F2F2FF', fontSize: 21, fontWeight: 900, letterSpacing: '-0.5px', lineHeight: 1.2 }}>
                   {card.label}
                 </div>
-                <div className="mt-2">
+                <div className="mt-3">
                   <span style={{
                     display: 'inline-block',
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 700,
-                    padding: '4px 12px',
-                    borderRadius: 20,
-                    background: `${card.color}20`,
+                    padding: '5px 14px',
+                    borderRadius: 24,
+                    background: `${card.color}22`,
                     color: card.color,
-                    border: `1px solid ${card.color}40`,
+                    border: `1px solid ${card.color}50`,
                     whiteSpace: 'nowrap',
+                    letterSpacing: '-0.2px',
                   }}>
                     {card.status}
                   </span>

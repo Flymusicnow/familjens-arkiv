@@ -70,7 +70,7 @@ export default function UppgifterClient({ tasks: initialTasks, members, currentM
         <div className="flex items-center justify-between">
           <div>
             <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: '#555570' }}>Familjen</div>
-            <h1 className="text-2xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.5px' }}>Uppgifter</h1>
+            <h1 className="text-3xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.8px' }}>Uppgifter</h1>
           </div>
           <button onClick={() => setShowAdd(s => !s)}
             className="px-4 py-2.5 rounded-xl font-bold text-sm text-white"

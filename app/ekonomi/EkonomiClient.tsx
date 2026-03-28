@@ -225,7 +225,7 @@ export default function EkonomiClient({ workspaceId, initialEntries }: Props) {
         <div className="flex items-center justify-between">
           <div>
             <div className="text-xs font-semibold tracking-widest uppercase" style={{ color:'#555570' }}>Familjen</div>
-            <h1 className="text-2xl font-extrabold" style={{ color:'#F2F2FF', letterSpacing:'-0.5px' }}>Ekonomi</h1>
+            <h1 className="text-3xl font-extrabold" style={{ color:'#F2F2FF', letterSpacing:'-0.8px' }}>Ekonomi</h1>
           </div>
           <label className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm text-white cursor-pointer"
             style={{ background:'#7B6EFF' }}>
