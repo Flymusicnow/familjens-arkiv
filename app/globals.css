@@ -142,3 +142,6 @@ html, body {
 
 /* Safe area bottom padding */
 .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+
+/* Hide any floating arrow button that might appear bottom-left */
+.fixed.bottom-24.left-4 { display: none !important; }

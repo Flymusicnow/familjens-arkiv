@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase-browser'
 import { bloom } from '@/components/Bloom'
+import { PageWrapper } from '@/components/PageWrapper'
+import { PageHeader } from '@/components/PageHeader'
 import type { Task, FamilyMember } from '@/lib/types'
 
 interface Props {
@@ -59,34 +61,36 @@ export default function UppgifterClient({ tasks: initialTasks, members, currentM
   const total = filtered.length
 
   return (
-    <div className="page-in max-w-xl mx-auto px-4 pt-14 pb-4">
+    <PageWrapper>
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <div className="absolute top-[-100px] right-[-80px] w-96 h-96 rounded-full opacity-10"
           style={{ background: '#00C896', filter: 'blur(80px)' }} />
       </div>
 
-      <div className="relative z-10 space-y-5">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: '#555570' }}>Familjen</div>
-            <h1 className="text-3xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.8px' }}>Uppgifter</h1>
-          </div>
-          <button onClick={() => setShowAdd(s => !s)}
-            className="px-4 py-2.5 rounded-xl font-bold text-sm text-white"
-            style={{ background: '#7B6EFF' }}>
-            + Ny
-          </button>
-        </div>
+      <div className="relative z-10 max-w-xl mx-auto space-y-6">
+        <PageHeader
+          eyebrow="Familjen"
+          title="Uppgifter"
+          action={
+            <button onClick={() => setShowAdd(s => !s)}
+              className="px-5 font-bold text-sm text-white rounded-2xl"
+              style={{ background: '#7B6EFF', height: 48 }}>
+              + Ny
+            </button>
+          }
+        />
 
         {/* Points banner */}
-        <div className="rounded-2xl px-5 py-4 flex items-center justify-between"
-          style={{ background: 'linear-gradient(135deg,#0D2018,#051A0F)', border: '1px solid rgba(0,200,150,0.25)' }}>
-          <div>
-            <div className="text-xs font-semibold tracking-wider uppercase" style={{ color: 'rgba(0,200,150,0.7)' }}>Familjepoäng idag</div>
-            <div className="text-3xl font-extrabold mt-1" style={{ color: '#00C896' }}>{totalPoints} p</div>
+        <div className="rounded-3xl p-6 relative overflow-hidden"
+          style={{ background: 'linear-gradient(135deg,#1A1200,#0D2018)', border: '1px solid rgba(245,166,35,0.3)' }}>
+          <p className="text-xs font-bold tracking-[0.2em] uppercase mb-3" style={{ color: 'rgba(245,166,35,0.7)' }}>
+            FAMILJEPOÄNG IDAG
+          </p>
+          <div className="flex items-center gap-4">
+            <span className="text-6xl font-black" style={{ color: '#F5A623', letterSpacing: '-2px' }}>{totalPoints}</span>
+            <span className="text-2xl font-bold" style={{ color: 'rgba(245,166,35,0.5)' }}>poäng</span>
+            <span className="text-5xl ml-auto">🏆</span>
           </div>
-          <div className="text-4xl">🏆</div>
         </div>
 
         {/* Add form */}
@@ -204,7 +208,7 @@ export default function UppgifterClient({ tasks: initialTasks, members, currentM
           </div>
         )}
       </div>
-    </div>
+    </PageWrapper>
   )
 }
 

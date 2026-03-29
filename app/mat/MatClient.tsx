@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase-browser'
 import { bloom } from '@/components/Bloom'
+import { PageWrapper } from '@/components/PageWrapper'
+import { PageHeader } from '@/components/PageHeader'
 import type { Meal, VitaminLog, FamilyMember, MealType } from '@/lib/types'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -162,7 +164,7 @@ export default function MatClient({
   // ── Render ────────────────────────────────────────────────────────────────────
 
   return (
-    <div className="page-in max-w-xl mx-auto px-4 pt-14 pb-4">
+    <PageWrapper>
       {/* Green background glow */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <div className="absolute top-[-80px] right-[-60px] w-80 h-80 rounded-full opacity-10"
@@ -171,20 +173,12 @@ export default function MatClient({
           style={{ background: '#4CAF50', filter: 'blur(60px)' }} />
       </div>
 
-      <div className="relative z-10 space-y-5">
-
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: '#555570' }}>
-              Familjen
-            </div>
-            <h1 className="text-3xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.8px' }}>
-              Mat &amp; Hälsa
-            </h1>
-          </div>
-          <div className="text-3xl">🥦</div>
-        </div>
+      <div className="relative z-10 max-w-xl mx-auto space-y-6">
+        <PageHeader
+          eyebrow="Familjen"
+          title="Mat & Hälsa"
+          action={<div className="text-4xl">🥦</div>}
+        />
 
         {/* Smoothie reminder card */}
         <SmoothieCard />
@@ -224,69 +218,62 @@ export default function MatClient({
                     border: isToday ? '1px solid rgba(0,200,150,0.3)' : '1px solid rgba(255,255,255,0.07)',
                   }}>
                   {/* Day header */}
-                  <div className="flex items-center justify-between px-4 py-3"
+                  <div className="flex items-center justify-between px-5 py-4"
                     style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-sm" style={{ color: isToday ? '#00C896' : '#F2F2FF' }}>
-                        {WEEK_DAYS[idx]}
-                      </span>
-                      <span className="text-xs" style={{ color: '#555570' }}>
-                        {formatDate(date)}
-                      </span>
-                      {isToday && (
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full"
-                          style={{ background: 'rgba(0,200,150,0.2)', color: '#00C896' }}>
-                          Idag
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg font-bold" style={{ color: isToday ? '#00C896' : '#F2F2FF' }}>
+                          {WEEK_DAYS[idx]}
                         </span>
-                      )}
+                        <span className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                          {formatDate(date)}
+                        </span>
+                        {isToday && (
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                            style={{ background: 'rgba(0,200,150,0.2)', color: '#00C896' }}>
+                            Idag
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <span className="text-xs" style={{ color: '#555570' }}>{dayMeals.length} måltider</span>
+                    <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                      {dayMeals.length} måltider
+                    </span>
                   </div>
 
                   {/* Meal slots */}
-                  <div className="px-4 py-3 space-y-2">
+                  <div className="px-5 py-4 space-y-3">
                     {MEAL_TYPES.map(({ key, label, emoji }) => {
                       const slot = dayMeals.filter(m => m.meal_type === key)
                       return (
-                        <div key={key}>
-                          <div className="text-[10px] font-bold tracking-wider uppercase mb-1.5"
-                            style={{ color: '#333355' }}>
-                            {emoji} {label}
+                        <div key={key} className="rounded-2xl p-4 flex items-center justify-between"
+                          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                          <div className="flex items-center gap-3">
+                            <span className="text-xl">{emoji}</span>
+                            <div>
+                              <p className="text-xs font-bold tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                                {label}
+                              </p>
+                              {slot.length > 0 ? (
+                                slot.map(meal => (
+                                  <div key={meal.id} className="flex items-center gap-2 mt-0.5">
+                                    <p className="text-sm font-medium" style={{ color: '#F2F2FF' }}>{meal.name}</p>
+                                    <button onClick={() => deleteMeal(meal.id)} className="text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>✕</button>
+                                  </div>
+                                ))
+                              ) : (
+                                <p className="text-sm mt-0.5" style={{ color: 'rgba(255,255,255,0.3)' }}>Lägg till...</p>
+                              )}
+                            </div>
                           </div>
-                          <div className="space-y-1">
-                            {slot.map(meal => (
-                              <div key={meal.id}
-                                className="flex items-center justify-between px-3 py-2 rounded-xl"
-                                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.05)' }}>
-                                <div className="flex-1 min-w-0">
-                                  <span className="text-sm font-semibold" style={{ color: '#F2F2FF' }}>
-                                    {meal.name}
-                                  </span>
-                                  {meal.recipe_url && (
-                                    <span className="ml-2 text-[10px]" style={{ color: '#00C896' }}>🔗 recept</span>
-                                  )}
-                                </div>
-                                <button
-                                  onClick={() => deleteMeal(meal.id)}
-                                  className="ml-2 text-xs px-2 py-1 rounded-lg transition-all"
-                                  style={{ color: '#555570' }}>
-                                  ✕
-                                </button>
-                              </div>
-                            ))}
-                            {slot.length === 0 && (
-                              <button
-                                onClick={() => { setShowAdd({ date, meal_type: key }); setForm({ name: '', recipe_url: '', notes: '' }) }}
-                                className="w-full py-2 rounded-xl text-xs font-semibold text-left px-3 transition-all"
-                                style={{
-                                  background: 'transparent',
-                                  border: '1px dashed rgba(255,255,255,0.1)',
-                                  color: '#555570',
-                                }}>
-                                + Lägg till {label.toLowerCase()}
-                              </button>
-                            )}
-                          </div>
+                          {slot.length === 0 && (
+                            <button
+                              onClick={() => { setShowAdd({ date, meal_type: key }); setForm({ name: '', recipe_url: '', notes: '' }) }}
+                              className="text-2xl font-light transition-all"
+                              style={{ color: 'rgba(255,255,255,0.2)' }}>
+                              +
+                            </button>
+                          )}
                         </div>
                       )
                     })}
@@ -501,7 +488,7 @@ export default function MatClient({
           </div>
         </>
       )}
-    </div>
+    </PageWrapper>
   )
 }
 

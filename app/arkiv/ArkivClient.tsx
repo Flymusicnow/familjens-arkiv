@@ -3,6 +3,8 @@
 import { useState, useRef } from 'react'
 import { createClient } from '@/lib/supabase-browser'
 import { bloom } from '@/components/Bloom'
+import { PageWrapper } from '@/components/PageWrapper'
+import { PageHeader } from '@/components/PageHeader'
 import type { Document } from '@/lib/types'
 
 type Category = 'all' | 'huset' | 'bilen' | 'avtal' | 'myndigheter' | 'räkning' | 'myndighet' | 'övrigt'
@@ -111,39 +113,38 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
   })
 
   return (
-    <div className="page-in max-w-xl mx-auto px-4 pt-14 pb-4">
+    <PageWrapper>
       {/* Ambient */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <div className="absolute top-[-100px] right-[-80px] w-96 h-96 rounded-full opacity-10"
           style={{ background: '#00C896', filter: 'blur(80px)' }} />
       </div>
 
-      <div className="relative z-10 space-y-4">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: '#555570' }}>Familjens minne</div>
-            <h1 className="text-3xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.8px' }}>Arkiv</h1>
-          </div>
-          <button onClick={() => { setShowScanner(true); setScanStep('choose') }}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm text-white"
-            style={{ background: '#7B6EFF' }}>
-            📷 Skanna
-          </button>
-        </div>
+      <div className="relative z-10 max-w-xl mx-auto space-y-5">
+        <PageHeader
+          eyebrow="Familjens minne"
+          title="Arkiv"
+          action={
+            <button onClick={() => { setShowScanner(true); setScanStep('choose') }}
+              className="flex items-center gap-2 px-5 font-bold text-sm text-white rounded-2xl"
+              style={{ background: '#7B6EFF', height: 48 }}>
+              📷 Skanna
+            </button>
+          }
+        />
 
         {/* Search */}
-        <div className="flex items-center gap-3 px-4 py-3 rounded-2xl"
-          style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.07)' }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555570" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <div className="flex items-center gap-3 rounded-2xl px-4 mb-1"
+          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', height: 56 }}>
+          <span className="text-xl" style={{ color: 'rgba(255,255,255,0.3)' }}>🔍</span>
           <input value={search} onChange={e => setSearch(e.target.value)}
             placeholder="Sök företag, datum, belopp..."
-            className="flex-1 bg-transparent outline-none text-sm"
+            className="flex-1 bg-transparent outline-none text-base"
             style={{ color: '#F2F2FF' }} />
         </div>
 
-        {/* Category filter */}
-        <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
+        {/* Category filter — horizontal scroll */}
+        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
           {[
             { id: 'all',         label: 'Alla',        emoji: '📂' },
             { id: 'huset',       label: 'Huset',       emoji: '🏠' },
@@ -152,10 +153,10 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
             { id: 'myndigheter', label: 'Myndigheter', emoji: '🏛' },
           ].map(cat => (
             <button key={cat.id} onClick={() => setCatFilter(cat.id as Category)}
-              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all"
+              className="flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all whitespace-nowrap"
               style={{
-                background: catFilter === cat.id ? '#F5A623' : 'rgba(255,255,255,0.05)',
-                color: catFilter === cat.id ? 'white' : '#9898B8',
+                background: catFilter === cat.id ? '#7B6EFF' : 'rgba(255,255,255,0.04)',
+                color: catFilter === cat.id ? 'white' : 'rgba(255,255,255,0.5)',
               }}>
               {cat.emoji} {cat.label}
             </button>
@@ -215,6 +216,7 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
       </div>
 
       {/* Scanner Modal */}
+
       {showScanner && (
         <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center p-4"
           style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}>
@@ -283,7 +285,7 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
           </div>
         </div>
       )}
-    </div>
+    </PageWrapper>
   )
 }
 

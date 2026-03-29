@@ -3,6 +3,8 @@
 import { useState, useRef } from 'react'
 import { createClient } from '@/lib/supabase-browser'
 import { bloom } from '@/components/Bloom'
+import { PageWrapper } from '@/components/PageWrapper'
+import { PageHeader } from '@/components/PageHeader'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -209,8 +211,7 @@ export default function EkonomiClient({ workspaceId, initialEntries }: Props) {
   // ── Render ────────────────────────────────────────────────────────────────
 
   return (
-    <div className="page-in max-w-2xl mx-auto px-4 pt-14 pb-28 md:pb-10">
-
+    <PageWrapper>
       {/* BG glows */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-[-60px] right-[-60px] w-80 h-80 rounded-full opacity-10"
@@ -219,37 +220,38 @@ export default function EkonomiClient({ workspaceId, initialEntries }: Props) {
           style={{ background:'#7B6EFF', filter:'blur(70px)' }} />
       </div>
 
-      <div className="relative z-10 space-y-5">
+      <div className="relative z-10 max-w-2xl mx-auto space-y-6">
 
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-xs font-semibold tracking-widest uppercase" style={{ color:'#555570' }}>Familjen</div>
-            <h1 className="text-3xl font-extrabold" style={{ color:'#F2F2FF', letterSpacing:'-0.8px' }}>Ekonomi</h1>
-          </div>
-          <label className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm text-white cursor-pointer"
-            style={{ background:'#7B6EFF' }}>
-            {ocrLoading ? '⏳' : '📷'} Fota kvitto
-            <input ref={fileRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFileChange} />
-          </label>
-        </div>
+        <PageHeader
+          eyebrow="Familjen"
+          title="Ekonomi"
+          action={
+            <label className="flex items-center gap-2 px-5 font-bold text-sm text-white cursor-pointer rounded-2xl"
+              style={{ background:'#7B6EFF', height: 48 }}>
+              {ocrLoading ? '⏳' : '📷'} Fota kvitto
+              <input ref={fileRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFileChange} />
+            </label>
+          }
+        />
 
         {/* HERO — Skatteverket */}
-        <div className="rounded-3xl px-6 py-5 relative overflow-hidden"
-          style={{ background:'linear-gradient(135deg,#0A1F0F,#051A0A)', border:'1px solid rgba(0,200,150,0.3)' }}>
+        <div className="rounded-3xl p-6 relative overflow-hidden"
+          style={{ background:'linear-gradient(135deg,#051A0A,#0A1F0F)', border:'1px solid rgba(0,200,150,0.3)' }}>
           <div className="absolute top-0 right-0 w-48 h-48 rounded-full opacity-20 pointer-events-none"
             style={{ background:'#00C896', filter:'blur(60px)', transform:'translate(30%,-30%)' }} />
-          <div className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color:'rgba(0,200,150,0.7)' }}>
-            Deklaration 2025 — Väntar på dig
+          <p className="text-xs font-bold tracking-[0.2em] uppercase mb-3" style={{ color:'rgba(0,200,150,0.7)' }}>
+            DEKLARATION 2025 — VÄNTAR PÅ DIG
+          </p>
+          <div className="flex items-center gap-3 mb-2">
+            <span className="text-5xl font-black" style={{ color:'#00C896', letterSpacing:'-1.5px' }}>{fmt(totalSkatt)}</span>
+            <div className="w-3 h-3 rounded-full flex-shrink-0"
+              style={{ background:'#00C896', boxShadow:'0 0 8px #00C896' }} />
           </div>
-          <div className="flex items-center gap-3 mb-1">
-            <span className="text-4xl font-extrabold" style={{ color:'#00C896', letterSpacing:'-1px' }}>{fmt(totalSkatt)}</span>
-            <span className="w-3 h-3 rounded-full flex-shrink-0"
-              style={{ background:'#00C896', boxShadow:'0 0 8px #00C896', animation:'pulse 2s infinite' }} />
-          </div>
-          <p className="text-sm mb-4" style={{ color:'#9898B8' }}>Skicka in deklarationen nu för att få tillbaka pengarna</p>
+          <p className="text-sm mb-5 leading-relaxed" style={{ color:'rgba(255,255,255,0.5)' }}>
+            Skicka in deklarationen nu för att få tillbaka pengarna
+          </p>
           <a href="https://www.skatteverket.se" target="_blank" rel="noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm"
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl font-bold text-sm"
             style={{ background:'#00C896', color:'#051A0A' }}>
             Öppna Skatteverket →
           </a>
@@ -319,6 +321,7 @@ export default function EkonomiClient({ workspaceId, initialEntries }: Props) {
       </div>
 
       {/* EDIT / ADD MODAL */}
+
       {(editEntry || addModal) && (
         <>
           <div className="fixed inset-0 z-[60]" onClick={closeModals}
@@ -405,7 +408,7 @@ export default function EkonomiClient({ workspaceId, initialEntries }: Props) {
           </div>
         </>
       )}
-    </div>
+    </PageWrapper>
   )
 }
 
@@ -441,12 +444,12 @@ function Section({ title, isOpen, onToggle, onAdd, summary, children }: {
 function EntryRow({ entry, onEdit, onDelete }: { entry: Entry; onEdit: () => void; onDelete: () => void }) {
   const b = badge(entry.status)
   return (
-    <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl group cursor-pointer"
+    <div className="flex items-center gap-3 px-4 py-3.5 rounded-2xl group cursor-pointer"
       style={{ background:'rgba(255,255,255,0.03)', border:'1px solid rgba(255,255,255,0.05)' }}
       onClick={onEdit}>
       <div className="flex-1 min-w-0">
         <div className="text-sm font-semibold truncate" style={{ color:'#F2F2FF' }}>{entry.description}</div>
-        {entry.note && <div className="text-[10px] truncate" style={{ color:'#555570' }}>{entry.note}</div>}
+        {entry.note && <div className="text-xs mt-0.5 truncate" style={{ color:'#555570' }}>{entry.note}</div>}
       </div>
       <span className="text-sm font-bold flex-shrink-0"
         style={{ color: entry.type==='inkomst' ? '#00C896' : '#F2F2FF' }}>
