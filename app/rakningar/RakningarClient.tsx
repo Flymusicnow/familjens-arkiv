@@ -123,35 +123,40 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
   const totalOwed = [...akut, ...snart].reduce((s, b) => s + (b.amount || 0), 0)
 
   return (
-    <div className="page-in max-w-xl mx-auto px-5 pt-14 pb-28 md:pb-10">
+    <div className="page-in max-w-3xl mx-auto px-6 py-10 pb-28 md:pb-14">
       {/* Ambient */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden>
         <div className="absolute top-[-100px] right-[-80px] w-96 h-96 rounded-full opacity-10"
           style={{ background: '#FF4B6E', filter: 'blur(80px)' }} />
       </div>
 
-      <div className="relative z-10 space-y-5">
+      <div className="relative z-10 space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: '#555570' }}>Ekonomi</div>
-            <h1 className="text-3xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.8px' }}>Räkningar</h1>
+            <div className="text-xs font-semibold tracking-widest uppercase mb-2" style={{ color: '#555570' }}>Ekonomi</div>
+            <h1 className="text-4xl md:text-5xl font-black" style={{ color: '#F2F2FF', letterSpacing: '-1.5px' }}>Räkningar</h1>
           </div>
           <button onClick={() => setShowAdd(true)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm text-white"
-            style={{ background: '#FF4B6E', minHeight: 44 }}>
+            className="flex items-center gap-2 px-6 font-bold text-sm text-white rounded-2xl"
+            style={{ background: '#FF4B6E', height: 56 }}>
             + Lägg till
           </button>
         </div>
 
-        {/* Summary bar */}
-        <div className="rounded-2xl p-5" style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.07)', borderLeft: '4px solid #FF4B6E' }}>
-          <div className="text-xs font-semibold tracking-wider uppercase mb-1" style={{ color: 'rgba(255,255,255,0.45)' }}>Totalt att betala</div>
-          <div className="text-3xl font-extrabold" style={{ color: '#fff', letterSpacing: '-1px' }}>{formatAmt(totalOwed)}</div>
-          <div className="flex gap-3 mt-3 flex-wrap">
-            <StatusChip label={`${akut.length} akuta`} color="#FF4B6E" />
-            <StatusChip label={`${snart.length} snart`} color="#F5A623" />
-            <StatusChip label={`${klar.length} betalda`} color="#00C896" />
+        {/* Stats row */}
+        <div className="grid grid-cols-3 gap-4">
+          <div className="rounded-3xl p-6" style={{ background: '#1A1A2E', border: '1px solid rgba(255,75,110,0.15)' }}>
+            <div className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#FF4B6E' }}>Totalt</div>
+            <div className="text-2xl font-black" style={{ color: '#F2F2FF', letterSpacing: '-0.5px' }}>{formatAmt(totalOwed)}</div>
+          </div>
+          <div className="rounded-3xl p-6" style={{ background: '#1A1A2E', border: '1px solid rgba(255,75,110,0.1)' }}>
+            <div className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#FF4B6E' }}>Akuta</div>
+            <div className="text-2xl font-black" style={{ color: '#F2F2FF' }}>{akut.length}</div>
+          </div>
+          <div className="rounded-3xl p-6" style={{ background: '#1A1A2E', border: '1px solid rgba(245,166,35,0.1)' }}>
+            <div className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#F5A623' }}>Snart</div>
+            <div className="text-2xl font-black" style={{ color: '#F2F2FF' }}>{snart.length}</div>
           </div>
         </div>
 
@@ -188,8 +193,9 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
             </div>
             <div className="space-y-2">
               {klar.slice(0, 10).map(bill => (
-                <div key={bill.id} className="rounded-2xl px-5 py-3 flex items-center gap-3"
-                  style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.05)', borderLeft: '4px solid #00C896', opacity: 0.55 }}>
+                <div key={bill.id} className="relative rounded-3xl overflow-hidden px-6 py-4 flex items-center gap-3"
+                  style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.05)', opacity: 0.55 }}>
+                  <div className="absolute left-0 w-1 rounded-full" style={{ background: '#00C896', top: 16, bottom: 16 }} />
                   <div className="flex-1 min-w-0">
                     <div className="font-semibold text-sm truncate" style={{ color: '#F2F2FF', textDecoration: 'line-through' }}>{bill.title}</div>
                     <div className="text-xs mt-0.5" style={{ color: '#9898B8' }}>{bill.sender} · {formatAmt(bill.amount)}</div>
@@ -206,29 +212,29 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
       {/* Add bill modal */}
       {showAdd && (
         <div
-          className="fixed inset-0 z-[100] flex items-end md:items-center justify-center p-4"
-          style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(6px)' }}
+          className="fixed inset-0 z-[100] flex items-end md:items-center justify-center p-4 md:p-6"
+          style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)' }}
           onClick={e => { if (e.target === e.currentTarget) setShowAdd(false) }}>
-          <div className="w-full max-w-sm rounded-3xl p-6 space-y-4"
+          <div className="w-full max-w-lg rounded-3xl p-8 space-y-5"
             style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.09)' }}>
             <div className="flex items-center justify-between">
-              <h3 className="font-bold text-lg" style={{ color: '#F2F2FF' }}>Ny räkning</h3>
+              <h3 className="font-black text-2xl" style={{ color: '#F2F2FF', letterSpacing: '-0.5px' }}>Ny räkning</h3>
               <button onClick={() => setShowAdd(false)}
-                className="w-8 h-8 rounded-full flex items-center justify-center text-lg"
+                className="w-10 h-10 rounded-full flex items-center justify-center text-lg"
                 style={{ background: 'rgba(255,255,255,0.08)', color: '#9898B8' }}>
                 ✕
               </button>
             </div>
             <Field label="Titel" placeholder="T.ex. Elräkning" value={form.title} onChange={v => setForm(f => ({ ...f, title: v }))} />
             <Field label="Avsändare" placeholder="T.ex. Vattenfall" value={form.sender} onChange={v => setForm(f => ({ ...f, sender: v }))} />
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-4">
               <Field label="Belopp (kr)" placeholder="0" value={form.amount} onChange={v => setForm(f => ({ ...f, amount: v }))} type="number" />
               <Field label="Förfallodatum" placeholder="" value={form.due_date} onChange={v => setForm(f => ({ ...f, due_date: v }))} type="date" />
             </div>
             <Field label="OCR-nummer" placeholder="Betalningsreferens" value={form.ocr_number} onChange={v => setForm(f => ({ ...f, ocr_number: v }))} />
             <button onClick={addBill} disabled={saving}
-              className="w-full py-3 rounded-xl font-bold text-sm text-white"
-              style={{ background: saving ? '#4A4280' : '#FF4B6E', minHeight: 48 }}>
+              className="w-full font-bold text-sm text-white rounded-2xl"
+              style={{ background: saving ? '#4A4280' : '#FF4B6E', height: 56 }}>
               {saving ? 'Sparar...' : 'Spara räkning'}
             </button>
           </div>
@@ -281,20 +287,20 @@ function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, empty
                 exit={{ opacity: 0, x: -40, height: 0, marginBottom: 0 }}
                 transition={{ delay: i * 0.06, duration: 0.35, ease: [0.25, 0.4, 0.25, 1] }}
               >
-                <div className="relative rounded-2xl overflow-hidden"
+                <div className="relative rounded-3xl overflow-hidden"
                   style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.07)' }}>
                   {/* Left accent bar */}
-                  <div className="absolute left-0 top-0 bottom-0 w-[3px]" style={{ background: color }} />
-                  <div className="pl-5 pr-4 py-4">
-                    <div className="flex items-start justify-between gap-3 mb-3">
+                  <div className="absolute left-0 w-1 rounded-full" style={{ background: color, top: 24, bottom: 24 }} />
+                  <div className="pl-6 pr-5 py-6">
+                    <div className="flex items-start justify-between gap-3 mb-4">
                       <div className="flex-1 min-w-0">
-                        <div className="font-bold text-[15px] truncate" style={{ color: '#F2F2FF' }}>{bill.title}</div>
+                        <div className="font-bold text-base truncate" style={{ color: '#F2F2FF' }}>{bill.title}</div>
                         {bill.sender && (
-                          <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>{bill.sender}</div>
+                          <div className="text-sm mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>{bill.sender}</div>
                         )}
                       </div>
                       <div className="text-right flex-shrink-0">
-                        <div className="font-extrabold text-lg leading-none" style={{ color }}>
+                        <div className="font-black text-xl leading-none" style={{ color }}>
                           {formatAmt(bill.amount)}
                         </div>
                         {bill.due_date && (
@@ -305,21 +311,21 @@ function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, empty
                       </div>
                     </div>
                     {bill.ocr_number && (
-                      <div className="mb-3 px-3 py-1.5 rounded-lg text-xs font-mono" style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)' }}>
+                      <div className="mb-4 px-4 py-2 rounded-xl text-xs font-mono" style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)' }}>
                         OCR: {bill.ocr_number}
                       </div>
                     )}
-                    <div className="flex gap-2">
+                    <div className="flex gap-3">
                       <button onClick={() => onSnooze(bill)}
-                        className="flex-1 py-2.5 rounded-xl text-sm font-semibold"
-                        style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.45)', minHeight: 44 }}>
+                        className="flex-1 text-sm font-semibold rounded-2xl"
+                        style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.45)', height: 48 }}>
                         💤 Snooze
                       </button>
                       <motion.button
                         whileTap={{ scale: 0.96 }}
                         onClick={() => onPaid(bill)}
-                        className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white"
-                        style={{ background: color, minHeight: 44 }}>
+                        className="flex-1 text-sm font-bold text-white rounded-2xl"
+                        style={{ background: color, height: 48 }}>
                         ✓ Betald
                       </motion.button>
                     </div>
@@ -352,11 +358,11 @@ function Field({ label, placeholder, value, onChange, type = 'text' }: {
 }) {
   return (
     <div>
-      <label className="text-xs font-semibold mb-1 block" style={{ color: '#9898B8' }}>{label}</label>
+      <label className="text-xs font-semibold mb-1.5 block" style={{ color: '#9898B8' }}>{label}</label>
       <input type={type} placeholder={placeholder} value={value}
         onChange={e => onChange(e.target.value)}
-        className="w-full px-3 py-2.5 rounded-xl text-sm outline-none"
-        style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#F2F2FF', minHeight: 44 }} />
+        className="w-full rounded-2xl text-sm outline-none"
+        style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#F2F2FF', padding: '16px 20px', height: 56 }} />
     </div>
   )
 }

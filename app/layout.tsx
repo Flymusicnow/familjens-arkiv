@@ -12,15 +12,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="sv">
       {/*
-        Flex row: sidebar | main
+        Fixed sidebar (w-64, z-40) + main with md:ml-64.
         On mobile the sidebar is hidden and bottom nav takes over.
-        The sidebar uses sticky+h-screen so it stays visible while scrolling
-        and participates in the flex layout (no z-index / stacking-context issues).
       */}
-      <body className="flex min-h-screen bg-[#0D0D1A]">
+      <body className="bg-[#0D0D1A] min-h-screen">
         <BloomToast />
         <Navigation />
-        <main className="flex-1 min-w-0 pb-[72px] md:pb-6 min-h-screen">
+        <main className="md:ml-64 min-h-screen pb-[72px] md:pb-0">
           {children}
         </main>
       </body>

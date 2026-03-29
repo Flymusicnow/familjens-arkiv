@@ -74,7 +74,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
           style={{ bottom: '5%', left: '-80px', background: 'radial-gradient(circle, rgba(255,75,110,0.1) 0%, transparent 70%)', filter: 'blur(60px)' }} />
       </div>
 
-      <div className="relative z-10 px-4 sm:px-6 md:px-8 pt-12 pb-8 max-w-6xl mx-auto">
+      <div className="relative z-10 px-6 pt-10 pb-8 max-w-5xl mx-auto">
 
         {/* Header */}
         <motion.div

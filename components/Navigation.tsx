@@ -136,30 +136,31 @@ export default function Navigation() {
         </>
       )}
 
-      {/* Desktop sidebar — sticky in flex flow, no z-index overlap */}
-      <aside className="hidden md:flex flex-col w-[220px] flex-shrink-0 sticky top-0 h-screen overflow-y-auto"
+      {/* Desktop sidebar — fixed, w-64, z-40 */}
+      <aside className="hidden md:flex flex-col fixed left-0 top-0 w-64 h-screen z-40 overflow-y-auto"
         style={{
-          background: 'rgba(13,13,26,0.97)',
+          background: 'rgba(13,13,26,0.98)',
           backdropFilter: 'blur(20px)',
           borderRight: '1px solid rgba(255,255,255,0.06)',
         }}>
         {/* Logo */}
-        <div className="px-6 pt-8 pb-5 flex-shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <div className="text-lg font-black tracking-[0.12em]" style={{ color: '#F2F2FF' }}>ARKIV</div>
-          <div className="text-xs font-medium mt-0.5" style={{ color: 'rgba(255,255,255,0.28)' }}>Familjens centrum</div>
+        <div className="px-8 pt-10 pb-8 flex-shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <div className="text-xl font-black tracking-[0.14em]" style={{ color: '#F2F2FF' }}>ARKIV</div>
+          <div className="text-xs font-medium mt-1" style={{ color: 'rgba(255,255,255,0.28)' }}>Familjens centrum</div>
         </div>
 
-        <nav className="flex-1 px-3 py-4 space-y-0.5">
+        <nav className="flex-1 px-4 py-5 space-y-1">
           {primaryNav.map(({ href, label, icon: Icon }) => {
             const active = path.startsWith(href)
             return (
               <Link key={href} href={href}
-                className="flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-200"
+                className="flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-200"
                 style={{
-                  background: active ? 'rgba(123,110,255,0.14)' : 'transparent',
+                  background: active ? 'rgba(123,110,255,0.1)' : 'transparent',
                   color: active ? '#9D93FF' : 'rgba(255,255,255,0.45)',
                   fontWeight: 600,
                   fontSize: 14,
+                  border: active ? '1px solid rgba(123,110,255,0.2)' : '1px solid transparent',
                 }}>
                 <Icon active={active} />
                 {label}
@@ -167,7 +168,7 @@ export default function Navigation() {
             )
           })}
 
-          <div className="my-3 mx-1" style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
+          <div className="my-4 mx-1" style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
           <div className="px-4 pb-2 text-[10px] font-bold tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.18)' }}>
             Moduler
           </div>
@@ -176,12 +177,13 @@ export default function Navigation() {
             const active = path.startsWith(href)
             return (
               <Link key={href} href={href}
-                className="flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-200"
+                className="flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-200"
                 style={{
-                  background: active ? 'rgba(123,110,255,0.14)' : 'transparent',
+                  background: active ? 'rgba(123,110,255,0.1)' : 'transparent',
                   color: active ? '#9D93FF' : 'rgba(255,255,255,0.45)',
                   fontWeight: 600,
                   fontSize: 14,
+                  border: active ? '1px solid rgba(123,110,255,0.2)' : '1px solid transparent',
                 }}>
                 <Icon active={active} />
                 {label}
