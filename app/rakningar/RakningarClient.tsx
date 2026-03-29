@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { createClient } from '@/lib/supabase-browser'
 import { bloom } from '@/components/Bloom'
 import type { Bill } from '@/lib/types'
@@ -265,59 +266,68 @@ function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, empty
 
       {bills.length === 0 ? (
         <div className="rounded-3xl px-6 py-10 text-center flex flex-col items-center gap-3"
-          style={{ background: 'linear-gradient(135deg,#0D1A0D,#1A1A2E)', border: '1px solid rgba(0,200,150,0.15)', minHeight: 140 }}>
+          style={{ background: 'linear-gradient(135deg,rgba(0,200,150,0.06),rgba(26,26,46,0.8))', border: '1px solid rgba(0,200,150,0.12)', minHeight: 140 }}>
           <span className="text-4xl">✅</span>
           <div className="font-bold text-base" style={{ color: '#F2F2FF' }}>{emptyMsg}</div>
         </div>
       ) : (
         <div className="space-y-3">
-          {bills.map(bill => (
-            <div key={bill.id}
-              className={removing.has(bill.id) ? 'slide-out' : ''}
-              style={{ overflow: 'hidden', borderRadius: 20 }}>
-              <div className="rounded-2xl p-4"
-                style={{
-                  background: '#1A1A2E',
-                  border: '1px solid rgba(255,255,255,0.07)',
-                  borderLeft: `4px solid ${color}`,
-                }}>
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <div className="flex-1 min-w-0">
-                    <div className="font-bold text-[15px] truncate" style={{ color: '#F2F2FF' }}>{bill.title}</div>
-                    {bill.sender && (
-                      <div className="text-xs mt-0.5" style={{ color: '#9898B8' }}>{bill.sender}</div>
-                    )}
-                  </div>
-                  <div className="text-right flex-shrink-0">
-                    <div className="font-extrabold text-lg leading-none" style={{ color }}>
-                      {formatAmt(bill.amount)}
+          <AnimatePresence>
+            {bills.map((bill, i) => !removing.has(bill.id) && (
+              <motion.div
+                key={bill.id}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, x: -40, height: 0, marginBottom: 0 }}
+                transition={{ delay: i * 0.06, duration: 0.35, ease: [0.25, 0.4, 0.25, 1] }}
+              >
+                <div className="relative rounded-2xl overflow-hidden"
+                  style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.07)' }}>
+                  {/* Left accent bar */}
+                  <div className="absolute left-0 top-0 bottom-0 w-[3px]" style={{ background: color }} />
+                  <div className="pl-5 pr-4 py-4">
+                    <div className="flex items-start justify-between gap-3 mb-3">
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-[15px] truncate" style={{ color: '#F2F2FF' }}>{bill.title}</div>
+                        {bill.sender && (
+                          <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>{bill.sender}</div>
+                        )}
+                      </div>
+                      <div className="text-right flex-shrink-0">
+                        <div className="font-extrabold text-lg leading-none" style={{ color }}>
+                          {formatAmt(bill.amount)}
+                        </div>
+                        {bill.due_date && (
+                          <div className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                            {formatDate(bill.due_date)}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    {bill.due_date && (
-                      <div className="text-xs mt-1" style={{ color: '#9898B8' }}>Förfaller {formatDate(bill.due_date)}</div>
+                    {bill.ocr_number && (
+                      <div className="mb-3 px-3 py-1.5 rounded-lg text-xs font-mono" style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)' }}>
+                        OCR: {bill.ocr_number}
+                      </div>
                     )}
+                    <div className="flex gap-2">
+                      <button onClick={() => onSnooze(bill)}
+                        className="flex-1 py-2.5 rounded-xl text-sm font-semibold"
+                        style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.45)', minHeight: 44 }}>
+                        💤 Snooze
+                      </button>
+                      <motion.button
+                        whileTap={{ scale: 0.96 }}
+                        onClick={() => onPaid(bill)}
+                        className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white"
+                        style={{ background: color, minHeight: 44 }}>
+                        ✓ Betald
+                      </motion.button>
+                    </div>
                   </div>
                 </div>
-                {bill.ocr_number && (
-                  <div className="mb-3 px-3 py-2 rounded-xl" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                    <span className="text-xs" style={{ color: '#555570' }}>OCR: </span>
-                    <span className="text-xs font-mono font-bold" style={{ color: '#9898B8' }}>{bill.ocr_number}</span>
-                  </div>
-                )}
-                <div className="flex gap-2">
-                  <button onClick={() => onSnooze(bill)}
-                    className="flex-1 py-2.5 rounded-xl text-sm font-bold"
-                    style={{ background: 'rgba(255,255,255,0.07)', color: '#9898B8', minHeight: 44 }}>
-                    💤 Snooze
-                  </button>
-                  <button onClick={() => onPaid(bill)}
-                    className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white"
-                    style={{ background: color, minHeight: 44 }}>
-                    ✓ Betald
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       )}
     </div>

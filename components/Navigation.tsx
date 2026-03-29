@@ -136,55 +136,59 @@ export default function Navigation() {
         </>
       )}
 
-      {/* Desktop sidebar */}
-      <aside className="hidden md:flex fixed left-0 top-0 bottom-0 w-[220px] flex-col z-50 overflow-y-auto"
+      {/* Desktop sidebar — sticky in flex flow, no z-index overlap */}
+      <aside className="hidden md:flex flex-col w-[220px] flex-shrink-0 sticky top-0 h-screen overflow-y-auto"
         style={{
-          background: 'rgba(13,13,26,0.96)',
-          backdropFilter: 'blur(16px)',
-          borderRight: '1px solid rgba(255,255,255,0.07)',
+          background: 'rgba(13,13,26,0.97)',
+          backdropFilter: 'blur(20px)',
+          borderRight: '1px solid rgba(255,255,255,0.06)',
         }}>
-        <div className="px-5 pt-8 pb-4 flex-shrink-0">
-          <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: '#555570' }}>
-            Familjens
-          </div>
-          <div className="text-xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.5px' }}>
-            Arkiv
-          </div>
+        {/* Logo */}
+        <div className="px-6 pt-8 pb-5 flex-shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <div className="text-lg font-black tracking-[0.12em]" style={{ color: '#F2F2FF' }}>ARKIV</div>
+          <div className="text-xs font-medium mt-0.5" style={{ color: 'rgba(255,255,255,0.28)' }}>Familjens centrum</div>
         </div>
-        <div className="flex-1 px-3 py-2 space-y-0.5">
+
+        <nav className="flex-1 px-3 py-4 space-y-0.5">
           {primaryNav.map(({ href, label, icon: Icon }) => {
             const active = path.startsWith(href)
             return (
               <Link key={href} href={href}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all"
+                className="flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-200"
                 style={{
-                  background: active ? 'rgba(123,110,255,0.15)' : 'transparent',
-                  color: active ? '#9D93FF' : '#9898B8',
+                  background: active ? 'rgba(123,110,255,0.14)' : 'transparent',
+                  color: active ? '#9D93FF' : 'rgba(255,255,255,0.45)',
+                  fontWeight: 600,
+                  fontSize: 14,
                 }}>
                 <Icon active={active} />
-                <span className="text-sm font-semibold">{label}</span>
+                {label}
               </Link>
             )
           })}
 
-          <div className="my-2 mx-3" style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
-          <div className="px-3 pb-1 text-[10px] font-bold tracking-widest uppercase" style={{ color: '#333355' }}>Nytt</div>
+          <div className="my-3 mx-1" style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
+          <div className="px-4 pb-2 text-[10px] font-bold tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.18)' }}>
+            Moduler
+          </div>
 
           {[...newNav, ...sidebarExtra].map(({ href, label, icon: Icon }) => {
             const active = path.startsWith(href)
             return (
               <Link key={href} href={href}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all"
+                className="flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-200"
                 style={{
-                  background: active ? 'rgba(123,110,255,0.15)' : 'transparent',
-                  color: active ? '#9D93FF' : '#9898B8',
+                  background: active ? 'rgba(123,110,255,0.14)' : 'transparent',
+                  color: active ? '#9D93FF' : 'rgba(255,255,255,0.45)',
+                  fontWeight: 600,
+                  fontSize: 14,
                 }}>
                 <Icon active={active} />
-                <span className="text-sm font-semibold">{label}</span>
+                {label}
               </Link>
             )
           })}
-        </div>
+        </nav>
       </aside>
     </>
   )
