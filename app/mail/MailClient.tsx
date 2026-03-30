@@ -28,11 +28,11 @@ function OutlookIcon() {
 type MailCategory = 'alla' | 'rakningar' | 'myndigheter' | 'avtal' | 'ovrigt'
 
 const categories: { id: MailCategory; label: string; emoji: string; color: string }[] = [
-  { id: 'alla',        label: 'Alla',        emoji: '📬', color: '#9898B8' },
-  { id: 'rakningar',   label: 'Räkningar',   emoji: '💳', color: '#FF4B6E' },
+  { id: 'alla',        label: 'Alla',        emoji: '📬', color: '#A8A8B8' },
+  { id: 'rakningar',   label: 'Räkningar',   emoji: '💳', color: '#F87171' },
   { id: 'myndigheter', label: 'Myndigheter', emoji: '🏛',  color: '#38B6FF' },
   { id: 'avtal',       label: 'Avtal',       emoji: '📜', color: '#C67BFF' },
-  { id: 'ovrigt',      label: 'Övrigt',      emoji: '📁', color: '#9898B8' },
+  { id: 'ovrigt',      label: 'Övrigt',      emoji: '📁', color: '#A8A8B8' },
 ]
 
 const FORWARD_ADDRESS = 'franck@inkorg.arkiv.app'
@@ -101,7 +101,7 @@ export default function MailClient() {
             </code>
             <button onClick={copyAddress}
               className="flex-shrink-0 px-5 py-2.5 rounded-xl text-sm font-bold text-white transition-all"
-              style={{ background: copied ? '#00C896' : '#38B6FF' }}>
+              style={{ background: copied ? '#34D399' : '#38B6FF' }}>
               {copied ? '✓' : 'Kopiera'}
             </button>
           </div>
@@ -118,7 +118,7 @@ export default function MailClient() {
             <div key={i} className="flex items-start gap-4 rounded-2xl p-4"
               style={{ background: 'rgba(255,255,255,0.02)' }}>
               <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0"
-                style={{ background: 'rgba(123,110,255,0.2)', color: '#7B6EFF' }}>
+                style={{ background: 'rgba(123,110,255,0.2)', color: '#818CF8' }}>
                 {i + 1}
               </div>
               <p className="text-sm leading-relaxed pt-1" style={{ color: 'rgba(255,255,255,0.7)' }}>{text}</p>
@@ -145,7 +145,7 @@ export default function MailClient() {
           <div className="text-6xl mb-4">
             {categories.find(c => c.id === activeTab)?.emoji || '📬'}
           </div>
-          <div className="text-xl font-bold mb-2" style={{ color: '#F2F2FF' }}>
+          <div className="text-xl font-bold mb-2" style={{ color: '#F0F0F5' }}>
             {activeTab === 'alla' ? 'Inga mail än' : `Inga ${categories.find(c => c.id === activeTab)?.label.toLowerCase()} än`}
           </div>
           <div className="text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>
