@@ -1,25 +1,32 @@
+import { PageWrapper } from '@/components/PageWrapper'
+import { PageHeader } from '@/components/PageHeader'
+
 export default function KalenderPage() {
   return (
-    <div className="page-in max-w-xl mx-auto px-4 pt-14 pb-4">
+    <PageWrapper>
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <div className="absolute top-[-100px] right-[-80px] w-96 h-96 rounded-full opacity-10"
           style={{ background: '#38B6FF', filter: 'blur(80px)' }} />
       </div>
-      <div className="relative z-10 space-y-5">
-        <div>
-          <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: '#555570' }}>Schema</div>
-          <h1 className="text-3xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.8px' }}>Kalender</h1>
-          <p className="text-sm mt-1" style={{ color: '#9898B8' }}>Google Kalender-sync — kommer i vecka 2</p>
-        </div>
-        <div className="rounded-2xl p-8 text-center" style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.07)' }}>
-          <div className="text-5xl mb-4">📅</div>
-          <div className="font-bold mb-1" style={{ color: '#F2F2FF' }}>Veckokalender</div>
-          <div className="text-sm" style={{ color: '#9898B8' }}>
-            Synkronisering med Google Kalender för hela familjen byggs under vecka 2.
-            Du kan redan skapa händelser via Supabase.
+
+      <div className="relative z-10 max-w-xl mx-auto">
+        <PageHeader eyebrow="Schema" title="Kalender" />
+
+        <div className="rounded-3xl p-8 text-center"
+          style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+          <div className="text-6xl mb-4">📅</div>
+          <h2 className="text-2xl font-bold mb-3" style={{ color: '#F2F2FF' }}>Kommer snart</h2>
+          <p className="text-base leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            Google Kalender-synk för hela familjen. Du kan redan skapa händelser via Supabase.
+          </p>
+          <div className="rounded-2xl p-4"
+            style={{ background: 'rgba(123,110,255,0.1)', border: '1px solid rgba(123,110,255,0.2)' }}>
+            <p className="text-sm font-semibold" style={{ color: '#9D93FF' }}>
+              🚀 Lanseras vecka 2
+            </p>
           </div>
         </div>
       </div>
-    </div>
+    </PageWrapper>
   )
 }

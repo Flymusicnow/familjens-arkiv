@@ -1,8 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { createClient } from '@/lib/supabase-browser'
 import { bloom } from '@/components/Bloom'
+import { PageWrapper } from '@/components/PageWrapper'
+import { PageHeader } from '@/components/PageHeader'
 import type { Bill } from '@/lib/types'
 
 interface Props {
@@ -122,43 +125,43 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
   const totalOwed = [...akut, ...snart].reduce((s, b) => s + (b.amount || 0), 0)
 
   return (
-    <div className="page-in max-w-xl mx-auto px-5 pt-14 pb-28 md:pb-10">
-      {/* Ambient */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden>
-        <div className="absolute top-[-100px] right-[-80px] w-96 h-96 rounded-full opacity-10"
-          style={{ background: '#FF4B6E', filter: 'blur(80px)' }} />
-      </div>
+    <PageWrapper>
+      <div className="max-w-2xl mx-auto space-y-6">
+        <PageHeader
+          eyebrow="Ekonomi"
+          title="Räkningar"
+          action={
+            <button onClick={() => setShowAdd(true)}
+              className="flex items-center gap-2 px-5 text-sm font-semibold text-white rounded-2xl flex-shrink-0 mt-1"
+              style={{ background: '#F87171', height: 44 }}>
+              + Lägg till
+            </button>
+          }
+        />
 
-      <div className="relative z-10 space-y-5">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: '#555570' }}>Ekonomi</div>
-            <h1 className="text-3xl font-extrabold" style={{ color: '#F2F2FF', letterSpacing: '-0.8px' }}>Räkningar</h1>
-          </div>
-          <button onClick={() => setShowAdd(true)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm text-white"
-            style={{ background: '#FF4B6E', minHeight: 44 }}>
-            + Lägg till
-          </button>
-        </div>
-
-        {/* Summary bar */}
-        <div className="rounded-2xl p-5" style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.07)', borderLeft: '4px solid #FF4B6E' }}>
-          <div className="text-xs font-semibold tracking-wider uppercase mb-1" style={{ color: 'rgba(255,255,255,0.45)' }}>Totalt att betala</div>
-          <div className="text-3xl font-extrabold" style={{ color: '#fff', letterSpacing: '-1px' }}>{formatAmt(totalOwed)}</div>
-          <div className="flex gap-3 mt-3 flex-wrap">
-            <StatusChip label={`${akut.length} akuta`} color="#FF4B6E" />
-            <StatusChip label={`${snart.length} snart`} color="#F5A623" />
-            <StatusChip label={`${klar.length} betalda`} color="#00C896" />
-          </div>
+        {/* Stats row */}
+        <div className="grid grid-cols-3 gap-3">
+          {[
+            { label: 'Totalt', value: formatAmt(totalOwed), color: '#F0F0F5' },
+            { label: 'Akuta',  value: String(akut.length),  color: '#F87171' },
+            { label: 'Snart',  value: String(snart.length), color: '#FBBF24' },
+          ].map(stat => (
+            <div key={stat.label}
+              className="rounded-2xl p-4 text-center"
+              style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.06)' }}>
+              <p className="text-[10px] font-semibold tracking-[0.15em] uppercase mb-2"
+                style={{ color: '#6B6B7B' }}>{stat.label}</p>
+              <p className="text-2xl font-bold leading-tight"
+                style={{ color: stat.color }}>{stat.value}</p>
+            </div>
+          ))}
         </div>
 
         {/* AKUT section */}
         <Section
           title="Akuta"
           emoji="🔴"
-          color="#FF4B6E"
+          color="#F87171"
           bills={akut}
           removing={removing}
           onPaid={markPaid}
@@ -170,7 +173,7 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
         <Section
           title="Snart förfaller"
           emoji="🟡"
-          color="#F5A623"
+          color="#FBBF24"
           bills={snart}
           removing={removing}
           onPaid={markPaid}
@@ -183,18 +186,19 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
           <div>
             <div className="flex items-center gap-2 mb-3">
               <span className="text-base">✅</span>
-              <h2 className="text-xs font-bold tracking-widest uppercase" style={{ color: '#00C896' }}>Betalda</h2>
+              <h2 className="text-xs font-bold tracking-widest uppercase" style={{ color: '#34D399' }}>Betalda</h2>
             </div>
             <div className="space-y-2">
               {klar.slice(0, 10).map(bill => (
-                <div key={bill.id} className="rounded-2xl px-5 py-3 flex items-center gap-3"
-                  style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.05)', borderLeft: '4px solid #00C896', opacity: 0.55 }}>
+                <div key={bill.id} className="relative rounded-2xl overflow-hidden px-6 py-4 flex items-center gap-3"
+                  style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.05)', opacity: 0.5 }}>
+                  <div className="absolute left-0 w-[3px] rounded-full" style={{ background: '#34D399', top: 16, bottom: 16 }} />
                   <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-sm truncate" style={{ color: '#F2F2FF', textDecoration: 'line-through' }}>{bill.title}</div>
-                    <div className="text-xs mt-0.5" style={{ color: '#9898B8' }}>{bill.sender} · {formatAmt(bill.amount)}</div>
+                    <div className="font-semibold text-sm truncate" style={{ color: '#F0F0F5', textDecoration: 'line-through' }}>{bill.title}</div>
+                    <div className="text-xs mt-0.5" style={{ color: '#A8A8B8' }}>{bill.sender} · {formatAmt(bill.amount)}</div>
                   </div>
                   <span className="text-xs font-bold px-2 py-1 rounded-lg flex-shrink-0"
-                    style={{ background: 'rgba(0,200,150,0.12)', color: '#00C896' }}>BETALD</span>
+                    style={{ background: 'rgba(52,211,153,0.12)', color: '#34D399' }}>BETALD</span>
                 </div>
               ))}
             </div>
@@ -205,35 +209,34 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
       {/* Add bill modal */}
       {showAdd && (
         <div
-          className="fixed inset-0 z-[100] flex items-end md:items-center justify-center p-4"
-          style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(6px)' }}
+          className="fixed inset-0 z-[100] flex items-end md:items-center justify-center p-4 md:p-6"
+          style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)' }}
           onClick={e => { if (e.target === e.currentTarget) setShowAdd(false) }}>
-          <div className="w-full max-w-sm rounded-3xl p-6 space-y-4"
-            style={{ background: '#1A1A2E', border: '1px solid rgba(255,255,255,0.09)' }}>
-            <div className="flex items-center justify-between">
-              <h3 className="font-bold text-lg" style={{ color: '#F2F2FF' }}>Ny räkning</h3>
-              <button onClick={() => setShowAdd(false)}
-                className="w-8 h-8 rounded-full flex items-center justify-center text-lg"
-                style={{ background: 'rgba(255,255,255,0.08)', color: '#9898B8' }}>
-                ✕
+          <div className="w-full max-w-[min(480px,calc(100vw-32px))] rounded-3xl overflow-hidden"
+            style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.08)' }}>
+            {/* Handle bar */}
+            <div className="flex justify-center pt-3 pb-0">
+              <div className="w-10 h-1 rounded-full" style={{ background: 'rgba(255,255,255,0.15)' }} />
+            </div>
+            <div className="px-6 pt-4 pb-8 space-y-5">
+              <h3 className="text-xl font-bold" style={{ color: 'white' }}>Ny räkning</h3>
+              <Field label="Titel" placeholder="T.ex. Elräkning" value={form.title} onChange={v => setForm(f => ({ ...f, title: v }))} />
+              <Field label="Avsändare" placeholder="T.ex. Vattenfall" value={form.sender} onChange={v => setForm(f => ({ ...f, sender: v }))} />
+              <div className="grid grid-cols-2 gap-4">
+                <Field label="Belopp (kr)" placeholder="0" value={form.amount} onChange={v => setForm(f => ({ ...f, amount: v }))} type="number" />
+                <Field label="Förfallodatum" placeholder="" value={form.due_date} onChange={v => setForm(f => ({ ...f, due_date: v }))} type="date" />
+              </div>
+              <Field label="OCR-nummer" placeholder="Betalningsreferens" value={form.ocr_number} onChange={v => setForm(f => ({ ...f, ocr_number: v }))} />
+              <button onClick={addBill} disabled={saving}
+                className="w-full mt-8 font-bold text-base text-white rounded-2xl"
+                style={{ background: saving ? '#6B6B7B' : '#F87171', height: 56 }}>
+                {saving ? 'Sparar...' : 'Spara räkning'}
               </button>
             </div>
-            <Field label="Titel" placeholder="T.ex. Elräkning" value={form.title} onChange={v => setForm(f => ({ ...f, title: v }))} />
-            <Field label="Avsändare" placeholder="T.ex. Vattenfall" value={form.sender} onChange={v => setForm(f => ({ ...f, sender: v }))} />
-            <div className="grid grid-cols-2 gap-3">
-              <Field label="Belopp (kr)" placeholder="0" value={form.amount} onChange={v => setForm(f => ({ ...f, amount: v }))} type="number" />
-              <Field label="Förfallodatum" placeholder="" value={form.due_date} onChange={v => setForm(f => ({ ...f, due_date: v }))} type="date" />
-            </div>
-            <Field label="OCR-nummer" placeholder="Betalningsreferens" value={form.ocr_number} onChange={v => setForm(f => ({ ...f, ocr_number: v }))} />
-            <button onClick={addBill} disabled={saving}
-              className="w-full py-3 rounded-xl font-bold text-sm text-white"
-              style={{ background: saving ? '#4A4280' : '#FF4B6E', minHeight: 48 }}>
-              {saving ? 'Sparar...' : 'Spara räkning'}
-            </button>
           </div>
         </div>
       )}
-    </div>
+    </PageWrapper>
   )
 }
 
@@ -253,71 +256,82 @@ interface SectionProps {
 function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, emptyMsg }: SectionProps) {
   return (
     <div>
-      <div className="flex items-center gap-2 mb-3">
+      <div className="flex items-center gap-2 mb-4 mt-6 first:mt-0">
         <span className="text-base">{emoji}</span>
-        <h2 className="text-xs font-bold tracking-widest uppercase" style={{ color }}>{title}</h2>
+        <h2 className="text-xs font-bold tracking-[0.15em] uppercase" style={{ color }}>{title}</h2>
         {bills.length > 0 && (
-          <span className="ml-auto text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: `${color}20`, color }}>
+          <span className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full"
+            style={{ background: `${color}20`, color }}>
             {bills.length}
           </span>
         )}
       </div>
 
       {bills.length === 0 ? (
-        <div className="rounded-3xl px-6 py-10 text-center flex flex-col items-center gap-3"
-          style={{ background: 'linear-gradient(135deg,#0D1A0D,#1A1A2E)', border: '1px solid rgba(0,200,150,0.15)', minHeight: 140 }}>
-          <span className="text-4xl">✅</span>
-          <div className="font-bold text-base" style={{ color: '#F2F2FF' }}>{emptyMsg}</div>
+        <div className="flex flex-col items-center justify-center py-16 px-8 text-center rounded-2xl"
+          style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.06)' }}>
+          <div className="text-5xl mb-4">✅</div>
+          <h3 className="text-xl font-bold mb-2" style={{ color: 'white' }}>Allt klart!</h3>
+          <p className="text-base leading-relaxed" style={{ color: '#6B6B7B' }}>{emptyMsg}</p>
         </div>
       ) : (
         <div className="space-y-3">
-          {bills.map(bill => (
-            <div key={bill.id}
-              className={removing.has(bill.id) ? 'slide-out' : ''}
-              style={{ overflow: 'hidden', borderRadius: 20 }}>
-              <div className="rounded-2xl p-4"
-                style={{
-                  background: '#1A1A2E',
-                  border: '1px solid rgba(255,255,255,0.07)',
-                  borderLeft: `4px solid ${color}`,
-                }}>
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <div className="flex-1 min-w-0">
-                    <div className="font-bold text-[15px] truncate" style={{ color: '#F2F2FF' }}>{bill.title}</div>
-                    {bill.sender && (
-                      <div className="text-xs mt-0.5" style={{ color: '#9898B8' }}>{bill.sender}</div>
-                    )}
-                  </div>
-                  <div className="text-right flex-shrink-0">
-                    <div className="font-extrabold text-lg leading-none" style={{ color }}>
-                      {formatAmt(bill.amount)}
+          <AnimatePresence>
+            {bills.map((bill, i) => !removing.has(bill.id) && (
+              <motion.div
+                key={bill.id}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, x: -40, height: 0, marginBottom: 0 }}
+                transition={{ delay: i * 0.06, duration: 0.35, ease: [0.25, 0.4, 0.25, 1] }}
+              >
+                <div className="relative rounded-2xl overflow-hidden"
+                  style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  {/* Left accent bar */}
+                  <div className="absolute left-0 w-1 rounded-full" style={{ background: color, top: 24, bottom: 24 }} />
+                  <div className="pl-6 pr-5 py-6">
+                    <div className="flex items-start justify-between gap-3 mb-4">
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-base truncate" style={{ color: '#F0F0F5' }}>{bill.title}</div>
+                        {bill.sender && (
+                          <div className="text-sm mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>{bill.sender}</div>
+                        )}
+                      </div>
+                      <div className="text-right flex-shrink-0">
+                        <div className="font-black text-xl leading-none" style={{ color }}>
+                          {formatAmt(bill.amount)}
+                        </div>
+                        {bill.due_date && (
+                          <div className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                            {formatDate(bill.due_date)}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    {bill.due_date && (
-                      <div className="text-xs mt-1" style={{ color: '#9898B8' }}>Förfaller {formatDate(bill.due_date)}</div>
+                    {bill.ocr_number && (
+                      <div className="mb-4 px-4 py-2 rounded-xl text-xs font-mono" style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)' }}>
+                        OCR: {bill.ocr_number}
+                      </div>
                     )}
+                    <div className="flex gap-3">
+                      <button onClick={() => onSnooze(bill)}
+                        className="flex-1 h-11 rounded-xl flex items-center justify-center gap-2 text-sm font-semibold"
+                        style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#A8A8B8' }}>
+                        ⏱ Snooze
+                      </button>
+                      <motion.button
+                        whileTap={{ scale: 0.96 }}
+                        onClick={() => onPaid(bill)}
+                        className="flex-1 h-11 rounded-xl flex items-center justify-center gap-2 text-sm font-bold text-white"
+                        style={{ background: color }}>
+                        ✓ Betald
+                      </motion.button>
+                    </div>
                   </div>
                 </div>
-                {bill.ocr_number && (
-                  <div className="mb-3 px-3 py-2 rounded-xl" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                    <span className="text-xs" style={{ color: '#555570' }}>OCR: </span>
-                    <span className="text-xs font-mono font-bold" style={{ color: '#9898B8' }}>{bill.ocr_number}</span>
-                  </div>
-                )}
-                <div className="flex gap-2">
-                  <button onClick={() => onSnooze(bill)}
-                    className="flex-1 py-2.5 rounded-xl text-sm font-bold"
-                    style={{ background: 'rgba(255,255,255,0.07)', color: '#9898B8', minHeight: 44 }}>
-                    💤 Snooze
-                  </button>
-                  <button onClick={() => onPaid(bill)}
-                    className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white"
-                    style={{ background: color, minHeight: 44 }}>
-                    ✓ Betald
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       )}
     </div>
@@ -342,11 +356,17 @@ function Field({ label, placeholder, value, onChange, type = 'text' }: {
 }) {
   return (
     <div>
-      <label className="text-xs font-semibold mb-1 block" style={{ color: '#9898B8' }}>{label}</label>
+      <label className="block text-[11px] font-semibold tracking-[0.15em] uppercase mb-2"
+        style={{ color: '#6B6B7B' }}>{label}</label>
       <input type={type} placeholder={placeholder} value={value}
         onChange={e => onChange(e.target.value)}
-        className="w-full px-3 py-2.5 rounded-xl text-sm outline-none"
-        style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#F2F2FF', minHeight: 44 }} />
+        className="w-full rounded-xl text-base outline-none transition-all"
+        style={{
+          background: '#0A0A0A',
+          border: '1px solid rgba(255,255,255,0.08)',
+          color: 'white',
+          padding: '14px 16px',
+        }} />
     </div>
   )
 }

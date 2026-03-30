@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="sv">
-      <body>
+      <body className="antialiased" style={{ background: '#0A0A0A', color: '#F0F0F5', fontFamily: "'Lexend', system-ui, sans-serif" }}>
         <BloomToast />
         <Navigation />
-        {/* Desktop: offset for 224px sidebar; mobile: offset for bottom nav */}
-        <main className="md:ml-56 pb-24 md:pb-6 min-h-screen">
+        {/* w-60 = 240px matches sidebar width */}
+        <main className="md:ml-60 min-h-screen pb-24 md:pb-8">
           {children}
         </main>
       </body>

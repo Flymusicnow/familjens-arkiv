@@ -1,58 +1,70 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap');
+@import '@fontsource/lexend/400.css';
+@import '@fontsource/lexend/500.css';
+@import '@fontsource/lexend/600.css';
+@import '@fontsource/lexend/700.css';
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: 'DM Sans', sans-serif;
+  --font-sans: 'Lexend', system-ui, sans-serif;
 
-  /* Background layers */
-  --color-bg:   #0D0D1A;
-  --color-bg2:  #1A1A2E;
-  --color-bg3:  #1E1E35;
-  --color-bg4:  #252540;
-  --color-bg5:  #2A2A48;
+  /* Backgrounds */
+  --color-bg:      #0A0A0A;
+  --color-card:    #1A1A1A;
+  --color-high:    #252530;
+  --color-input:   #1F1F1F;
 
   /* Text */
-  --color-t1: #F2F2FF;
-  --color-t2: #9898B8;
-  --color-t3: #555570;
+  --color-t1: #F0F0F5;
+  --color-t2: #A8A8B8;
+  --color-t3: #6B6B7B;
 
-  /* Accent */
-  --color-accent:  #7B6EFF;
-  --color-accent2: #9D93FF;
-
-  /* Status */
-  --color-red:   #FF4B6E;
-  --color-amber: #F5A623;
-  --color-green: #00C896;
-  --color-blue:  #38B6FF;
-  --color-pink:  #FF6EBB;
-  --color-purple: #C67BFF;
-
-  /* Borders */
-  --color-border:  rgba(255,255,255,0.06);
-  --color-border2: rgba(255,255,255,0.11);
+  /* Accents */
+  --color-red:    #F87171;
+  --color-amber:  #FBBF24;
+  --color-green:  #34D399;
+  --color-blue:   #60A5FA;
+  --color-purple: #A78BFA;
+  --color-indigo: #818CF8;
+  --color-accent: #818CF8;
 }
 
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg:       #0A0A0A;
+  --bg-card:  #1A1A1A;
+  --bg-high:  #252530;
+  --t1:       #F0F0F5;
+  --t2:       #A8A8B8;
+  --t3:       #6B6B7B;
+  --border:   rgba(255,255,255,0.12);
+  --border-s: rgba(255,255,255,0.06);
+  --red:      #F87171;
+  --amber:    #FBBF24;
+  --green:    #34D399;
+  --blue:     #60A5FA;
+  --purple:   #A78BFA;
+  --accent:   #818CF8;
 }
 
 html, body {
-  background: #0D0D1A;
-  color: #F2F2FF;
-  font-family: 'DM Sans', sans-serif;
-  min-height: 100vh;
+  background: var(--bg);
+  color: var(--t1);
+  font-family: 'Lexend', system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  line-height: 1.6;
+  overflow-x: hidden;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+/* Remove ALL scrollbars */
+::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; }
 
 /* Bloom toast */
 @keyframes bloomIn {
@@ -66,7 +78,7 @@ html, body {
 .bloom-enter { animation: bloomIn 0.24s cubic-bezier(0.22,1,0.36,1) forwards; }
 .bloom-exit  { animation: bloomOut 0.22s ease forwards; }
 
-/* Page transition */
+/* Page fade-in */
 @keyframes pageIn {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -88,56 +100,5 @@ html, body {
 }
 .bounce-done { animation: bounce-done 0.38s cubic-bezier(0.34,1.56,0.64,1); }
 
-/* Confetti */
-@keyframes confettiFall {
-  to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-}
-.confetti-piece {
-  position: fixed;
-  top: -10px;
-  width: 8px;
-  height: 8px;
-  border-radius: 2px;
-  pointer-events: none;
-  z-index: 9999;
-  animation: confettiFall 1.4s ease-in forwards;
-}
-
-/* Bubble card glow pulse (on press) */
-@keyframes glowPulse {
-  0%   { opacity: 0.7; transform: scale(0.3); }
-  100% { opacity: 0;   transform: scale(2.5); }
-}
-.glow-pulse {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  animation: glowPulse 0.5s ease-out forwards;
-}
-
-/* Animated gradient mesh background */
-@keyframes gradientDrift {
-  0%, 100% { background-position: 0% 50%; }
-  50%       { background-position: 100% 50%; }
-}
-.gradient-mesh {
-  background: linear-gradient(135deg, #0D0D1A, #1A0A2E, #0D1A1A, #0D0D1A);
-  background-size: 400% 400%;
-  animation: gradientDrift 20s ease infinite;
-}
-
-/* Hide scrollbar utility */
-.scrollbar-hide { scrollbar-width: none; }
-.scrollbar-hide::-webkit-scrollbar { display: none; }
-
-/* Spring press animation for cards */
-@keyframes springPress {
-  0%   { transform: scale(1); }
-  30%  { transform: scale(0.94); }
-  65%  { transform: scale(1.04); }
-  100% { transform: scale(1); }
-}
-.spring-press { animation: springPress 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards; }
-
-/* Safe area bottom padding */
+/* Safe area */
 .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
