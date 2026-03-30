@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <BloomToast />
         <Navigation />
         {/* w-60 = 240px matches sidebar width */}
-        <main className="md:ml-60 min-h-screen pb-24 md:pb-8">
+        <main className="md:ml-60 w-full md:w-[calc(100%-240px)] overflow-x-hidden min-h-screen pb-24 md:pb-8">
           {children}
         </main>
       </body>
