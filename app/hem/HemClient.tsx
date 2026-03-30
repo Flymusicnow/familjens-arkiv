@@ -86,7 +86,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
               border: `1px solid ${mod.color}25`,
               boxShadow: `0 0 32px ${mod.color}12`,
               minHeight: i === 0 ? 140 : 148,
-              gridColumn: i === 0 ? 'span 2' : undefined,
+              gridColumn: (i === 0 || (i === modules.length - 1 && (modules.length - 1) % 2 === 1)) ? 'span 2' : undefined,
             }}>
             {/* Color glow */}
             <div className="absolute inset-0 pointer-events-none"

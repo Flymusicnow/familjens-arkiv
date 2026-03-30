@@ -60,7 +60,7 @@ export default function Navigation() {
   return (
     <>
       {/* ── Desktop sidebar ─────────────────────────────────────────────── */}
-      <aside className="hidden md:flex flex-col fixed left-0 top-0 h-screen w-60 z-50"
+      <aside className="hidden md:flex flex-col sticky top-0 h-screen w-60 flex-shrink-0 overflow-y-auto"
         style={{ background: '#0A0A0A', borderRight: '1px solid rgba(255,255,255,0.06)' }}>
 
         {/* Logo */}
@@ -111,7 +111,7 @@ export default function Navigation() {
             onClick={() => setShowMore(s => !s)}
             className="flex flex-col items-center gap-1 min-w-[60px] py-2 px-3 rounded-2xl transition-all"
             style={{ background: (merActive || showMore) ? '#9CA3AF18' : 'transparent' }}>
-            <DotsIcon active={merActive || showMore} />
+            {DotsIcon(merActive || showMore)}
             <span className="text-[10px] font-semibold"
               style={{ color: (merActive || showMore) ? '#9CA3AF' : '#6B6B7B' }}>Mer</span>
           </button>
