@@ -13,11 +13,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="sv">
       <body className="antialiased" style={{ background: '#0A0A0A', color: '#F0F0F5', fontFamily: "'Lexend', system-ui, sans-serif" }}>
         <BloomToast />
-        <Navigation />
-        {/* w-60 = 240px matches sidebar width */}
-        <main className="md:ml-60 w-full md:w-[calc(100%-240px)] overflow-x-hidden min-h-screen pb-24 md:pb-8">
-          {children}
-        </main>
+        <div className="flex min-h-screen">
+          <Navigation />
+          <main className="flex-1 min-w-0 overflow-x-hidden pb-24 md:pb-8">
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   )
