@@ -111,7 +111,7 @@ export default function Navigation() {
             onClick={() => setShowMore(s => !s)}
             className="flex flex-col items-center gap-1 min-w-[60px] py-2 px-3 rounded-2xl transition-all"
             style={{ background: (merActive || showMore) ? '#9CA3AF18' : 'transparent' }}>
-            <DotsIcon active={merActive || showMore} />
+            {DotsIcon(merActive || showMore)}
             <span className="text-[10px] font-semibold"
               style={{ color: (merActive || showMore) ? '#9CA3AF' : '#6B6B7B' }}>Mer</span>
           </button>
