@@ -56,7 +56,13 @@ export default function UppgifterClient({ tasks: initialTasks, members, currentM
     bloom('Uppgift tillagd! ✅', form.title)
   }
 
-  const filtered = tasks.filter(t => activeFilter === 'all' || t.assigned_to === activeFilter)
+  const filtered = tasks.filter(t => {
+    if (activeFilter === 'all') return true
+    if (activeFilter === 'done') return t.status === 'done'
+    if (activeFilter === 'hem') return (t.emoji || '').includes('🏠') || (t.title || '').toLowerCase().includes('hem') || (t.title || '').toLowerCase().includes('städ') || (t.title || '').toLowerCase().includes('disk')
+    if (activeFilter === 'barn') return (t.emoji || '').includes('👶') || (t.title || '').toLowerCase().includes('barn') || (t.title || '').toLowerCase().includes('skola') || (t.title || '').toLowerCase().includes('dagis')
+    return t.assigned_to === activeFilter
+  })
   const done = filtered.filter(t => t.status === 'done').length
   const total = filtered.length
 
@@ -134,12 +140,17 @@ export default function UppgifterClient({ tasks: initialTasks, members, currentM
           </div>
         )}
 
-        {/* Member filter tabs */}
+        {/* Filter tabs */}
         <div className="flex gap-2 overflow-x-auto pb-1">
-          <FilterTab active={activeFilter === 'all'} onClick={() => setActiveFilter('all')}>Alla</FilterTab>
-          {members.map(m => (
-            <FilterTab key={m.id} active={activeFilter === m.id} onClick={() => setActiveFilter(m.id)}>
-              {m.name}
+          {[
+            { id: 'all',  label: 'Alla' },
+            { id: 'hem',  label: '🏠 Hem' },
+            { id: 'barn', label: '👶 Barn' },
+            { id: 'done', label: '✅ Klara' },
+            ...members.map(m => ({ id: m.id, label: m.name })),
+          ].map(tab => (
+            <FilterTab key={tab.id} active={activeFilter === tab.id} onClick={() => setActiveFilter(tab.id)}>
+              {tab.label}
             </FilterTab>
           ))}
         </div>

@@ -207,6 +207,27 @@ export default function MatClient({
         {/* ── Tab: Veckan ── */}
         {activeTab === 'veckan' && (
           <div className="space-y-4">
+            {/* AI-matförslag box */}
+            <div className="rounded-2xl p-5"
+              style={{ background: 'linear-gradient(135deg,rgba(129,140,248,0.1),rgba(129,140,248,0.03))', border: '1px solid rgba(129,140,248,0.2)' }}>
+              <h4 className="font-bold text-sm flex items-center gap-2 mb-2" style={{ color: '#818CF8' }}>
+                ✨ AI-matförslag
+              </h4>
+              <p className="text-sm mb-4 leading-relaxed" style={{ color: '#A8A8B8' }}>
+                Beskriv vad ni vill äta så skapar AI ett komplett veckoschema med recept.
+              </p>
+              <div className="flex gap-2">
+                <button className="flex-1 h-11 rounded-xl font-bold text-sm text-white"
+                  style={{ background: '#818CF8' }}>
+                  🥗 Skapa vegetariskt
+                </button>
+                <button className="h-11 px-4 rounded-xl font-semibold text-sm"
+                  style={{ background: 'rgba(255,255,255,0.06)', color: '#A8A8B8' }}>
+                  ✏️ Manuellt
+                </button>
+              </div>
+            </div>
+
             {weekDates.map((date, idx) => {
               const isToday = date === today
               const dayMeals = meals.filter(m => m.date === date)
@@ -241,43 +262,37 @@ export default function MatClient({
                     </span>
                   </div>
 
-                  {/* Meal slots */}
-                  <div className="px-5 py-4 space-y-3">
-                    {MEAL_TYPES.map(({ key, label, emoji }) => {
-                      const slot = dayMeals.filter(m => m.meal_type === key)
-                      return (
-                        <div key={key} className="rounded-2xl p-4 flex items-center justify-between"
-                          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                          <div className="flex items-center gap-3">
-                            <span className="text-xl">{emoji}</span>
-                            <div>
-                              <p className="text-xs font-bold tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.3)' }}>
-                                {label}
-                              </p>
-                              {slot.length > 0 ? (
-                                slot.map(meal => (
-                                  <div key={meal.id} className="flex items-center gap-2 mt-0.5">
-                                    <p className="text-sm font-medium" style={{ color: '#F0F0F5' }}>{meal.name}</p>
-                                    <button onClick={() => deleteMeal(meal.id)} className="text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>✕</button>
-                                  </div>
-                                ))
-                              ) : (
-                                <p className="text-sm mt-0.5" style={{ color: 'rgba(255,255,255,0.3)' }}>Lägg till...</p>
-                              )}
-                            </div>
+                  {/* Meal slots — flat rows */}
+                  {MEAL_TYPES.map(({ key, label, emoji }, mIdx) => {
+                    const slot = dayMeals.filter(m => m.meal_type === key)
+                    return (
+                      <div key={key} className="flex items-center justify-between px-5 py-4"
+                        style={{ borderBottom: mIdx < MEAL_TYPES.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
+                        <div className="flex items-center gap-3">
+                          <span className="text-2xl leading-none">{emoji}</span>
+                          <div>
+                            <p className="text-[10px] font-bold tracking-[0.15em] uppercase mb-1" style={{ color: '#4A4A65' }}>{label}</p>
+                            {slot.length > 0 ? (
+                              slot.map(meal => (
+                                <div key={meal.id} className="flex items-center gap-2">
+                                  <p className="text-sm font-semibold" style={{ color: '#F0F0F5' }}>{meal.name}</p>
+                                  <button onClick={() => deleteMeal(meal.id)} className="text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>✕</button>
+                                </div>
+                              ))
+                            ) : (
+                              <p className="text-sm font-medium" style={{ color: '#3A3A4A' }}>Lägg till...</p>
+                            )}
                           </div>
-                          {slot.length === 0 && (
-                            <button
-                              onClick={() => { setShowAdd({ date, meal_type: key }); setForm({ name: '', recipe_url: '', notes: '' }) }}
-                              className="text-2xl font-light transition-all"
-                              style={{ color: 'rgba(255,255,255,0.2)' }}>
-                              +
-                            </button>
-                          )}
                         </div>
-                      )
-                    })}
-                  </div>
+                        <button
+                          onClick={() => { setShowAdd({ date, meal_type: key }); setForm({ name: '', recipe_url: '', notes: '' }) }}
+                          className="w-10 h-10 rounded-xl flex items-center justify-center text-xl font-light flex-shrink-0"
+                          style={{ background: 'rgba(255,255,255,0.04)', border: '1px dashed rgba(255,255,255,0.1)', color: '#4A4A65' }}>
+                          +
+                        </button>
+                      </div>
+                    )
+                  })}
                 </div>
               )
             })}
