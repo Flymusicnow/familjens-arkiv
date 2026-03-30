@@ -134,7 +134,7 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
         />
 
         {/* Search */}
-        <div className="flex items-center gap-3 rounded-2xl px-4 mb-1"
+        <div className="flex items-center gap-3 rounded-2xl px-5 mb-1"
           style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', height: 56 }}>
           <span className="text-xl" style={{ color: 'rgba(255,255,255,0.3)' }}>🔍</span>
           <input value={search} onChange={e => setSearch(e.target.value)}

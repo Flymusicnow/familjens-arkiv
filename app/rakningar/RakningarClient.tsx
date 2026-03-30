@@ -315,14 +315,14 @@ function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, empty
                     )}
                     <div className="flex gap-3">
                       <button onClick={() => onSnooze(bill)}
-                        className="flex-1 h-11 rounded-xl flex items-center justify-center gap-2 text-sm font-semibold"
+                        className="flex-1 h-[52px] rounded-xl flex items-center justify-center gap-2 text-sm font-semibold"
                         style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#A8A8B8' }}>
                         ⏱ Snooze
                       </button>
                       <motion.button
                         whileTap={{ scale: 0.96 }}
                         onClick={() => onPaid(bill)}
-                        className="flex-1 h-11 rounded-xl flex items-center justify-center gap-2 text-sm font-bold text-white"
+                        className="flex-1 h-[52px] rounded-xl flex items-center justify-center gap-2 text-sm font-bold text-white"
                         style={{ background: color }}>
                         ✓ Betald
                       </motion.button>

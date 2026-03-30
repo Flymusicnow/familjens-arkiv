@@ -193,7 +193,7 @@ export default function MatClient({
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className="flex-1 py-2.5 rounded-xl text-sm font-bold transition-all"
+              className="flex-1 h-[48px] rounded-xl text-sm font-bold transition-all"
               style={{
                 background: activeTab === tab.key ? 'rgba(0,200,150,0.2)' : 'rgba(255,255,255,0.05)',
                 color: activeTab === tab.key ? '#34D399' : '#A8A8B8',

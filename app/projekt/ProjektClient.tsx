@@ -217,14 +217,17 @@ export default function ProjektClient({ ventures: initialVentures, incomeMap: in
               <div key={venture.id} className="rounded-2xl p-5 space-y-4"
                 style={{ background: '#1A1A1A', border: `1px solid ${venture.color || '#818CF8'}25` }}>
                 <div className="flex items-start gap-4">
-                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0"
+                  <div className="w-[52px] h-[52px] rounded-2xl flex items-center justify-center text-2xl flex-shrink-0"
                     style={{ background: `${venture.color || '#818CF8'}18`, border: `1px solid ${venture.color || '#818CF8'}30` }}>
                     {venture.emoji}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="font-bold text-sm truncate" style={{ color: '#F0F0F5' }}>{venture.name}</div>
+                    <div className="font-bold text-[15px] truncate" style={{ color: '#F0F0F5' }}>{venture.name}</div>
                     {venture.category && (
-                      <div className="text-xs mt-0.5 truncate" style={{ color: '#6B6B7B' }}>{venture.category}</div>
+                      <div className="inline-block text-[10px] font-bold tracking-[0.1em] uppercase px-2 py-0.5 rounded-full mt-1"
+                        style={{ background: `${venture.color || '#818CF8'}18`, color: venture.color || '#818CF8' }}>
+                        {venture.category}
+                      </div>
                     )}
                     <div className="flex items-baseline gap-2 mt-2">
                       <span className="font-black text-xl" style={{ color: venture.color || '#818CF8' }}>{formatAmt(income)}</span>
