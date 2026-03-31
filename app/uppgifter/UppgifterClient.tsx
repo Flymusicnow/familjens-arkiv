@@ -87,16 +87,18 @@ export default function UppgifterClient({ tasks: initialTasks, members, currentM
         />
 
         {/* Points banner */}
-        <div className="rounded-3xl p-6 relative overflow-hidden"
-          style={{ background: 'linear-gradient(135deg,#1A1200,#0D2018)', border: '1px solid rgba(245,166,35,0.3)' }}>
-          <p className="text-xs font-bold tracking-[0.2em] uppercase mb-3" style={{ color: 'rgba(245,166,35,0.7)' }}>
-            FAMILJEPOÄNG IDAG
-          </p>
-          <div className="flex items-center gap-4">
-            <span className="text-6xl font-black" style={{ color: '#FBBF24', letterSpacing: '-2px' }}>{totalPoints}</span>
-            <span className="text-2xl font-bold" style={{ color: 'rgba(245,166,35,0.5)' }}>poäng</span>
-            <span className="text-5xl ml-auto">🏆</span>
+        <div className="rounded-2xl p-6 flex items-center justify-between"
+          style={{ background: 'linear-gradient(135deg,rgba(251,191,36,0.1),rgba(251,191,36,0.03))', border: '1px solid rgba(251,191,36,0.2)' }}>
+          <div>
+            <p className="text-[11px] font-bold tracking-[0.18em] uppercase mb-2" style={{ color: 'rgba(251,191,36,0.6)' }}>
+              Familjepoäng idag
+            </p>
+            <div className="flex items-baseline gap-2">
+              <span className="text-[56px] font-black leading-none" style={{ color: '#FBBF24', letterSpacing: '-2px' }}>{totalPoints}</span>
+              <span className="text-[22px] font-semibold" style={{ color: 'rgba(251,191,36,0.4)' }}>poäng</span>
+            </div>
           </div>
+          <span className="text-[56px] leading-none">🏆</span>
         </div>
 
         {/* Add form */}
@@ -133,7 +135,7 @@ export default function UppgifterClient({ tasks: initialTasks, members, currentM
               </div>
             </div>
             <button onClick={addTask} disabled={saving}
-              className="w-full py-3 rounded-xl font-bold text-sm text-white"
+              className="w-full min-h-[52px] rounded-2xl font-bold text-[15px] text-white"
               style={{ background: saving ? '#4A4280' : '#818CF8' }}>
               {saving ? 'Sparar...' : 'Spara uppgift'}
             </button>
@@ -141,7 +143,7 @@ export default function UppgifterClient({ tasks: initialTasks, members, currentM
         )}
 
         {/* Filter tabs */}
-        <div className="flex gap-2 overflow-x-auto pb-1">
+        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
           {[
             { id: 'all',  label: 'Alla' },
             { id: 'hem',  label: '🏠 Hem' },
@@ -170,10 +172,11 @@ export default function UppgifterClient({ tasks: initialTasks, members, currentM
 
         {/* Tasks */}
         {filtered.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-4xl mb-3">🎉</div>
-            <div className="font-bold" style={{ color: '#F0F0F5' }}>Inga uppgifter idag!</div>
-            <div className="text-sm mt-1" style={{ color: '#A8A8B8' }}>Lägg till uppgifter ovan</div>
+          <div className="rounded-2xl p-12 text-center"
+            style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.07)' }}>
+            <div className="text-[52px] mb-4">🎉</div>
+            <div className="text-[20px] font-bold mb-2" style={{ color: '#F0F0F5' }}>Inga uppgifter!</div>
+            <div className="text-[15px] leading-relaxed" style={{ color: '#6B6B7B' }}>Lägg till uppgifter och tjäna familjepoäng.</div>
           </div>
         ) : (
           <div className="space-y-2">
@@ -199,7 +202,7 @@ export default function UppgifterClient({ tasks: initialTasks, members, currentM
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-sm" style={{
+                    <div className="font-semibold text-[15px]" style={{
                       color: '#F0F0F5',
                       textDecoration: task.status === 'done' ? 'line-through' : 'none'
                     }}>
@@ -226,10 +229,11 @@ export default function UppgifterClient({ tasks: initialTasks, members, currentM
 function FilterTab({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
     <button onClick={onClick}
-      className="flex-shrink-0 px-3 py-2 rounded-xl text-sm font-bold transition-all"
+      className="flex-shrink-0 h-[40px] px-4 rounded-full text-[13px] font-semibold transition-all whitespace-nowrap"
       style={{
-        background: active ? '#818CF8' : 'rgba(255,255,255,0.05)',
-        color: active ? 'white' : '#A8A8B8',
+        background: active ? '#818CF8' : 'none',
+        color: active ? 'white' : '#6B6B7B',
+        border: active ? 'none' : '1px solid rgba(255,255,255,0.07)',
       }}>
       {children}
     </button>

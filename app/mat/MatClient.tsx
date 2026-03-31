@@ -217,12 +217,12 @@ export default function MatClient({
                 Beskriv vad ni vill äta så skapar AI ett komplett veckoschema med recept.
               </p>
               <div className="flex gap-2">
-                <button className="flex-1 h-11 rounded-xl font-bold text-sm text-white"
+                <button className="flex-1 h-[48px] rounded-xl font-bold text-[13px] text-white"
                   style={{ background: '#818CF8' }}>
                   🥗 Skapa vegetariskt
                 </button>
-                <button className="h-11 px-4 rounded-xl font-semibold text-sm"
-                  style={{ background: 'rgba(255,255,255,0.06)', color: '#A8A8B8' }}>
+                <button className="h-[48px] px-[18px] rounded-xl font-semibold text-[13px]"
+                  style={{ background: 'rgba(255,255,255,0.06)', color: '#9090B0' }}>
                   ✏️ Manuellt
                 </button>
               </div>

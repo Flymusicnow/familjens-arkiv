@@ -270,9 +270,9 @@ function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, empty
       {bills.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 px-8 text-center rounded-2xl"
           style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.06)' }}>
-          <div className="text-5xl mb-4">✅</div>
-          <h3 className="text-xl font-bold mb-2" style={{ color: 'white' }}>Allt klart!</h3>
-          <p className="text-base leading-relaxed" style={{ color: '#6B6B7B' }}>{emptyMsg}</p>
+          <div className="text-[52px] mb-4">✅</div>
+          <h3 className="text-[20px] font-bold mb-2" style={{ color: 'white' }}>Allt klart!</h3>
+          <p className="text-[15px] leading-relaxed" style={{ color: '#6B6B7B' }}>{emptyMsg}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -292,9 +292,9 @@ function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, empty
                   <div className="pl-6 pr-5 py-6">
                     <div className="flex items-start justify-between gap-3 mb-4">
                       <div className="flex-1 min-w-0">
-                        <div className="font-bold text-base truncate" style={{ color: '#F0F0F5' }}>{bill.title}</div>
+                        <div className="font-bold text-[17px] truncate" style={{ color: '#F0F0F5' }}>{bill.title}</div>
                         {bill.sender && (
-                          <div className="text-sm mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>{bill.sender}</div>
+                          <div className="text-[13px] mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>{bill.sender}</div>
                         )}
                       </div>
                       <div className="text-right flex-shrink-0">

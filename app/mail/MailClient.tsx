@@ -144,13 +144,13 @@ export default function MailClient() {
 
         {/* Empty state */}
         <div className="rounded-2xl p-12 text-center" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
-          <div className="text-6xl mb-4">
-            {categories.find(c => c.id === activeTab)?.emoji || '📬'}
+          <div className="text-[52px] mb-4">
+            {categories.find(c => c.id === activeTab)?.emoji || '📭'}
           </div>
-          <div className="text-xl font-bold mb-2" style={{ color: '#F0F0F5' }}>
+          <div className="text-[20px] font-bold mb-2" style={{ color: '#F0F0F5' }}>
             {activeTab === 'alla' ? 'Inga mail än' : `Inga ${categories.find(c => c.id === activeTab)?.label.toLowerCase()} än`}
           </div>
-          <div className="text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>
+          <div className="text-[15px] leading-relaxed" style={{ color: '#6B6B7B' }}>
             Vidarebefordra din e-post till adressen ovan så sorteras den automatiskt hit
           </div>
         </div>

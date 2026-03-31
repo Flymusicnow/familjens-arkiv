@@ -206,7 +206,7 @@ export default function ProjektClient({ ventures: initialVentures, incomeMap: in
         )}
 
         {/* Venture cards */}
-        <div className="space-y-4">
+        <div className="space-y-[14px]">
           {ventures.map(venture => {
             const income = incomeMap[venture.id] || 0
             const goal = venture.monthly_goal || 1
@@ -230,22 +230,19 @@ export default function ProjektClient({ ventures: initialVentures, incomeMap: in
                       </div>
                     )}
                     <div className="flex items-baseline gap-2 mt-2">
-                      <span className="font-black text-xl" style={{ color: venture.color || '#818CF8' }}>{formatAmt(income)}</span>
-                      <span className="text-xs" style={{ color: '#3A3A4A' }}>/ {formatAmt(goal)}</span>
+                      <span className="font-black text-[22px]" style={{ color: '#34D399', letterSpacing: '-0.5px' }}>+{formatAmt(income)}</span>
                     </div>
                   </div>
                 </div>
 
-                <div>
-                  <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+                <div className="mb-[14px]">
+                  <div className="flex justify-between mb-2">
+                    <span className="text-[12px]" style={{ color: '#6B6B7B' }}>Mål {formatAmt(goal)}/mån</span>
+                    <strong className="text-[12px] font-bold" style={{ color: '#9090B0' }}>{pct.toFixed(0)}%</strong>
+                  </div>
+                  <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
                     <div className="h-full rounded-full transition-all duration-700"
                       style={{ width: `${pct}%`, background: barColor }} />
-                  </div>
-                  <div className="flex justify-between mt-1.5">
-                    <span className="text-xs" style={{ color: '#6B6B7B' }}>{pct.toFixed(0)}% av målet</span>
-                    <span className="text-xs" style={{ color: barColor }}>
-                      {pct >= 100 ? '🎉 Klart!' : `${formatAmt(goal - income)} kvar`}
-                    </span>
                   </div>
                 </div>
 
