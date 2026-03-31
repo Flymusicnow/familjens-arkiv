@@ -16,7 +16,7 @@ export function PageHeader({
             {eyebrow}
           </p>
         )}
-        <h1 className="text-[32px] font-bold leading-tight tracking-tight"
+        <h1 className="text-[32px] font-black leading-tight tracking-tight"
           style={{ color: 'white' }}>
           {title}
         </h1>

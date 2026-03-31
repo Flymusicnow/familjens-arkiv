@@ -66,7 +66,7 @@ export default function MailClient() {
             onClick={() => bloom('Kommer snart 🔜', 'Gmail-integration är under utveckling')}
             className="w-full flex items-center gap-4 rounded-2xl p-5 transition-all active:scale-95"
             style={{ background: 'rgba(234,67,53,0.1)', border: '1px solid rgba(234,67,53,0.2)' }}>
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-white text-lg flex-shrink-0"
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-white text-xl flex-shrink-0"
               style={{ background: '#EA4335' }}>G</div>
             <div className="text-left">
               <p className="font-bold text-white">Anslut Gmail</p>
@@ -79,7 +79,7 @@ export default function MailClient() {
             onClick={() => bloom('Kommer snart 🔜', 'Outlook-integration är under utveckling')}
             className="w-full flex items-center gap-4 rounded-2xl p-5 transition-all active:scale-95"
             style={{ background: 'rgba(0,120,212,0.1)', border: '1px solid rgba(0,120,212,0.2)' }}>
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-white text-lg flex-shrink-0"
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-white text-xl flex-shrink-0"
               style={{ background: '#0078D4' }}>O</div>
             <div className="text-left">
               <p className="font-bold text-white">Anslut Outlook</p>
@@ -107,21 +107,22 @@ export default function MailClient() {
           </div>
         </div>
 
-        {/* How-to steps */}
-        <div className="space-y-3">
+        {/* How-to steps — single card with rows */}
+        <div className="rounded-2xl overflow-hidden"
+          style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
           {[
             'Kopiera adressen ovan',
             'Gå till Gmail / Outlook → Inställningar → Vidarebefordran',
             'Klistra in adressen och aktivera',
             'Inkommande mail dyker upp sorterat här',
-          ].map((text, i) => (
-            <div key={i} className="flex items-start gap-4 rounded-2xl p-4"
-              style={{ background: 'rgba(255,255,255,0.02)' }}>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0"
+          ].map((text, i, arr) => (
+            <div key={i} className="flex items-start gap-4 px-5 py-4"
+              style={{ borderBottom: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
+              <div className="w-7 h-7 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 mt-0.5"
                 style={{ background: 'rgba(123,110,255,0.2)', color: '#818CF8' }}>
                 {i + 1}
               </div>
-              <p className="text-sm leading-relaxed pt-1" style={{ color: 'rgba(255,255,255,0.7)' }}>{text}</p>
+              <p className="text-[15px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.7)' }}>{text}</p>
             </div>
           ))}
         </div>
@@ -130,10 +131,11 @@ export default function MailClient() {
         <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
           {categories.map(cat => (
             <button key={cat.id} onClick={() => setActiveTab(cat.id)}
-              className="flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all whitespace-nowrap"
+              className="flex-shrink-0 flex items-center gap-1.5 px-4 h-[40px] rounded-full text-sm font-semibold transition-all whitespace-nowrap"
               style={{
                 background: activeTab === cat.id ? cat.color : 'rgba(255,255,255,0.04)',
                 color: activeTab === cat.id ? 'white' : 'rgba(255,255,255,0.5)',
+                border: activeTab === cat.id ? 'none' : '1px solid rgba(255,255,255,0.12)',
               }}>
               {cat.emoji} {cat.label}
             </button>
@@ -141,14 +143,14 @@ export default function MailClient() {
         </div>
 
         {/* Empty state */}
-        <div className="rounded-3xl p-10 text-center" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
-          <div className="text-6xl mb-4">
-            {categories.find(c => c.id === activeTab)?.emoji || '📬'}
+        <div className="rounded-2xl p-12 text-center" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
+          <div className="text-[52px] mb-4">
+            {categories.find(c => c.id === activeTab)?.emoji || '📭'}
           </div>
-          <div className="text-xl font-bold mb-2" style={{ color: '#F0F0F5' }}>
+          <div className="text-[20px] font-bold mb-2" style={{ color: '#F0F0F5' }}>
             {activeTab === 'alla' ? 'Inga mail än' : `Inga ${categories.find(c => c.id === activeTab)?.label.toLowerCase()} än`}
           </div>
-          <div className="text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>
+          <div className="text-[15px] leading-relaxed" style={{ color: '#6B6B7B' }}>
             Vidarebefordra din e-post till adressen ovan så sorteras den automatiskt hit
           </div>
         </div>

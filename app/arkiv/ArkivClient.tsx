@@ -134,7 +134,7 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
         />
 
         {/* Search */}
-        <div className="flex items-center gap-3 rounded-2xl px-4 mb-1"
+        <div className="flex items-center gap-3 rounded-2xl px-5 mb-1"
           style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', height: 56 }}>
           <span className="text-xl" style={{ color: 'rgba(255,255,255,0.3)' }}>🔍</span>
           <input value={search} onChange={e => setSearch(e.target.value)}
@@ -172,10 +172,11 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
 
         {/* Empty state */}
         {filtered.length === 0 && (
-          <div className="text-center py-16">
-            <div className="text-4xl mb-3">🔍</div>
-            <div className="font-bold" style={{ color: '#F0F0F5' }}>Inga dokument här</div>
-            <div className="text-sm mt-1" style={{ color: '#A8A8B8' }}>
+          <div className="rounded-2xl p-12 text-center"
+            style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.07)' }}>
+            <div className="text-[52px] mb-4">🔍</div>
+            <div className="text-[20px] font-bold mb-2" style={{ color: '#F0F0F5' }}>Inga dokument här</div>
+            <div className="text-[15px] leading-relaxed" style={{ color: '#6B6B7B' }}>
               {search ? 'Prova ett annat sökord' : 'Tryck på Skanna för att lägga till ditt första dokument'}
             </div>
           </div>
@@ -189,15 +190,15 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
             return (
               <div key={doc.id} className="rounded-2xl px-5 py-4 flex items-center gap-3"
                 style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.07)' }}>
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-xl"
+                <div className="w-[50px] h-[50px] rounded-[14px] flex items-center justify-center flex-shrink-0 text-2xl"
                   style={{ background: `${s.color}15` }}>
                   {s.emoji}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="font-bold text-sm truncate" style={{ color: '#F0F0F5' }}>
+                  <div className="font-semibold text-[15px] truncate" style={{ color: '#F0F0F5' }}>
                     {doc.title || doc.sender || 'Dokument'}
                   </div>
-                  <div className="text-xs mt-0.5" style={{ color: '#A8A8B8' }}>
+                  <div className="text-[12px] mt-0.5" style={{ color: '#A8A8B8' }}>
                     {date}
                     {doc.sender && ` · ${doc.sender}`}
                     {doc.amount && ` · ${doc.amount} kr`}
