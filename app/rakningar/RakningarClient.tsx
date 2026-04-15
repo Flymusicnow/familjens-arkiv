@@ -149,9 +149,9 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
             <div key={stat.label}
               className="rounded-2xl p-4 text-center"
               style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.06)' }}>
-              <p className="text-[10px] font-semibold tracking-[0.15em] uppercase mb-2"
+              <p className="text-[9px] font-bold tracking-[0.15em] uppercase mb-2"
                 style={{ color: '#6B6B7B' }}>{stat.label}</p>
-              <p className="text-2xl font-bold leading-tight"
+              <p className="text-[26px] font-black leading-tight"
                 style={{ color: stat.color }}>{stat.value}</p>
             </div>
           ))}
@@ -256,23 +256,24 @@ interface SectionProps {
 function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, emptyMsg }: SectionProps) {
   return (
     <div>
-      <div className="flex items-center gap-2 mb-4 mt-6 first:mt-0">
-        <span className="text-base">{emoji}</span>
-        <h2 className="text-xs font-bold tracking-[0.15em] uppercase" style={{ color }}>{title}</h2>
+      <div className="flex items-center gap-2 mb-[14px] mt-6 first:mt-0">
+        <span className="text-sm">{emoji}</span>
+        <h2 className="text-[11px] font-bold tracking-[0.18em] uppercase" style={{ color }}>{title}</h2>
         {bills.length > 0 && (
-          <span className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full"
+          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full"
             style={{ background: `${color}20`, color }}>
             {bills.length}
           </span>
         )}
+        <div className="flex-1 h-px ml-1" style={{ background: 'rgba(255,255,255,0.07)' }} />
       </div>
 
       {bills.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 px-8 text-center rounded-2xl"
+        <div className="flex flex-col items-center justify-center py-12 px-6 text-center rounded-2xl"
           style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.06)' }}>
-          <div className="text-[52px] mb-4">✅</div>
+          <div className="text-[48px] mb-3">✅</div>
           <h3 className="text-[20px] font-bold mb-2" style={{ color: 'white' }}>Allt klart!</h3>
-          <p className="text-[15px] leading-relaxed" style={{ color: '#6B6B7B' }}>{emptyMsg}</p>
+          <p className="text-[14px] leading-relaxed" style={{ color: '#6B6B7B' }}>{emptyMsg}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -298,7 +299,7 @@ function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, empty
                         )}
                       </div>
                       <div className="text-right flex-shrink-0">
-                        <div className="font-black text-xl leading-none" style={{ color }}>
+                        <div className="font-black text-[26px] leading-none" style={{ color, letterSpacing: '-0.5px' }}>
                           {formatAmt(bill.amount)}
                         </div>
                         {bill.due_date && (

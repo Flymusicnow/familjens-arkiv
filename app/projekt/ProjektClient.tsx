@@ -131,28 +131,6 @@ export default function ProjektClient({ ventures: initialVentures, incomeMap: in
           </div>
         )}
 
-        {/* Monthly total */}
-        {ventures.length > 0 && (
-          <div className="rounded-2xl p-5"
-            style={{ background: 'linear-gradient(135deg,#0D0D1F,#080D15)', border: '1px solid rgba(129,140,248,0.25)' }}>
-            <p className="text-xs font-bold tracking-[0.2em] uppercase mb-3" style={{ color: 'rgba(129,140,248,0.7)' }}>
-              TOTALT DENNA MÅNAD
-            </p>
-            <div className="flex items-baseline gap-3">
-              <span className="text-4xl font-black" style={{ color: 'white', letterSpacing: '-2px' }}>
-                {formatAmt(totalIncome)}
-              </span>
-            </div>
-            <p className="text-sm mt-1" style={{ color: '#6B6B7B' }}>Mål: {formatAmt(totalGoal)}</p>
-            <div className="mt-3 h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
-              <div className="h-full rounded-full transition-all duration-700"
-                style={{
-                  width: `${Math.min(100, totalGoal > 0 ? (totalIncome / totalGoal) * 100 : 0)}%`,
-                  background: 'linear-gradient(90deg, #818CF8, #34D399)',
-                }} />
-            </div>
-          </div>
-        )}
 
         {/* Add form */}
         {showAdd && (
@@ -190,16 +168,31 @@ export default function ProjektClient({ ventures: initialVentures, incomeMap: in
           </div>
         )}
 
+        {/* Stats row — always visible */}
+        <div className="grid grid-cols-3 gap-[10px]">
+          {[
+            { label: 'Total/mån', value: ventures.length > 0 ? formatAmt(totalIncome) : '–', color: '#34D399', small: totalIncome >= 10000 },
+            { label: 'Aktiva',    value: String(ventures.length),  color: '#818CF8', small: false },
+            { label: 'Mål',       value: totalGoal > 0 ? `${Math.min(100, Math.round((totalIncome/totalGoal)*100))}%` : '–', color: '#FBBF24', small: false },
+          ].map(s => (
+            <div key={s.label} className="rounded-2xl py-4 px-[10px] text-center"
+              style={{ background: '#141420', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <p className="text-[9px] font-bold tracking-[0.15em] uppercase mb-2" style={{ color: '#6B6B7B' }}>{s.label}</p>
+              <p className={`${s.small ? 'text-[18px]' : 'text-[26px]'} font-black leading-tight`} style={{ color: s.color }}>{s.value}</p>
+            </div>
+          ))}
+        </div>
+
         {/* Empty state */}
         {ventures.length === 0 && !showAdd && (
-          <div className="rounded-2xl p-8 text-center"
+          <div className="rounded-2xl py-12 px-6 text-center"
             style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.07)' }}>
-            <div className="text-4xl mb-4">🚀</div>
-            <div className="font-bold mb-2" style={{ color: '#F0F0F5' }}>Inga projekt än</div>
-            <div className="text-sm mb-5" style={{ color: '#A8A8B8' }}>Lägg till dina ventures eller använd standardprojekten</div>
+            <div className="text-[48px] mb-4">🚀</div>
+            <div className="text-[20px] font-bold mb-2" style={{ color: '#F0F0F5' }}>Inga projekt än</div>
+            <div className="text-[14px] mb-6 leading-relaxed" style={{ color: '#6B6B7B' }}>Lägg till dina ventures eller använd standardprojekten</div>
             <button onClick={seedDefaults} disabled={saving}
-              className="px-6 py-3 rounded-xl font-bold text-sm text-white"
-              style={{ background: '#818CF8', minHeight: 44 }}>
+              className="w-full min-h-[52px] rounded-2xl font-bold text-[15px] text-white"
+              style={{ background: '#818CF8' }}>
               {saving ? 'Skapar...' : '⚡ Starta med standardprojekten'}
             </button>
           </div>
