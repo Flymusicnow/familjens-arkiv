@@ -1,31 +1,32 @@
-@import '@fontsource/lexend/400.css';
-@import '@fontsource/lexend/500.css';
-@import '@fontsource/lexend/600.css';
-@import '@fontsource/lexend/700.css';
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: 'Lexend', system-ui, sans-serif;
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+  --font-serif: var(--font-playfair), Georgia, serif;
 
   /* Backgrounds */
-  --color-bg:      #0A0A0A;
-  --color-card:    #1A1A1A;
-  --color-high:    #252530;
-  --color-input:   #1F1F1F;
+  --color-bg:    #FAF8F5;
+  --color-card:  #FFFFFF;
+  --color-high:  #F5F3F0;
+  --color-input: #F5F3F0;
 
   /* Text */
-  --color-t1: #F0F0F5;
-  --color-t2: #A8A8B8;
-  --color-t3: #6B6B7B;
+  --color-t1: #1A2018;
+  --color-t2: #5A6858;
+  --color-t3: #8A9888;
 
-  /* Accents */
-  --color-red:    #F87171;
-  --color-amber:  #FBBF24;
-  --color-green:  #34D399;
-  --color-blue:   #60A5FA;
-  --color-purple: #A78BFA;
-  --color-indigo: #818CF8;
-  --color-accent: #818CF8;
+  /* Nature accents */
+  --color-sage:   #5A9A50;
+  --color-sky:    #4A8CB4;
+  --color-terra:  #C46040;
+  --color-amber:  #9A7830;
+  --color-twi:    #6450B4;
+  --color-rose:   #B45070;
+  --color-teal:   #3A8878;
+  --color-moss:   #6AA860;
+  --color-forest: #2D6A40;
+  --color-earth:  #907060;
+  --color-accent: #6450B4;
 }
 
 * {
@@ -36,26 +37,29 @@
 }
 
 :root {
-  --bg:       #0A0A0A;
-  --bg-card:  #1A1A1A;
-  --bg-high:  #252530;
-  --t1:       #F0F0F5;
-  --t2:       #A8A8B8;
-  --t3:       #6B6B7B;
-  --border:   rgba(255,255,255,0.12);
-  --border-s: rgba(255,255,255,0.06);
-  --red:      #F87171;
-  --amber:    #FBBF24;
-  --green:    #34D399;
-  --blue:     #60A5FA;
-  --purple:   #A78BFA;
-  --accent:   #818CF8;
+  --bg:       #FAF8F5;
+  --bg-card:  #FFFFFF;
+  --bg-high:  #F5F3F0;
+  --t1:       #1A2018;
+  --t2:       #5A6858;
+  --t3:       #8A9888;
+  --border:   rgba(0,0,0,0.10);
+  --border-s: rgba(0,0,0,0.06);
+  --sage:     #5A9A50;
+  --sky:      #4A8CB4;
+  --terra:    #C46040;
+  --amber:    #9A7830;
+  --twi:      #6450B4;
+  --rose:     #B45070;
+  --teal:     #3A8878;
+  --moss:     #6AA860;
+  --accent:   #6450B4;
 }
 
 html, body {
   background: var(--bg);
   color: var(--t1);
-  font-family: 'Lexend', system-ui, sans-serif;
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
   font-size: 17px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;

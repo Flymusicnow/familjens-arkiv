@@ -27,9 +27,9 @@ interface Props {
   initialEntries: Entry[]
 }
 
-const F = '#818CF8'
-const S = '#F472B6'
-const G = '#34D399'
+const F = '#6450B4'
+const S = '#B45070'
+const G = '#5A9A50'
 
 const fmt = (n: number) => Math.round(n).toLocaleString('sv-SE') + ' kr'
 
@@ -158,7 +158,7 @@ export default function EkonomiClient({ workspaceId }: Props) {
         </div>
 
         {/* Person toggle */}
-        <div className="flex rounded-2xl p-1.5 gap-1" style={{ background:'#141414', border:'1px solid rgba(255,255,255,0.07)' }}>
+        <div className="flex rounded-2xl p-1.5 gap-1" style={{ background:'#F5F3F0', border:'1px solid rgba(0,0,0,0.07)' }}>
           {([
             { id:'franck', label:'Franck', av:'F', color: F },
             { id:'salona', label:'Salona', av:'S', color: S },
@@ -166,9 +166,9 @@ export default function EkonomiClient({ workspaceId }: Props) {
           ] as { id: Person; label: string; av: string; color: string }[]).map(p => (
             <button key={p.id} onClick={() => setPerson(p.id)}
               className="flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-xl font-bold text-sm transition-all"
-              style={{ background: person===p.id ? `${p.color}20` : 'transparent', color: person===p.id ? p.color : '#4A4A65' }}>
+              style={{ background: person===p.id ? `${p.color}15` : 'transparent', color: person===p.id ? p.color : '#8A9888' }}>
               <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0"
-                style={{ background: person===p.id ? `${p.color}30` : 'rgba(255,255,255,0.06)', color: person===p.id ? p.color : '#4A4A65' }}>
+                style={{ background: person===p.id ? `${p.color}25` : 'rgba(0,0,0,0.06)', color: person===p.id ? p.color : '#8A9888' }}>
                 {p.av}
               </div>
               {p.label}
@@ -183,19 +183,19 @@ export default function EkonomiClient({ workspaceId }: Props) {
 
             {/* Deklaration hero */}
             <div className="rounded-3xl p-7 relative overflow-hidden"
-              style={{ background:`linear-gradient(135deg,rgba(129,140,248,0.12),rgba(129,140,248,0.03))`, border:`1px solid rgba(129,140,248,0.2)` }}>
+              style={{ background:`linear-gradient(135deg,rgba(100,80,180,0.08),rgba(100,80,180,0.03))`, border:`1px solid rgba(100,80,180,0.18)` }}>
               <p className="text-[10px] font-bold tracking-[0.18em] uppercase mb-3" style={{ color:F }}>🎉 Deklaration 2025 — väntar på dig</p>
               <div className="text-5xl font-black mb-2" style={{ color:F, letterSpacing:'-2px' }}>{fmt(franckDek)}</div>
-              <p className="text-sm mb-5" style={{ color:'rgba(255,255,255,0.45)' }}>Skicka in nu för att få pengarna</p>
+              <p className="text-sm mb-5" style={{ color:'#8A9888' }}>Skicka in nu för att få pengarna</p>
               <a href="https://www.skatteverket.se" target="_blank" rel="noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-sm text-white"
                 style={{ background:F }}>Öppna Skatteverket →</a>
             </div>
 
             <StatsRow stats={[
-              { label:'Inkomst/mån', value:'35.5k', sub:'kr', color:'#34D399' },
-              { label:'Utgifter/mån', value:'8.2k',  sub:'kr', color:'#F87171' },
-              { label:'Netto',       value:'+27k',  sub:'kr', color:'#34D399' },
+              { label:'Inkomst/mån', value:'35.5k', sub:'kr', color:'#5A9A50' },
+              { label:'Utgifter/mån', value:'8.2k',  sub:'kr', color:'#C46040' },
+              { label:'Netto',       value:'+27k',  sub:'kr', color:'#5A9A50' },
             ]} />
 
             <BudgetBar title="April 2026" inAmt={35500} utAmt={8200} inColor={F} barGrad={[F,'#60A5FA']} />
@@ -222,19 +222,19 @@ export default function EkonomiClient({ workspaceId }: Props) {
             <ViewHeader eyebrow="Din ekonomi" title="Salona" color={S} />
 
             <div className="rounded-3xl p-7 relative overflow-hidden"
-              style={{ background:`linear-gradient(135deg,rgba(244,114,182,0.12),rgba(244,114,182,0.03))`, border:`1px solid rgba(244,114,182,0.2)` }}>
+              style={{ background:`linear-gradient(135deg,rgba(180,80,112,0.08),rgba(180,80,112,0.03))`, border:`1px solid rgba(180,80,112,0.18)` }}>
               <p className="text-[10px] font-bold tracking-[0.18em] uppercase mb-3" style={{ color:S, opacity:0.8 }}>Totalt denna månad</p>
               <div className="flex items-center gap-3 mb-2">
                 <span className="text-5xl font-black" style={{ color:S, letterSpacing:'-2px' }}>{fmt(salonaIn)}</span>
                 <div className="w-2.5 h-2.5 rounded-full flex-shrink-0 animate-pulse" style={{ background:S }} />
               </div>
-              <p className="text-sm" style={{ color:'rgba(255,255,255,0.45)' }}>Studiebidrag + Massage · April 2026</p>
+              <p className="text-sm" style={{ color:'#8A9888' }}>Studiebidrag + Massage · April 2026</p>
             </div>
 
             <StatsRow stats={[
               { label:'Inkomst/mån',   value:'23k', sub:'kr',     color:S        },
               { label:'Massagekunder', value:'3',   sub:'aktiva', color:S        },
-              { label:'Mål/mån',       value:'53%', sub:'uppnått',color:'#FBBF24'},
+              { label:'Mål/mån',       value:'53%', sub:'uppnått',color:'#9A7830'},
             ]} />
 
             <BudgetBar title="April 2026" inAmt={salonaIn} utAmt={4200} inColor={S} barGrad={[S,'#A78BFA']} />
@@ -263,23 +263,23 @@ export default function EkonomiClient({ workspaceId }: Props) {
             <ViewHeader eyebrow="Gemensam ekonomi" title="Familjen" color={G} />
 
             <div className="rounded-3xl p-7 text-center relative overflow-hidden"
-              style={{ background:'linear-gradient(135deg,rgba(52,211,153,0.1),rgba(52,211,153,0.03))', border:'1px solid rgba(52,211,153,0.2)' }}>
+              style={{ background:'linear-gradient(135deg,rgba(90,154,80,0.08),rgba(90,154,80,0.03))', border:'1px solid rgba(90,154,80,0.18)' }}>
               <p className="text-[10px] font-bold tracking-[0.18em] uppercase mb-3" style={{ color:G, opacity:0.7 }}>Familjens netto april 2026</p>
               <div className="text-6xl font-black mb-2" style={{ color:G, letterSpacing:'-2px' }}>+46 100 kr</div>
-              <p className="text-sm" style={{ color:'rgba(255,255,255,0.45)' }}>{fmt(familyIn)} in · {fmt(familyUt)} ut</p>
+              <p className="text-sm" style={{ color:'#8A9888' }}>{fmt(familyIn)} in · {fmt(familyUt)} ut</p>
             </div>
 
             <StatsRow stats={[
-              { label:'Totalt in',  value:'58.5k', sub:'kr/mån',    color:'#34D399' },
-              { label:'Totalt ut',  value:'12.4k', sub:'kr/mån',    color:'#F87171' },
+              { label:'Totalt in',  value:'58.5k', sub:'kr/mån',    color:'#5A9A50' },
+              { label:'Totalt ut',  value:'12.4k', sub:'kr/mån',    color:'#C46040' },
               { label:'Per person', value:'23k',   sub:'netto var', color:G         },
             ]} />
 
             <BudgetBar title="Familjebudget April 2026" inAmt={familyIn} utAmt={familyUt} inColor={G} barGrad={[G,'#60A5FA']} />
 
             {/* Split */}
-            <div className="rounded-2xl p-5" style={{ background:'#1A1A1A', border:'1px solid rgba(255,255,255,0.07)' }}>
-              <h3 className="font-bold text-sm mb-5 flex items-center gap-2" style={{ color:'#F0F0F5' }}>👥 Inkomst per person</h3>
+            <div className="rounded-2xl p-5" style={{ background:'#FFFFFF', border:'1px solid rgba(0,0,0,0.07)' }}>
+              <h3 className="font-bold text-sm mb-5 flex items-center gap-2" style={{ color:'#1A2018' }}>👥 Inkomst per person</h3>
               <SplitBar name="Franck"     pct={61}  amt="35 500 kr" color={F} />
               <SplitBar name="Salona"     pct={39}  amt="23 000 kr" color={S} />
               <SplitBar name="Gemensamt"  pct={100} amt="58 500 kr" color={G} />
@@ -308,19 +308,19 @@ export default function EkonomiClient({ workspaceId }: Props) {
         <>
           <div className="fixed inset-0 z-[60]" onClick={() => setModal(null)} style={{ background:'rgba(0,0,0,0.6)', backdropFilter:'blur(4px)' }} />
           <div className="fixed bottom-0 left-0 right-0 z-[70] md:bottom-8 md:left-1/2 md:-translate-x-1/2 md:w-[420px] rounded-t-3xl md:rounded-3xl p-6 space-y-4"
-            style={{ background:'#141414', borderTop:'1px solid rgba(255,255,255,0.1)' }}>
-            <div className="w-10 h-1 rounded-full mx-auto md:hidden" style={{ background:'rgba(255,255,255,0.15)' }} />
-            <h3 className="font-bold text-base" style={{ color:'#F0F0F5' }}>Lägg till post</h3>
+            style={{ background:'#FFFFFF', borderTop:'1px solid rgba(0,0,0,0.08)' }}>
+            <div className="w-10 h-1 rounded-full mx-auto md:hidden" style={{ background:'rgba(0,0,0,0.12)' }} />
+            <h3 className="font-bold text-base" style={{ color:'#1A2018' }}>Lägg till post</h3>
             <input value={form.description} onChange={e => setForm(f=>({...f,description:e.target.value}))} onKeyDown={e => e.key==='Enter' && saveEntry()} placeholder="Beskrivning" autoFocus
               className="w-full px-4 py-3 rounded-xl text-sm outline-none"
-              style={{ background:'rgba(255,255,255,0.07)', border:'1px solid rgba(255,255,255,0.1)', color:'#F0F0F5' }} />
+              style={{ background:'#FAF8F5', border:'1px solid rgba(0,0,0,0.10)', color:'#1A2018' }} />
             <div className="grid grid-cols-2 gap-3">
               <input value={form.amount} onChange={e => setForm(f=>({...f,amount:e.target.value}))} placeholder="Belopp (kr)" type="number"
                 className="px-4 py-3 rounded-xl text-sm outline-none"
-                style={{ background:'rgba(255,255,255,0.07)', border:'1px solid rgba(255,255,255,0.1)', color:'#F0F0F5' }} />
+                style={{ background:'#FAF8F5', border:'1px solid rgba(0,0,0,0.10)', color:'#1A2018' }} />
               <select value={form.status} onChange={e => setForm(f=>({...f,status:e.target.value as EStatus}))}
                 className="px-4 py-3 rounded-xl text-sm outline-none"
-                style={{ background:'#141414', border:'1px solid rgba(255,255,255,0.1)', color:'#F0F0F5' }}>
+                style={{ background:'#FAF8F5', border:'1px solid rgba(0,0,0,0.10)', color:'#1A2018' }}>
                 <option value="klar">✅ Klar</option>
                 <option value="aktiv">📈 Aktiv</option>
                 <option value="väntar">⏳ Väntar</option>
@@ -329,11 +329,11 @@ export default function EkonomiClient({ workspaceId }: Props) {
             </div>
             <input value={form.note} onChange={e => setForm(f=>({...f,note:e.target.value}))} placeholder="Notering (valfritt)"
               className="w-full px-4 py-3 rounded-xl text-sm outline-none"
-              style={{ background:'rgba(255,255,255,0.07)', border:'1px solid rgba(255,255,255,0.1)', color:'#F0F0F5' }} />
+              style={{ background:'#FAF8F5', border:'1px solid rgba(0,0,0,0.10)', color:'#1A2018' }} />
             <div className="flex gap-3">
-              <button onClick={() => setModal(null)} className="flex-1 py-3 rounded-xl font-bold text-sm" style={{ background:'rgba(255,255,255,0.07)', color:'#A8A8B8' }}>Avbryt</button>
+              <button onClick={() => setModal(null)} className="flex-1 py-3 rounded-xl font-bold text-sm" style={{ background:'rgba(0,0,0,0.05)', color:'#5A6858' }}>Avbryt</button>
               <button onClick={saveEntry} disabled={saving || !form.description.trim() || !form.amount} className="flex-1 py-3 rounded-xl font-bold text-sm text-white"
-                style={{ background: (saving || !form.description.trim() || !form.amount) ? '#2A2A2A' : '#818CF8' }}>
+                style={{ background: (saving || !form.description.trim() || !form.amount) ? '#8A9888' : '#6450B4' }}>
                 {saving ? 'Sparar...' : 'Spara'}
               </button>
             </div>
@@ -349,7 +349,7 @@ export default function EkonomiClient({ workspaceId }: Props) {
 function ViewHeader({ eyebrow, title, color }: { eyebrow: string; title: string; color: string }) {
   return (
     <div className="mb-1">
-      <p className="text-[11px] font-bold tracking-[0.2em] uppercase mb-1.5" style={{ color:'#4A4A65' }}>{eyebrow}</p>
+      <p className="text-[11px] font-bold tracking-[0.2em] uppercase mb-1.5" style={{ color:'#8A9888' }}>{eyebrow}</p>
       <h1 className="text-4xl font-black" style={{ color, letterSpacing:'-1px' }}>{title}</h1>
     </div>
   )
@@ -359,10 +359,10 @@ function StatsRow({ stats }: { stats: { label: string; value: string; sub: strin
   return (
     <div className="grid grid-cols-3 gap-3">
       {stats.map((s, i) => (
-        <div key={i} className="rounded-2xl p-4 text-center" style={{ background:'#141414', border:'1px solid rgba(255,255,255,0.07)' }}>
-          <p className="text-[10px] font-bold tracking-[0.18em] uppercase mb-2" style={{ color:'#4A4A65' }}>{s.label}</p>
+        <div key={i} className="rounded-2xl p-4 text-center" style={{ background:'#FFFFFF', border:'1px solid rgba(0,0,0,0.07)' }}>
+          <p className="text-[10px] font-bold tracking-[0.18em] uppercase mb-2" style={{ color:'#8A9888' }}>{s.label}</p>
           <p className="text-2xl font-black leading-none mb-1" style={{ color:s.color, letterSpacing:'-0.5px' }}>{s.value}</p>
-          <p className="text-[11px]" style={{ color:'#3A3A4A' }}>{s.sub}</p>
+          <p className="text-[11px]" style={{ color:'#8A9888' }}>{s.sub}</p>
         </div>
       ))}
     </div>
@@ -373,16 +373,16 @@ function BudgetBar({ title, inAmt, utAmt, inColor, barGrad }: { title: string; i
   const netto = inAmt - utAmt
   const pct = Math.min(100, (utAmt / (inAmt||1)) * 100)
   return (
-    <div className="rounded-2xl p-5" style={{ background:'#1A1A1A', border:'1px solid rgba(255,255,255,0.07)' }}>
-      <p className="font-bold text-sm mb-4" style={{ color:'#F0F0F5' }}>📊 {title}</p>
+    <div className="rounded-2xl p-5" style={{ background:'#FFFFFF', border:'1px solid rgba(0,0,0,0.07)' }}>
+      <p className="font-bold text-sm mb-4" style={{ color:'#1A2018' }}>📊 {title}</p>
       <div className="flex justify-between text-xs font-semibold mb-2.5">
         <span style={{ color:inColor }}>In: {fmt(inAmt)}</span>
-        <span style={{ color:'#F87171' }}>Ut: {fmt(utAmt)}</span>
+        <span style={{ color:'#C46040' }}>Ut: {fmt(utAmt)}</span>
       </div>
-      <div className="h-2.5 rounded-full overflow-hidden mb-2.5" style={{ background:'rgba(255,255,255,0.06)' }}>
+      <div className="h-2.5 rounded-full overflow-hidden mb-2.5" style={{ background:'rgba(0,0,0,0.06)' }}>
         <div className="h-full rounded-full" style={{ width:`${pct}%`, background:`linear-gradient(90deg,${barGrad[0]},${barGrad[1]})` }} />
       </div>
-      <div className="text-right font-bold text-sm" style={{ color: netto>=0 ? '#34D399' : '#F87171' }}>
+      <div className="text-right font-bold text-sm" style={{ color: netto>=0 ? '#5A9A50' : '#C46040' }}>
         Netto: {netto>=0?'+':''}{fmt(netto)} {netto>=0?'🟢':'🔴'}
       </div>
     </div>
@@ -391,9 +391,9 @@ function BudgetBar({ title, inAmt, utAmt, inColor, barGrad }: { title: string; i
 
 function Section({ title, total, totalColor, children }: { title: string; total: string; totalColor: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-2xl overflow-hidden" style={{ background:'#1A1A1A', border:'1px solid rgba(255,255,255,0.07)' }}>
-      <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom:'1px solid rgba(255,255,255,0.07)' }}>
-        <h3 className="font-bold text-sm" style={{ color:'#F0F0F5' }}>{title}</h3>
+    <div className="rounded-2xl overflow-hidden" style={{ background:'#FFFFFF', border:'1px solid rgba(0,0,0,0.07)' }}>
+      <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom:'1px solid rgba(0,0,0,0.06)' }}>
+        <h3 className="font-bold text-sm" style={{ color:'#1A2018' }}>{title}</h3>
         <span className="font-black text-sm" style={{ color:totalColor }}>{total}</span>
       </div>
       <div className="py-1">{children}</div>
@@ -403,10 +403,10 @@ function Section({ title, total, totalColor, children }: { title: string; total:
 
 function Row({ title, sub, amt, amtColor, badge, badgeColor }: { title: string; sub: string; amt: string; amtColor: string; badge?: string; badgeColor?: string }) {
   return (
-    <div className="flex items-center justify-between px-5 py-3.5" style={{ borderBottom:'1px solid rgba(255,255,255,0.04)' }}>
+    <div className="flex items-center justify-between px-5 py-3.5" style={{ borderBottom:'1px solid rgba(0,0,0,0.04)' }}>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold" style={{ color:'#F0F0F5' }}>{title}</p>
-        {sub && <p className="text-xs mt-0.5 truncate" style={{ color:'#4A4A65' }}>{sub}</p>}
+        <p className="text-sm font-semibold" style={{ color:'#1A2018' }}>{title}</p>
+        {sub && <p className="text-xs mt-0.5 truncate" style={{ color:'#8A9888' }}>{sub}</p>}
       </div>
       <div className="flex items-center gap-2.5 flex-shrink-0 ml-3">
         <span className="text-sm font-bold" style={{ color:amtColor }}>{amt}</span>
@@ -419,7 +419,7 @@ function Row({ title, sub, amt, amtColor, badge, badgeColor }: { title: string; 
 function AddRow({ label, onClick }: { label: string; onClick: () => void }) {
   return (
     <button onClick={onClick} className="w-full flex items-center justify-center py-3.5 text-xs font-semibold transition-colors hover:opacity-80"
-      style={{ borderTop:'1px dashed rgba(255,255,255,0.07)', color:'#4A4A65' }}>
+      style={{ borderTop:'1px dashed rgba(0,0,0,0.08)', color:'#8A9888' }}>
       {label}
     </button>
   )
@@ -430,7 +430,7 @@ function SplitBar({ name, pct, amt, color }: { name: string; pct: number; amt: s
     <div className="flex items-center gap-4 mb-4 last:mb-0">
       <div className="w-20 flex-shrink-0 text-xs font-bold" style={{ color }}>{name}</div>
       <div className="flex-1">
-        <div className="h-2 rounded-full overflow-hidden" style={{ background:'rgba(255,255,255,0.06)' }}>
+        <div className="h-2 rounded-full overflow-hidden" style={{ background:'rgba(0,0,0,0.06)' }}>
           <div className="h-full rounded-full" style={{ width:`${pct}%`, background:color }} />
         </div>
       </div>
