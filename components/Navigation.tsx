@@ -91,21 +91,30 @@ export default function Navigation() {
       {/* ── Mobile bottom bar ───────────────────────────────────────────── */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50"
         style={{
-          background: 'rgba(255,255,255,0.95)',
+          background: 'rgba(242,237,230,0.96)',
           backdropFilter: 'blur(20px)',
-          borderTop: '1px solid rgba(0,0,0,0.08)',
-          paddingBottom: 'env(safe-area-inset-bottom, 16px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          borderTop: '1px solid rgba(28,26,23,0.10)',
+          height: 72,
         }}>
-        <div className="flex items-center justify-around px-2 pt-2 pb-1">
+        <div className="flex items-center justify-around h-full px-2">
           {mobileMain.map(item => {
             const active = path.startsWith(item.href)
             return (
               <Link key={item.href} href={item.href}
-                className="flex flex-col items-center gap-1 min-w-[60px] py-2 px-3 rounded-2xl transition-all"
-                style={{ background: active ? `${item.color}12` : 'transparent' }}>
-                {item.icon(active)}
-                <span className="text-[10px] font-semibold transition-colors"
-                  style={{ color: active ? item.color : '#8A9888' }}>
+                className="flex flex-col items-center justify-center gap-1 flex-1 h-full"
+                style={{ minWidth: 0 }}>
+                <div className="flex items-center justify-center rounded-2xl transition-all"
+                  style={{
+                    background: active ? '#2D5A27' : 'transparent',
+                    width: 44, height: 32,
+                  }}>
+                  {mobileNavIcon(item.label, active)}
+                </div>
+                <span style={{
+                  fontSize: 10, fontWeight: 600, lineHeight: 1,
+                  color: active ? '#2D5A27' : '#9C9690',
+                }}>
                   {item.label}
                 </span>
               </Link>
@@ -115,11 +124,19 @@ export default function Navigation() {
           {/* Mer button */}
           <button
             onClick={() => setShowMore(s => !s)}
-            className="flex flex-col items-center gap-1 min-w-[60px] py-2 px-3 rounded-2xl transition-all"
-            style={{ background: (merActive || showMore) ? 'rgba(144,112,96,0.12)' : 'transparent' }}>
-            {DotsIcon(merActive || showMore)}
-            <span className="text-[10px] font-semibold"
-              style={{ color: (merActive || showMore) ? '#907060' : '#8A9888' }}>Mer</span>
+            className="flex flex-col items-center justify-center gap-1 flex-1 h-full"
+            style={{ minWidth: 0 }}>
+            <div className="flex items-center justify-center rounded-2xl transition-all"
+              style={{
+                background: (merActive || showMore) ? '#2D5A27' : 'transparent',
+                width: 44, height: 32,
+              }}>
+              {mobileNavIcon('Mer', merActive || showMore)}
+            </div>
+            <span style={{
+              fontSize: 10, fontWeight: 600, lineHeight: 1,
+              color: (merActive || showMore) ? '#2D5A27' : '#9C9690',
+            }}>Mer</span>
           </button>
         </div>
       </nav>
@@ -286,4 +303,40 @@ function DotsIcon(active: boolean) {
   return icon(active, '#907060', <>
     <circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/>
   </>)
+}
+
+// ── Mobile nav icons (22px, white when active on forest pill) ─────────────────
+
+function mobileNavIcon(label: string, active: boolean) {
+  const stroke = active ? 'white' : '#9C9690'
+  const sw = active ? 2.2 : 1.8
+  const paths: Record<string, React.ReactNode> = {
+    'Hem': <>
+      <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </>,
+    'Räkningar': <>
+      <rect x="2" y="5" width="20" height="14" rx="2"/>
+      <line x1="2" y1="10" x2="22" y2="10"/>
+      <line x1="6" y1="15" x2="9" y2="15"/>
+    </>,
+    'Mail': <>
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+      <polyline points="22,6 12,13 2,6"/>
+    </>,
+    'Projekt': <>
+      <line x1="18" y1="20" x2="18" y2="10"/>
+      <line x1="12" y1="20" x2="12" y2="4"/>
+      <line x1="6" y1="20" x2="6" y2="14"/>
+    </>,
+    'Mer': <>
+      <circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/>
+    </>,
+  }
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+      stroke={stroke} strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round">
+      {paths[label] ?? null}
+    </svg>
+  )
 }
