@@ -17,7 +17,7 @@ export function PageHeader({
           </p>
         )}
         <h1 className="text-[32px] font-black leading-tight tracking-tight"
-          style={{ color: 'white' }}>
+          style={{ color: '#1A2018' }}>
           {title}
         </h1>
       </div>

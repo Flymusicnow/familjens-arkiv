@@ -36,7 +36,6 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
   const [saving, setSaving] = useState(false)
   const [form, setForm] = useState({ title: '', sender: '', amount: '', due_date: '', ocr_number: '' })
 
-  // Real-time subscription
   useEffect(() => {
     if (workspaceId === 'guest') return
     const ch = supabase.channel('rakningar-rt')
@@ -133,7 +132,7 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
           action={
             <button onClick={() => setShowAdd(true)}
               className="flex items-center gap-2 px-5 text-sm font-semibold text-white rounded-2xl flex-shrink-0 mt-1"
-              style={{ background: '#F87171', height: 44 }}>
+              style={{ background: '#C46040', height: 44 }}>
               + Lägg till
             </button>
           }
@@ -142,16 +141,16 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
         {/* Stats row */}
         <div className="grid grid-cols-3 gap-3">
           {[
-            { label: 'Totalt', value: formatAmt(totalOwed), color: '#F0F0F5' },
-            { label: 'Akuta',  value: String(akut.length),  color: '#F87171' },
-            { label: 'Snart',  value: String(snart.length), color: '#FBBF24' },
+            { label: 'Totalt', value: formatAmt(totalOwed), color: '#1A2018' },
+            { label: 'Akuta',  value: String(akut.length),  color: '#C46040' },
+            { label: 'Snart',  value: String(snart.length), color: '#9A7830' },
           ].map(stat => (
             <div key={stat.label}
               className="rounded-2xl p-4 text-center"
-              style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.06)' }}>
-              <p className="text-[10px] font-semibold tracking-[0.15em] uppercase mb-2"
-                style={{ color: '#6B6B7B' }}>{stat.label}</p>
-              <p className="text-2xl font-bold leading-tight"
+              style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
+              <p className="text-[9px] font-bold tracking-[0.15em] uppercase mb-2"
+                style={{ color: '#8A9888' }}>{stat.label}</p>
+              <p className="text-[26px] font-black leading-tight"
                 style={{ color: stat.color }}>{stat.value}</p>
             </div>
           ))}
@@ -161,7 +160,7 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
         <Section
           title="Akuta"
           emoji="🔴"
-          color="#F87171"
+          color="#C46040"
           bills={akut}
           removing={removing}
           onPaid={markPaid}
@@ -173,7 +172,7 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
         <Section
           title="Snart förfaller"
           emoji="🟡"
-          color="#FBBF24"
+          color="#9A7830"
           bills={snart}
           removing={removing}
           onPaid={markPaid}
@@ -186,19 +185,19 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
           <div>
             <div className="flex items-center gap-2 mb-3">
               <span className="text-base">✅</span>
-              <h2 className="text-xs font-bold tracking-widest uppercase" style={{ color: '#34D399' }}>Betalda</h2>
+              <h2 className="text-xs font-bold tracking-widest uppercase" style={{ color: '#5A9A50' }}>Betalda</h2>
             </div>
             <div className="space-y-2">
               {klar.slice(0, 10).map(bill => (
                 <div key={bill.id} className="relative rounded-2xl overflow-hidden px-6 py-4 flex items-center gap-3"
-                  style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.05)', opacity: 0.5 }}>
-                  <div className="absolute left-0 w-[3px] rounded-full" style={{ background: '#34D399', top: 16, bottom: 16 }} />
+                  style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.05)', opacity: 0.6 }}>
+                  <div className="absolute left-0 w-[3px] rounded-full" style={{ background: '#5A9A50', top: 16, bottom: 16 }} />
                   <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-sm truncate" style={{ color: '#F0F0F5', textDecoration: 'line-through' }}>{bill.title}</div>
-                    <div className="text-xs mt-0.5" style={{ color: '#A8A8B8' }}>{bill.sender} · {formatAmt(bill.amount)}</div>
+                    <div className="font-semibold text-sm truncate" style={{ color: '#5A6858', textDecoration: 'line-through' }}>{bill.title}</div>
+                    <div className="text-xs mt-0.5" style={{ color: '#8A9888' }}>{bill.sender} · {formatAmt(bill.amount)}</div>
                   </div>
                   <span className="text-xs font-bold px-2 py-1 rounded-lg flex-shrink-0"
-                    style={{ background: 'rgba(52,211,153,0.12)', color: '#34D399' }}>BETALD</span>
+                    style={{ background: 'rgba(90,154,80,0.10)', color: '#5A9A50' }}>BETALD</span>
                 </div>
               ))}
             </div>
@@ -210,16 +209,15 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
       {showAdd && (
         <div
           className="fixed inset-0 z-[100] flex items-end md:items-center justify-center p-4 md:p-6"
-          style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)' }}
+          style={{ background: 'rgba(26,32,24,0.5)', backdropFilter: 'blur(8px)' }}
           onClick={e => { if (e.target === e.currentTarget) setShowAdd(false) }}>
           <div className="w-full max-w-[min(480px,calc(100vw-32px))] rounded-3xl overflow-hidden"
-            style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.08)' }}>
-            {/* Handle bar */}
+            style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.08)' }}>
             <div className="flex justify-center pt-3 pb-0">
-              <div className="w-10 h-1 rounded-full" style={{ background: 'rgba(255,255,255,0.15)' }} />
+              <div className="w-10 h-1 rounded-full" style={{ background: 'rgba(0,0,0,0.12)' }} />
             </div>
             <div className="px-6 pt-4 pb-8 space-y-5">
-              <h3 className="text-xl font-bold" style={{ color: 'white' }}>Ny räkning</h3>
+              <h3 className="text-xl font-bold" style={{ color: '#1A2018' }}>Ny räkning</h3>
               <Field label="Titel" placeholder="T.ex. Elräkning" value={form.title} onChange={v => setForm(f => ({ ...f, title: v }))} />
               <Field label="Avsändare" placeholder="T.ex. Vattenfall" value={form.sender} onChange={v => setForm(f => ({ ...f, sender: v }))} />
               <div className="grid grid-cols-2 gap-4">
@@ -229,7 +227,7 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
               <Field label="OCR-nummer" placeholder="Betalningsreferens" value={form.ocr_number} onChange={v => setForm(f => ({ ...f, ocr_number: v }))} />
               <button onClick={addBill} disabled={saving}
                 className="w-full mt-8 font-bold text-base text-white rounded-2xl"
-                style={{ background: saving ? '#6B6B7B' : '#F87171', height: 56 }}>
+                style={{ background: saving ? '#8A9888' : '#C46040', height: 56 }}>
                 {saving ? 'Sparar...' : 'Spara räkning'}
               </button>
             </div>
@@ -256,23 +254,24 @@ interface SectionProps {
 function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, emptyMsg }: SectionProps) {
   return (
     <div>
-      <div className="flex items-center gap-2 mb-4 mt-6 first:mt-0">
-        <span className="text-base">{emoji}</span>
-        <h2 className="text-xs font-bold tracking-[0.15em] uppercase" style={{ color }}>{title}</h2>
+      <div className="flex items-center gap-2 mb-[14px] mt-6 first:mt-0">
+        <span className="text-sm">{emoji}</span>
+        <h2 className="text-[11px] font-bold tracking-[0.18em] uppercase" style={{ color }}>{title}</h2>
         {bills.length > 0 && (
-          <span className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full"
-            style={{ background: `${color}20`, color }}>
+          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+            style={{ background: `${color}15`, color }}>
             {bills.length}
           </span>
         )}
+        <div className="flex-1 h-px ml-1" style={{ background: 'rgba(0,0,0,0.08)' }} />
       </div>
 
       {bills.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 px-8 text-center rounded-2xl"
-          style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.06)' }}>
-          <div className="text-[52px] mb-4">✅</div>
-          <h3 className="text-[20px] font-bold mb-2" style={{ color: 'white' }}>Allt klart!</h3>
-          <p className="text-[15px] leading-relaxed" style={{ color: '#6B6B7B' }}>{emptyMsg}</p>
+        <div className="flex flex-col items-center justify-center py-12 px-6 text-center rounded-2xl"
+          style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.06)' }}>
+          <div className="text-[48px] mb-3">✅</div>
+          <h3 className="text-[20px] font-bold mb-2" style={{ color: '#1A2018' }}>Allt klart!</h3>
+          <p className="text-[14px] leading-relaxed" style={{ color: '#8A9888' }}>{emptyMsg}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -286,37 +285,36 @@ function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, empty
                 transition={{ delay: i * 0.06, duration: 0.35, ease: [0.25, 0.4, 0.25, 1] }}
               >
                 <div className="relative rounded-2xl overflow-hidden"
-                  style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.06)' }}>
-                  {/* Left accent bar */}
+                  style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
                   <div className="absolute left-0 w-1 rounded-full" style={{ background: color, top: 24, bottom: 24 }} />
                   <div className="pl-6 pr-5 py-6">
                     <div className="flex items-start justify-between gap-3 mb-4">
                       <div className="flex-1 min-w-0">
-                        <div className="font-bold text-[17px] truncate" style={{ color: '#F0F0F5' }}>{bill.title}</div>
+                        <div className="font-bold text-[17px] truncate" style={{ color: '#1A2018' }}>{bill.title}</div>
                         {bill.sender && (
-                          <div className="text-[13px] mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>{bill.sender}</div>
+                          <div className="text-[13px] mt-0.5" style={{ color: '#8A9888' }}>{bill.sender}</div>
                         )}
                       </div>
                       <div className="text-right flex-shrink-0">
-                        <div className="font-black text-xl leading-none" style={{ color }}>
+                        <div className="font-black text-[26px] leading-none" style={{ color, letterSpacing: '-0.5px' }}>
                           {formatAmt(bill.amount)}
                         </div>
                         {bill.due_date && (
-                          <div className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                          <div className="text-xs mt-1" style={{ color: '#8A9888' }}>
                             {formatDate(bill.due_date)}
                           </div>
                         )}
                       </div>
                     </div>
                     {bill.ocr_number && (
-                      <div className="mb-4 px-4 py-2 rounded-xl text-xs font-mono" style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)' }}>
+                      <div className="mb-4 px-4 py-2 rounded-xl text-xs font-mono" style={{ background: 'rgba(0,0,0,0.04)', color: '#8A9888' }}>
                         OCR: {bill.ocr_number}
                       </div>
                     )}
                     <div className="flex gap-3">
                       <button onClick={() => onSnooze(bill)}
                         className="flex-1 h-[52px] rounded-xl flex items-center justify-center gap-2 text-sm font-semibold"
-                        style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#A8A8B8' }}>
+                        style={{ background: 'rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.08)', color: '#5A6858' }}>
                         ⏱ Snooze
                       </button>
                       <motion.button
@@ -338,18 +336,6 @@ function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, empty
   )
 }
 
-/* ── Sub-components ── */
-
-function StatusChip({ label, color }: { label: string; color: string }) {
-  return (
-    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
-      style={{ background: `${color}18`, color }}>
-      <div className="w-1.5 h-1.5 rounded-full" style={{ background: color }} />
-      {label}
-    </div>
-  )
-}
-
 function Field({ label, placeholder, value, onChange, type = 'text' }: {
   label: string; placeholder: string; value: string
   onChange: (v: string) => void; type?: string
@@ -357,14 +343,14 @@ function Field({ label, placeholder, value, onChange, type = 'text' }: {
   return (
     <div>
       <label className="block text-[11px] font-semibold tracking-[0.15em] uppercase mb-2"
-        style={{ color: '#6B6B7B' }}>{label}</label>
+        style={{ color: '#8A9888' }}>{label}</label>
       <input type={type} placeholder={placeholder} value={value}
         onChange={e => onChange(e.target.value)}
         className="w-full rounded-xl text-base outline-none transition-all"
         style={{
-          background: '#0A0A0A',
-          border: '1px solid rgba(255,255,255,0.08)',
-          color: 'white',
+          background: '#FAF8F5',
+          border: '1px solid rgba(0,0,0,0.10)',
+          color: '#1A2018',
           padding: '14px 16px',
         }} />
     </div>

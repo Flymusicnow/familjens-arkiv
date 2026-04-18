@@ -16,14 +16,14 @@ interface Props {
 }
 
 const catStyles: Record<string, { color: string; label: string; emoji: string }> = {
-  'räkning':   { color: '#F87171', label: 'RÄKNING',    emoji: '💳' },
-  'rakning':   { color: '#F87171', label: 'RÄKNING',    emoji: '💳' },
-  'myndighet': { color: '#38B6FF', label: 'MYNDIGHET',  emoji: '🏛' },
-  'avtal':     { color: '#C67BFF', label: 'AVTAL',      emoji: '📜' },
-  'skola':     { color: '#38B6FF', label: 'SKOLA',      emoji: '📚' },
-  'kvitto':    { color: '#34D399', label: 'KVITTO',     emoji: '🧾' },
-  'övrigt':    { color: '#A8A8B8', label: 'ÖVRIGT',     emoji: '📁' },
-  'ovrigt':    { color: '#A8A8B8', label: 'ÖVRIGT',     emoji: '📁' },
+  'räkning':   { color: '#C46040', label: 'RÄKNING',    emoji: '💳' },
+  'rakning':   { color: '#C46040', label: 'RÄKNING',    emoji: '💳' },
+  'myndighet': { color: '#4A8CB4', label: 'MYNDIGHET',  emoji: '🏛' },
+  'avtal':     { color: '#6450B4', label: 'AVTAL',      emoji: '📜' },
+  'skola':     { color: '#4A8CB4', label: 'SKOLA',      emoji: '📚' },
+  'kvitto':    { color: '#5A9A50', label: 'KVITTO',     emoji: '🧾' },
+  'övrigt':    { color: '#907060', label: 'ÖVRIGT',     emoji: '📁' },
+  'ovrigt':    { color: '#907060', label: 'ÖVRIGT',     emoji: '📁' },
 }
 
 const scanCategories = [
@@ -115,10 +115,6 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
   return (
     <PageWrapper>
       {/* Ambient */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute top-[-100px] right-[-80px] w-96 h-96 rounded-full opacity-10"
-          style={{ background: '#34D399', filter: 'blur(80px)' }} />
-      </div>
 
       <div className="relative z-10 max-w-xl mx-auto space-y-5">
         <PageHeader
@@ -127,7 +123,7 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
           action={
             <button onClick={() => { setShowScanner(true); setScanStep('choose') }}
               className="flex items-center gap-2 px-5 font-bold text-sm text-white rounded-2xl"
-              style={{ background: '#818CF8', height: 48 }}>
+              style={{ background: '#6450B4', height: 48 }}>
               📷 Skanna
             </button>
           }
@@ -135,12 +131,12 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
 
         {/* Search */}
         <div className="flex items-center gap-3 rounded-2xl px-5 mb-1"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', height: 56 }}>
-          <span className="text-xl" style={{ color: 'rgba(255,255,255,0.3)' }}>🔍</span>
+          style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.08)', height: 56 }}>
+          <span className="text-xl" style={{ color: '#8A9888' }}>🔍</span>
           <input value={search} onChange={e => setSearch(e.target.value)}
             placeholder="Sök företag, datum, belopp..."
             className="flex-1 bg-transparent outline-none text-base"
-            style={{ color: '#F0F0F5' }} />
+            style={{ color: '#1A2018' }} />
         </div>
 
         {/* Category filter — horizontal scroll */}
@@ -155,8 +151,9 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
             <button key={cat.id} onClick={() => setCatFilter(cat.id as Category)}
               className="flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all whitespace-nowrap"
               style={{
-                background: catFilter === cat.id ? '#818CF8' : 'rgba(255,255,255,0.04)',
-                color: catFilter === cat.id ? 'white' : 'rgba(255,255,255,0.5)',
+                background: catFilter === cat.id ? '#6450B4' : 'rgba(0,0,0,0.03)',
+                color: catFilter === cat.id ? 'white' : '#8A9888',
+                border: catFilter === cat.id ? 'none' : '1px solid rgba(0,0,0,0.08)',
               }}>
               {cat.emoji} {cat.label}
             </button>
@@ -165,7 +162,7 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
 
         {/* Count */}
         {search && (
-          <p className="text-xs" style={{ color: '#6B6B7B' }}>
+          <p className="text-xs" style={{ color: '#8A9888' }}>
             {filtered.length} resultat för &ldquo;{search}&rdquo;
           </p>
         )}
@@ -173,10 +170,10 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
         {/* Empty state */}
         {filtered.length === 0 && (
           <div className="rounded-2xl p-12 text-center"
-            style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.07)' }}>
+            style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
             <div className="text-[52px] mb-4">🔍</div>
-            <div className="text-[20px] font-bold mb-2" style={{ color: '#F0F0F5' }}>Inga dokument här</div>
-            <div className="text-[15px] leading-relaxed" style={{ color: '#6B6B7B' }}>
+            <div className="text-[20px] font-bold mb-2" style={{ color: '#1A2018' }}>Inga dokument här</div>
+            <div className="text-[15px] leading-relaxed" style={{ color: '#8A9888' }}>
               {search ? 'Prova ett annat sökord' : 'Tryck på Skanna för att lägga till ditt första dokument'}
             </div>
           </div>
@@ -189,16 +186,16 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
             const date = new Date(doc.created_at).toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' })
             return (
               <div key={doc.id} className="rounded-2xl px-5 py-4 flex items-center gap-3"
-                style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.07)' }}>
+                style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
                 <div className="w-[50px] h-[50px] rounded-[14px] flex items-center justify-center flex-shrink-0 text-2xl"
                   style={{ background: `${s.color}15` }}>
                   {s.emoji}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-[15px] truncate" style={{ color: '#F0F0F5' }}>
+                  <div className="font-semibold text-[15px] truncate" style={{ color: '#1A2018' }}>
                     {doc.title || doc.sender || 'Dokument'}
                   </div>
-                  <div className="text-[12px] mt-0.5" style={{ color: '#A8A8B8' }}>
+                  <div className="text-[12px] mt-0.5" style={{ color: '#5A6858' }}>
                     {date}
                     {doc.sender && ` · ${doc.sender}`}
                     {doc.amount && ` · ${doc.amount} kr`}
@@ -220,14 +217,14 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
 
       {showScanner && (
         <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center p-4"
-          style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}>
+          style={{ background: 'rgba(26,32,24,0.5)', backdropFilter: 'blur(4px)' }}>
           <div className="w-full max-w-sm rounded-3xl p-6 space-y-4"
-            style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.09)' }}>
+            style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.08)' }}>
             <div className="flex items-center justify-between">
-              <h2 className="font-extrabold text-lg" style={{ color: '#F0F0F5' }}>
+              <h2 className="font-extrabold text-lg" style={{ color: '#1A2018' }}>
                 {scanStep === 'choose' ? 'Skanna dokument' : scanStep === 'processing' ? 'Analyserar...' : 'Granska & spara'}
               </h2>
-              <button onClick={() => setShowScanner(false)} style={{ color: '#6B6B7B' }}>✕</button>
+              <button onClick={() => setShowScanner(false)} style={{ color: '#8A9888' }}>✕</button>
             </div>
 
             {/* Step 1: Choose method */}
@@ -244,9 +241,9 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
             {scanStep === 'processing' && (
               <div className="text-center py-8 space-y-4">
                 <div className="text-4xl animate-spin">⚙️</div>
-                <div className="font-semibold" style={{ color: '#A8A8B8' }}>Analyserar dokument...</div>
-                <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
-                  <div className="h-full rounded-full" style={{ background: '#818CF8', width: '60%', transition: 'width 2s ease' }} />
+                <div className="font-semibold" style={{ color: '#5A6858' }}>Analyserar dokument...</div>
+                <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(0,0,0,0.06)' }}>
+                  <div className="h-full rounded-full" style={{ background: '#6450B4', width: '60%', transition: 'width 2s ease' }} />
                 </div>
               </div>
             )}
@@ -260,15 +257,15 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
                 <OcrField label="OCR / Referens" value={ocr.ocr_ref} onChange={v => setOcr(o => ({ ...o, ocr_ref: v }))} placeholder="Betalningsreferens" />
 
                 <div>
-                  <label className="text-xs font-semibold mb-2 block" style={{ color: '#A8A8B8' }}>Kategori</label>
+                  <label className="text-xs font-semibold mb-2 block" style={{ color: '#5A6858' }}>Kategori</label>
                   <div className="flex flex-wrap gap-2">
                     {scanCategories.map(cat => (
                       <button key={cat.id} onClick={() => setOcr(o => ({ ...o, category: cat.id }))}
                         className="px-3 py-1.5 rounded-xl text-xs font-bold transition-all"
                         style={{
-                          background: ocr.category === cat.id ? '#818CF8' : 'rgba(255,255,255,0.06)',
-                          color: ocr.category === cat.id ? 'white' : '#A8A8B8',
-                          border: '1px solid ' + (ocr.category === cat.id ? '#818CF8' : 'rgba(255,255,255,0.1)'),
+                          background: ocr.category === cat.id ? '#6450B4' : 'rgba(0,0,0,0.04)',
+                          color: ocr.category === cat.id ? 'white' : '#8A9888',
+                          border: '1px solid ' + (ocr.category === cat.id ? '#6450B4' : 'rgba(0,0,0,0.09)'),
                         }}>
                         {cat.label}
                       </button>
@@ -278,7 +275,7 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
 
                 <button onClick={saveDocument} disabled={saving}
                   className="w-full py-3.5 rounded-xl font-bold text-white text-sm mt-2"
-                  style={{ background: saving ? '#4A4280' : '#818CF8' }}>
+                  style={{ background: saving ? '#8A9888' : '#6450B4' }}>
                   {saving ? 'Sparar...' : '💾 Spara dokument'}
                 </button>
               </div>
@@ -296,11 +293,11 @@ function ChoiceBtn({ emoji, title, sub, onClick }: { emoji: string; title: strin
   return (
     <button onClick={onClick}
       className="w-full flex items-center gap-4 px-4 py-4 rounded-2xl text-left transition-all"
-      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)' }}>
+      style={{ background: 'rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.08)' }}>
       <span className="text-3xl">{emoji}</span>
       <div>
-        <div className="font-bold" style={{ color: '#F0F0F5' }}>{title}</div>
-        <div className="text-xs mt-0.5" style={{ color: '#A8A8B8' }}>{sub}</div>
+        <div className="font-bold" style={{ color: '#1A2018' }}>{title}</div>
+        <div className="text-xs mt-0.5" style={{ color: '#5A6858' }}>{sub}</div>
       </div>
     </button>
   )
@@ -311,10 +308,10 @@ function OcrField({ label, value, onChange, placeholder, type = 'text' }: {
 }) {
   return (
     <div>
-      <label className="text-xs font-semibold mb-1 block" style={{ color: '#A8A8B8' }}>{label}</label>
+      <label className="text-xs font-semibold mb-1 block" style={{ color: '#5A6858' }}>{label}</label>
       <input type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder}
         className="w-full px-3 py-2.5 rounded-xl text-sm outline-none"
-        style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#F0F0F5' }} />
+        style={{ background: 'rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.10)', color: '#1A2018' }} />
     </div>
   )
 }
