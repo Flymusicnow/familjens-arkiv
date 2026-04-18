@@ -165,12 +165,9 @@ export default function MatClient({
 
   return (
     <PageWrapper>
-      {/* Green background glow */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute top-[-80px] right-[-60px] w-80 h-80 rounded-full opacity-10"
-          style={{ background: '#34D399', filter: 'blur(80px)' }} />
-        <div className="absolute bottom-[100px] left-[-60px] w-64 h-64 rounded-full opacity-6"
-          style={{ background: '#4CAF50', filter: 'blur(60px)' }} />
+        <div className="absolute top-[-80px] right-[-60px] w-80 h-80 rounded-full opacity-5"
+          style={{ background: '#6AA860', filter: 'blur(80px)' }} />
       </div>
 
       <div className="relative z-10 max-w-xl mx-auto space-y-6">
@@ -195,9 +192,9 @@ export default function MatClient({
               onClick={() => setActiveTab(tab.key)}
               className="flex-1 h-[48px] rounded-xl text-sm font-bold transition-all"
               style={{
-                background: activeTab === tab.key ? 'rgba(0,200,150,0.2)' : 'rgba(255,255,255,0.05)',
-                color: activeTab === tab.key ? '#34D399' : '#A8A8B8',
-                border: activeTab === tab.key ? '1px solid rgba(0,200,150,0.4)' : '1px solid rgba(255,255,255,0.06)',
+                background: activeTab === tab.key ? 'rgba(106,168,96,0.15)' : 'rgba(0,0,0,0.03)',
+                color: activeTab === tab.key ? '#6AA860' : '#8A9888',
+                border: activeTab === tab.key ? '1px solid rgba(106,168,96,0.35)' : '1px solid rgba(0,0,0,0.07)',
               }}>
               {tab.emoji} {tab.label}
             </button>
@@ -209,20 +206,20 @@ export default function MatClient({
           <div className="space-y-4">
             {/* AI-matförslag box */}
             <div className="rounded-2xl p-5"
-              style={{ background: 'linear-gradient(135deg,rgba(129,140,248,0.1),rgba(129,140,248,0.03))', border: '1px solid rgba(129,140,248,0.2)' }}>
-              <h4 className="font-bold text-sm flex items-center gap-2 mb-2" style={{ color: '#818CF8' }}>
+              style={{ background: 'rgba(106,168,96,0.07)', border: '1px solid rgba(106,168,96,0.2)' }}>
+              <h4 className="font-bold text-sm flex items-center gap-2 mb-2" style={{ color: '#6AA860' }}>
                 ✨ AI-matförslag
               </h4>
-              <p className="text-sm mb-4 leading-relaxed" style={{ color: '#A8A8B8' }}>
+              <p className="text-sm mb-4 leading-relaxed" style={{ color: '#5A6858' }}>
                 Beskriv vad ni vill äta så skapar AI ett komplett veckoschema med recept.
               </p>
               <div className="flex gap-2">
                 <button className="flex-1 h-[48px] rounded-xl font-bold text-[13px] text-white"
-                  style={{ background: '#818CF8' }}>
+                  style={{ background: '#6AA860' }}>
                   🥗 Skapa vegetariskt
                 </button>
                 <button className="h-[48px] px-[18px] rounded-xl font-semibold text-[13px]"
-                  style={{ background: 'rgba(255,255,255,0.06)', color: '#9090B0' }}>
+                  style={{ background: 'rgba(0,0,0,0.05)', color: '#8A9888' }}>
                   ✏️ Manuellt
                 </button>
               </div>
@@ -235,29 +232,29 @@ export default function MatClient({
                 <div key={date}
                   className="rounded-2xl overflow-hidden"
                   style={{
-                    background: isToday ? 'rgba(0,200,150,0.07)' : '#1A1A1A',
-                    border: isToday ? '1px solid rgba(0,200,150,0.3)' : '1px solid rgba(255,255,255,0.07)',
+                    background: isToday ? 'rgba(106,168,96,0.07)' : '#FFFFFF',
+                    border: isToday ? '1px solid rgba(106,168,96,0.25)' : '1px solid rgba(0,0,0,0.07)',
                   }}>
                   {/* Day header */}
                   <div className="flex items-center justify-between px-5 py-4"
-                    style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                    style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-lg font-bold" style={{ color: isToday ? '#34D399' : '#F0F0F5' }}>
+                        <span className="text-lg font-bold" style={{ color: isToday ? '#6AA860' : '#1A2018' }}>
                           {WEEK_DAYS[idx]}
                         </span>
-                        <span className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                        <span className="text-sm" style={{ color: '#8A9888' }}>
                           {formatDate(date)}
                         </span>
                         {isToday && (
                           <span className="text-[10px] font-bold px-2 py-0.5 rounded-full"
-                            style={{ background: 'rgba(0,200,150,0.2)', color: '#34D399' }}>
+                            style={{ background: 'rgba(106,168,96,0.15)', color: '#6AA860' }}>
                             Idag
                           </span>
                         )}
                       </div>
                     </div>
-                    <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                    <span className="text-sm font-medium" style={{ color: '#8A9888' }}>
                       {dayMeals.length} måltider
                     </span>
                   </div>
@@ -267,27 +264,27 @@ export default function MatClient({
                     const slot = dayMeals.filter(m => m.meal_type === key)
                     return (
                       <div key={key} className="flex items-center justify-between px-5 py-4"
-                        style={{ borderBottom: mIdx < MEAL_TYPES.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
+                        style={{ borderBottom: mIdx < MEAL_TYPES.length - 1 ? '1px solid rgba(0,0,0,0.05)' : 'none' }}>
                         <div className="flex items-center gap-3">
                           <span className="text-2xl leading-none">{emoji}</span>
                           <div>
-                            <p className="text-[10px] font-bold tracking-[0.15em] uppercase mb-1" style={{ color: '#4A4A65' }}>{label}</p>
+                            <p className="text-[10px] font-bold tracking-[0.15em] uppercase mb-1" style={{ color: '#8A9888' }}>{label}</p>
                             {slot.length > 0 ? (
                               slot.map(meal => (
                                 <div key={meal.id} className="flex items-center gap-2">
-                                  <p className="text-sm font-semibold" style={{ color: '#F0F0F5' }}>{meal.name}</p>
-                                  <button onClick={() => deleteMeal(meal.id)} className="text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>✕</button>
+                                  <p className="text-sm font-semibold" style={{ color: '#1A2018' }}>{meal.name}</p>
+                                  <button onClick={() => deleteMeal(meal.id)} className="text-xs" style={{ color: 'rgba(0,0,0,0.2)' }}>✕</button>
                                 </div>
                               ))
                             ) : (
-                              <p className="text-sm font-medium" style={{ color: '#3A3A4A' }}>Lägg till...</p>
+                              <p className="text-sm font-medium" style={{ color: '#8A9888' }}>Lägg till...</p>
                             )}
                           </div>
                         </div>
                         <button
                           onClick={() => { setShowAdd({ date, meal_type: key }); setForm({ name: '', recipe_url: '', notes: '' }) }}
                           className="w-10 h-10 rounded-xl flex items-center justify-center text-xl font-light flex-shrink-0"
-                          style={{ background: 'rgba(255,255,255,0.04)', border: '1px dashed rgba(255,255,255,0.1)', color: '#4A4A65' }}>
+                          style={{ background: 'rgba(0,0,0,0.03)', border: '1px dashed rgba(0,0,0,0.12)', color: '#8A9888' }}>
                           +
                         </button>
                       </div>
@@ -303,11 +300,11 @@ export default function MatClient({
         {activeTab === 'vitaminer' && (
           <div className="space-y-4">
             <div className="rounded-2xl px-5 py-4"
-              style={{ background: 'linear-gradient(135deg,#0A1A14,#051A0F)', border: '1px solid rgba(0,200,150,0.2)' }}>
-              <div className="text-xs font-semibold tracking-wider uppercase mb-1" style={{ color: 'rgba(0,200,150,0.7)' }}>
+              style={{ background: 'rgba(106,168,96,0.07)', border: '1px solid rgba(106,168,96,0.2)' }}>
+              <div className="text-xs font-semibold tracking-wider uppercase mb-1" style={{ color: '#6AA860' }}>
                 Vitaminer idag
               </div>
-              <div className="text-sm" style={{ color: '#A8A8B8' }}>
+              <div className="text-sm" style={{ color: '#5A6858' }}>
                 Kryssa av vad varje familjemedlem tagit
               </div>
             </div>
@@ -316,18 +313,18 @@ export default function MatClient({
               const takenCount = DEFAULT_VITAMINS.filter(v => isTaken(member.id, v)).length
               return (
                 <div key={member.id} className="rounded-2xl overflow-hidden"
-                  style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.07)' }}>
+                  style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
                   <div className="flex items-center justify-between px-4 py-3"
-                    style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                    style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
                     <div className="flex items-center gap-2">
                       <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
                         style={{ background: member.avatar_color }}>
                         {member.name[0]}
                       </div>
-                      <span className="font-bold text-sm" style={{ color: '#F0F0F5' }}>{member.name}</span>
+                      <span className="font-bold text-sm" style={{ color: '#1A2018' }}>{member.name}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs" style={{ color: '#34D399' }}>
+                      <span className="text-xs" style={{ color: '#6AA860' }}>
                         {takenCount}/{DEFAULT_VITAMINS.length}
                       </span>
                       {takenCount === DEFAULT_VITAMINS.length && (
@@ -344,9 +341,9 @@ export default function MatClient({
                           onClick={() => toggleVitamin(member.id, vitamin)}
                           className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all"
                           style={{
-                            background: taken ? 'rgba(0,200,150,0.15)' : 'rgba(255,255,255,0.05)',
-                            border: taken ? '1px solid rgba(0,200,150,0.4)' : '1px solid rgba(255,255,255,0.07)',
-                            color: taken ? '#34D399' : '#A8A8B8',
+                            background: taken ? 'rgba(106,168,96,0.12)' : 'rgba(0,0,0,0.03)',
+                            border: taken ? '1px solid rgba(106,168,96,0.35)' : '1px solid rgba(0,0,0,0.07)',
+                            color: taken ? '#6AA860' : '#8A9888',
                           }}>
                           <span>{taken ? '✅' : '⬜'}</span>
                           {vitamin}
@@ -356,9 +353,9 @@ export default function MatClient({
                   </div>
                   {/* Streak indicator */}
                   <div className="px-4 pb-3">
-                    <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.07)' }}>
+                    <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(0,0,0,0.07)' }}>
                       <div className="h-full rounded-full transition-all"
-                        style={{ background: '#34D399', width: `${(takenCount / DEFAULT_VITAMINS.length) * 100}%` }} />
+                        style={{ background: '#6AA860', width: `${(takenCount / DEFAULT_VITAMINS.length) * 100}%` }} />
                     </div>
                   </div>
                 </div>
@@ -372,18 +369,18 @@ export default function MatClient({
           <div className="space-y-4">
             {/* Today's nutrition status */}
             <div className="rounded-2xl px-5 py-4 space-y-3"
-              style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.07)' }}>
-              <div className="text-xs font-bold tracking-widest uppercase" style={{ color: '#6B6B7B' }}>
+              style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
+              <div className="text-xs font-bold tracking-widest uppercase" style={{ color: '#8A9888' }}>
                 Näringsstatus idag
               </div>
               <div className="grid grid-cols-1 gap-2">
                 {nutrition.map(({ label, ok }) => (
                   <div key={label} className="flex items-center justify-between px-3 py-2 rounded-xl"
                     style={{
-                      background: ok ? 'rgba(0,200,150,0.06)' : 'rgba(255,75,110,0.06)',
-                      border: ok ? '1px solid rgba(0,200,150,0.15)' : '1px solid rgba(255,75,110,0.15)',
+                      background: ok ? 'rgba(90,154,80,0.07)' : 'rgba(196,96,64,0.07)',
+                      border: ok ? '1px solid rgba(90,154,80,0.18)' : '1px solid rgba(196,96,64,0.18)',
                     }}>
-                    <span className="text-sm font-semibold" style={{ color: '#F0F0F5' }}>{label}</span>
+                    <span className="text-sm font-semibold" style={{ color: '#1A2018' }}>{label}</span>
                     <span>{ok ? '✅' : '⚠️'}</span>
                   </div>
                 ))}
@@ -393,53 +390,52 @@ export default function MatClient({
             {/* AI tip */}
             {aiTip ? (
               <div className="rounded-2xl px-5 py-4"
-                style={{ background: 'linear-gradient(135deg,#111830,#0D1A12)', border: '1px solid rgba(123,110,255,0.25)' }}>
-                <div className="text-xs font-bold tracking-wider uppercase mb-2" style={{ color: 'rgba(123,110,255,0.8)' }}>
+                style={{ background: 'rgba(100,80,180,0.06)', border: '1px solid rgba(100,80,180,0.18)' }}>
+                <div className="text-xs font-bold tracking-wider uppercase mb-2" style={{ color: '#6450B4' }}>
                   🤖 AI-förslag
                 </div>
-                <div className="text-sm" style={{ color: '#C8C8E8' }}>
+                <div className="text-sm" style={{ color: '#5A6858' }}>
                   {aiTip}
                 </div>
               </div>
             ) : (
               <div className="rounded-2xl px-5 py-4 text-center"
-                style={{ background: 'rgba(0,200,150,0.06)', border: '1px solid rgba(0,200,150,0.2)' }}>
+                style={{ background: 'rgba(90,154,80,0.07)', border: '1px solid rgba(90,154,80,0.2)' }}>
                 <div className="text-2xl mb-1">🌟</div>
-                <div className="font-bold text-sm" style={{ color: '#34D399' }}>Superbra idag!</div>
-                <div className="text-xs mt-1" style={{ color: '#A8A8B8' }}>Ni har täckt alla viktiga näringskategorier</div>
+                <div className="font-bold text-sm" style={{ color: '#5A9A50' }}>Superbra idag!</div>
+                <div className="text-xs mt-1" style={{ color: '#8A9888' }}>Ni har täckt alla viktiga näringskategorier</div>
               </div>
             )}
 
             {/* Kvällssmoothie recipe */}
             <div className="rounded-2xl px-5 py-4"
-              style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.07)' }}>
-              <div className="text-xs font-bold tracking-wider uppercase mb-2" style={{ color: '#6B6B7B' }}>
+              style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
+              <div className="text-xs font-bold tracking-wider uppercase mb-2" style={{ color: '#8A9888' }}>
                 🥤 Kvällssmoothie — recept
               </div>
               <div className="space-y-1.5">
                 {['🍌 Banan', '🌿 Spenat', '🫚 Ingefära', '🥛 Havremjölk', '🫐 Blåbär'].map(item => (
-                  <div key={item} className="text-sm" style={{ color: '#A8A8B8' }}>{item}</div>
+                  <div key={item} className="text-sm" style={{ color: '#5A6858' }}>{item}</div>
                 ))}
               </div>
               <div className="mt-3 text-xs font-semibold px-3 py-2 rounded-xl text-center"
-                style={{ background: 'rgba(0,200,150,0.1)', color: '#34D399', border: '1px solid rgba(0,200,150,0.2)' }}>
+                style={{ background: 'rgba(90,154,80,0.08)', color: '#5A9A50', border: '1px solid rgba(90,154,80,0.18)' }}>
                 Mixa i 30 sek — klart!
               </div>
             </div>
 
-            {/* Week summary */}
             <div className="rounded-2xl px-5 py-4"
-              style={{ background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.07)' }}>
-              <div className="text-xs font-bold tracking-wider uppercase mb-3" style={{ color: '#6B6B7B' }}>
+              style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
+              <div className="text-xs font-bold tracking-wider uppercase mb-3" style={{ color: '#8A9888' }}>
                 Veckans matsedel — sammanfattning
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm" style={{ color: '#A8A8B8' }}>Totalt planerade måltider</span>
-                <span className="font-bold text-lg" style={{ color: '#F0F0F5' }}>{meals.length}</span>
+                <span className="text-sm" style={{ color: '#5A6858' }}>Totalt planerade måltider</span>
+                <span className="font-bold text-lg" style={{ color: '#1A2018' }}>{meals.length}</span>
               </div>
               <div className="flex items-center justify-between mt-1">
-                <span className="text-sm" style={{ color: '#A8A8B8' }}>Antal måltidsdagar</span>
-                <span className="font-bold text-lg" style={{ color: '#F0F0F5' }}>
+                <span className="text-sm" style={{ color: '#5A6858' }}>Antal måltidsdagar</span>
+                <span className="font-bold text-lg" style={{ color: '#1A2018' }}>
                   {new Set(meals.map(m => m.date)).size}
                 </span>
               </div>
@@ -456,14 +452,14 @@ export default function MatClient({
             style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }} />
           <div className="fixed bottom-0 left-0 right-0 z-[70] md:left-auto md:right-4 md:bottom-4 md:w-96"
             style={{
-              background: 'rgba(26,26,46,0.98)',
+              background: '#FFFFFF',
               backdropFilter: 'blur(20px)',
-              borderTop: '1px solid rgba(255,255,255,0.1)',
+              borderTop: '1px solid rgba(0,0,0,0.08)',
               borderRadius: '20px 20px 0 0',
               padding: '24px 20px',
             }}>
-            <div className="w-10 h-1 rounded-full mx-auto mb-4 md:hidden" style={{ background: 'rgba(255,255,255,0.15)' }} />
-            <h3 className="font-bold text-base mb-4" style={{ color: '#F0F0F5' }}>
+            <div className="w-10 h-1 rounded-full mx-auto mb-4 md:hidden" style={{ background: 'rgba(0,0,0,0.12)' }} />
+            <h3 className="font-bold text-base mb-4" style={{ color: '#1A2018' }}>
               {MEAL_TYPES.find(t => t.key === showAdd.meal_type)?.emoji}{' '}
               {MEAL_TYPES.find(t => t.key === showAdd.meal_type)?.label} — {formatDate(showAdd.date)}
             </h3>
@@ -475,27 +471,27 @@ export default function MatClient({
                 placeholder="Vad ska ni äta?"
                 autoFocus
                 className="w-full px-4 py-3 rounded-xl text-sm outline-none"
-                style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', color: '#F0F0F5' }}
+                style={{ background: '#FAF8F5', border: '1px solid rgba(0,0,0,0.10)', color: '#1A2018' }}
               />
               <input
                 value={form.recipe_url}
                 onChange={e => setForm(f => ({ ...f, recipe_url: e.target.value }))}
                 placeholder="Receptlänk (valfritt)"
                 className="w-full px-4 py-3 rounded-xl text-sm outline-none"
-                style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', color: '#F0F0F5' }}
+                style={{ background: '#FAF8F5', border: '1px solid rgba(0,0,0,0.10)', color: '#1A2018' }}
               />
               <div className="flex gap-2">
                 <button
                   onClick={() => setShowAdd(null)}
                   className="flex-1 py-3 rounded-xl font-bold text-sm"
-                  style={{ background: 'rgba(255,255,255,0.07)', color: '#A8A8B8' }}>
+                  style={{ background: 'rgba(0,0,0,0.05)', color: '#5A6858' }}>
                   Avbryt
                 </button>
                 <button
                   onClick={addMeal}
                   disabled={saving || !form.name.trim()}
                   className="flex-1 py-3 rounded-xl font-bold text-sm text-white"
-                  style={{ background: saving || !form.name.trim() ? '#1A4035' : '#34D399' }}>
+                  style={{ background: saving || !form.name.trim() ? '#8A9888' : '#6AA860' }}>
                   {saving ? 'Sparar...' : 'Spara'}
                 </button>
               </div>
@@ -514,18 +510,18 @@ function SmoothieCard() {
   if (dismissed) return null
   return (
     <div className="rounded-2xl px-5 py-4 flex items-start justify-between gap-3"
-      style={{ background: 'linear-gradient(135deg,#0A1A14,#081210)', border: '1px solid rgba(0,200,150,0.25)' }}>
+      style={{ background: 'rgba(106,168,96,0.08)', border: '1px solid rgba(106,168,96,0.22)' }}>
       <div className="flex-1">
-        <div className="text-xs font-bold tracking-wider uppercase mb-1" style={{ color: 'rgba(0,200,150,0.7)' }}>
+        <div className="text-xs font-bold tracking-wider uppercase mb-1" style={{ color: '#6AA860' }}>
           🥤 Smoothie-påminnelse
         </div>
-        <div className="text-sm" style={{ color: '#C8C8E8' }}>
+        <div className="text-sm" style={{ color: '#5A6858' }}>
           Dags för kvällssmoothie! Recept: banan, spenat, ingefära
         </div>
       </div>
       <button onClick={() => setDismissed(true)}
         className="text-lg leading-none mt-0.5 flex-shrink-0"
-        style={{ color: '#6B6B7B' }}>
+        style={{ color: '#8A9888' }}>
         ✕
       </button>
     </div>
