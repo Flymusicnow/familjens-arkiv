@@ -1,6 +1,6 @@
 export function PageWrapper({ children }: { children: React.ReactNode }) {
   return (
-    <div className="px-4 pt-6 pb-28 md:px-8 md:pb-8">
+    <div className="px-5 pt-8 pb-32 md:px-10 md:pb-12">
       {children}
     </div>
   )
