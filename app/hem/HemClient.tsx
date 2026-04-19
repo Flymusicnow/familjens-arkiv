@@ -34,15 +34,24 @@ function capitalize(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-type Module = {
+function progressColor(pct: number): string {
+  if (pct > 70) return 'var(--accent-green)'
+  if (pct > 40) return 'var(--accent-yellow)'
+  return 'var(--accent-red)'
+}
+
+type DashCard = {
   href: string
-  icon: string
-  name: string
-  value: string
-  accent: string
-  accentL: string
-  wide?: boolean
+  emoji: string
+  title: string
+  subtitle: string
+  progress?: number
+  metric?: string
+  trend?: string
+  bg?: string
   badge?: string
+  wide?: boolean
+  cardType: 'stat' | 'status' | 'quick'
 }
 
 export default function HemClient({ member, bills, tasks: initialTasks, today }: Props) {
@@ -57,6 +66,8 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
 
   const todoCount = tasks.filter(t => t.status === 'todo').length
   const familyName = member.family_workspace?.name || member.name
+
+  const ekonomiProgress = urgentBills.length === 0 ? 82 : Math.max(15, 82 - urgentBills.length * 18)
 
   async function markPaid(bill: Bill) {
     setPaidBills(prev => new Set([...prev, bill.id]))
@@ -74,174 +85,205 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
     if (newStatus === 'done') bloom(`${task.emoji} Klar!`, `+${task.points_value} poäng`)
   }
 
-  const modules: Module[] = [
+  const cards: DashCard[] = [
     {
-      href: '/ekonomi', icon: '💰', name: 'Ekonomi',
-      value: 'Översikt & budget',
-      accent: '#2D5A27', accentL: '#D4E8CC', wide: true,
+      href: '/ekonomi', emoji: '💰', title: 'Ekonomi', subtitle: 'Översikt & budget',
+      progress: ekonomiProgress, metric: '35.5k',
+      trend: urgentBills.length > 0 ? `${urgentBills.length} räkn.` : '✓ OK',
+      cardType: 'stat',
     },
     {
-      href: '/mat', icon: '🥦', name: 'Mat & Hälsa',
-      value: 'Veckoschema',
-      accent: '#7AAB6E', accentL: '#D4E8CC',
+      href: '/mat', emoji: '🥗', title: 'Mat & Hälsa', subtitle: 'Veckoschema',
+      progress: 62, metric: '8.2k',
+      cardType: 'stat',
     },
     {
-      href: '/kalender', icon: '📅', name: 'Kalender',
-      value: 'Veckovy',
-      accent: '#3A6B8A', accentL: '#C8DDE8',
+      href: '/kalender', emoji: '📅', title: 'Kalender', subtitle: 'Veckovy',
+      progress: 75, metric: '+17k', trend: '/ 301k',
+      cardType: 'stat',
     },
     {
-      href: '/uppgifter', icon: '✅', name: 'Uppgifter',
-      value: todoCount > 0 ? `${todoCount} att göra` : 'Inga idag 🎉',
-      accent: '#8B6914', accentL: '#EAD9AA',
+      href: '/uppgifter', emoji: '✅', title: 'Uppgifter',
+      subtitle: todoCount > 0 ? `${todoCount} att göra` : 'Inga idag 😎',
+      cardType: 'status',
     },
     {
-      href: '/arkiv', icon: '📁', name: 'Arkiv',
-      value: 'Dina dokument',
-      accent: '#556B2F', accentL: '#D0DDB8',
+      href: '/arkiv', emoji: '📁', title: 'Arkiv', subtitle: 'Dina dokument',
+      cardType: 'status',
     },
     {
-      href: '/projekt', icon: '📈', name: 'Projekt',
-      value: '4 aktiva',
-      accent: '#5C4A7A', accentL: '#D8D0EC',
+      href: '/projekt', emoji: '📊', title: 'Projekt', subtitle: '4 aktiva',
+      cardType: 'status',
     },
     {
-      href: '/mail', icon: '📬', name: 'Mail',
-      value: 'Koppla Gmail',
-      accent: '#3A6B8A', accentL: '#C8DDE8',
+      href: '/rakningar', emoji: '🧾', title: 'Räkningar',
+      subtitle: urgentBills.length > 0 ? `${urgentBills.length} att betala` : 'Allt klart',
+      bg: urgentBills.length > 0 ? '#FFF8F6' : undefined,
+      cardType: 'quick',
     },
     {
-      href: '/aktiviteter', icon: '🏃', name: 'Aktiviteter',
-      value: 'Träning & rörelse',
-      accent: '#8B3A52', accentL: '#EDD0D8', badge: 'NY',
+      href: '/studera', emoji: '📚', title: 'Studera', subtitle: 'CSN & kurser',
+      badge: 'NY', cardType: 'quick',
     },
     {
-      href: '/studera', icon: '📚', name: 'Studera',
-      value: 'CSN & kurser',
-      accent: '#5C4A7A', accentL: '#D8D0EC', badge: 'NY',
+      href: '/aktiviteter', emoji: '🎯', title: 'Aktiviteter', subtitle: 'Träning & rörelse',
+      badge: 'NY', cardType: 'quick',
     },
     {
-      href: '/paddan', icon: '🐸', name: 'Paddan & Abilia',
-      value: 'Välmående & stöd',
-      accent: '#556B2F', accentL: '#D0DDB8', wide: true, badge: 'NY',
+      href: '/paddan', emoji: '🐸', title: 'Paddan & Abilia', subtitle: 'Välmående & stöd',
+      badge: 'NY', wide: true, cardType: 'quick',
+    },
+    {
+      href: '/mail', emoji: '✉️', title: 'Mail', subtitle: 'Koppla Gmail',
+      cardType: 'quick',
     },
   ]
 
   return (
-    <div style={{ maxWidth: 672, margin: '0 auto' }}>
-      {/* ── Sky hero ─────────────────────────────────────────────────────── */}
-      <div style={{
-        height: 260,
-        borderRadius: '0 0 32px 32px',
-        overflow: 'hidden',
-        position: 'relative',
-        flexShrink: 0,
-      }}>
-        {/* Real landscape photo */}
+    <div>
+      {/* Hero banner */}
+      <div
+        className="mx-4 mt-4 md:mx-6 md:mt-6 rounded-xl overflow-hidden relative flex-shrink-0"
+        style={{ height: 'clamp(160px, 20vw, 200px)' }}
+      >
         <Image
           src={HERO_PHOTO}
-          alt="Sky and green field"
+          alt="Naturlandskap"
           fill
           priority
           style={{ objectFit: 'cover', objectPosition: 'center 55%' }}
         />
-
-        {/* Dark bottom vignette for readability */}
         <div style={{
-          position:'absolute', bottom:0, left:0, right:0, height:80,
-          background:'linear-gradient(to top, rgba(20,50,10,0.55) 0%, transparent 100%)',
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(to right, rgba(0,0,0,0.45) 0%, transparent 60%)',
         }} />
-
-        {/* Text overlay */}
-        <div style={{ position:'absolute', top:20, left:20, right:20 }}>
-          <p style={{ fontSize:12, color:'rgba(255,255,255,0.80)', fontWeight:500, marginBottom:4, textShadow:'0 1px 4px rgba(0,0,0,0.3)' }}>
+        <div style={{ position: 'absolute', top: 20, left: 22, right: 22 }}>
+          <p style={{
+            fontSize: 12, color: 'rgba(255,255,255,0.82)', fontWeight: 500,
+            marginBottom: 6, textShadow: '0 1px 4px rgba(0,0,0,0.3)',
+          }}>
             {getGreeting()}, {familyName}
           </p>
-          <p style={{ fontSize:26, color:'white', fontWeight:600, fontFamily:'var(--serif)', lineHeight:1.1, textShadow:'0 1px 8px rgba(0,0,0,0.35)' }}>
+          <p style={{
+            fontSize: 28, color: 'white', fontWeight: 600,
+            fontFamily: 'var(--serif)', lineHeight: 1.15,
+            textShadow: '0 1px 8px rgba(0,0,0,0.35)',
+          }}>
             {capitalize(getDayLabel())}
           </p>
         </div>
-
-        {/* Status badge bottom-right */}
         <div style={{
-          position:'absolute', bottom:16, right:16,
-          background:'rgba(255,255,255,0.82)',
-          backdropFilter:'blur(8px)',
-          WebkitBackdropFilter:'blur(8px)',
-          borderRadius:999,
-          padding:'5px 12px',
-          display:'flex', alignItems:'center', gap:5,
+          position: 'absolute', bottom: 14, right: 14,
+          background: urgentBills.length === 0 ? 'rgba(76,175,80,0.88)' : 'rgba(255,112,67,0.88)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
+          borderRadius: 999,
+          padding: '4px 12px',
+          display: 'flex', alignItems: 'center', gap: 5,
         }}>
-          <span style={{ fontSize:10, color:'#2D5A27', fontWeight:700 }}>
+          <span style={{ fontSize: 11, color: 'white', fontWeight: 700 }}>
             {urgentBills.length === 0 ? '✓ Allt ser bra ut' : `${urgentBills.length} räkningar att betala`}
           </span>
         </div>
       </div>
 
-      {/* ── Content below hero ───────────────────────────────────────────── */}
-      <div style={{ padding:'20px 20px 120px' }}>
-
-        {/* Urgent banner */}
-        {urgentBills.length > 0 && (
-          <Link href="/rakningar">
+      {/* Urgent bills banner */}
+      {urgentBills.length > 0 && (
+        <div className="mx-4 mt-3 md:mx-6">
+          <Link href="/rakningar" style={{ textDecoration: 'none' }}>
             <div style={{
-              background:'#EDD5C4',
-              border:'1px solid rgba(160,82,45,0.2)',
-              borderRadius:20,
-              padding:'14px 16px',
-              display:'flex', alignItems:'center', gap:10,
-              marginBottom:12,
+              background: '#EDD5C4',
+              border: '1px solid rgba(160,82,45,0.2)',
+              borderRadius: 14,
+              padding: '12px 16px',
+              display: 'flex', alignItems: 'center', gap: 10,
             }}>
-              <span style={{ fontSize:22 }}>💳</span>
-              <span style={{ fontSize:14, fontWeight:600, color:'#A0522D', flex:1 }}>
+              <span style={{ fontSize: 20 }}>💳</span>
+              <span style={{ fontSize: 14, fontWeight: 600, color: '#A0522D', flex: 1 }}>
                 Räkningar att betala
               </span>
               {urgentTotal > 0 && (
-                <span style={{ fontSize:14, fontWeight:700, color:'#A0522D' }}>
+                <span style={{ fontSize: 14, fontWeight: 700, color: '#A0522D' }}>
                   {urgentTotal.toLocaleString('sv-SE')} kr
                 </span>
               )}
             </div>
           </Link>
-        )}
-
-        {/* Module grid */}
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
-          {modules.map(mod => (
-            <Link key={mod.href} href={mod.href}
-              className="card-lift"
-              style={{
-                gridColumn: mod.wide ? '1 / -1' : undefined,
-                display:'flex', flexDirection:'column',
-                background:'var(--card)',
-                border:`1px solid ${mod.accentL}`,
-                borderRadius:20,
-                boxShadow:'var(--shadow)',
-                minHeight:136,
-                padding:'20px 18px',
-                position:'relative',
-                textDecoration:'none',
-              }}>
-              {mod.badge && (
-                <span style={{
-                  position:'absolute', top:10, right:10,
-                  fontSize:9, fontWeight:800, letterSpacing:'0.08em',
-                  color:mod.accent, background:mod.accentL,
-                  borderRadius:999, padding:'2px 7px',
-                }}>
-                  {mod.badge}
-                </span>
-              )}
-              <span style={{ fontSize:28, lineHeight:1, marginBottom:10 }}>{mod.icon}</span>
-              <span style={{ fontSize:14, fontWeight:700, color:'var(--ink)', marginBottom:4, lineHeight:1.2 }}>
-                {mod.name}
-              </span>
-              <span style={{ fontSize:12, color:mod.accent, fontWeight:500 }}>
-                {mod.value}
-              </span>
-            </Link>
-          ))}
         </div>
+      )}
+
+      {/* Card grid */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-4 md:p-6 pb-28 md:pb-10">
+        {cards.map(card => (
+          <Link
+            key={card.href}
+            href={card.href}
+            className="card-lift"
+            style={{
+              gridColumn: card.wide ? '1 / -1' : undefined,
+              display: 'flex',
+              flexDirection: 'column',
+              background: card.bg ?? 'var(--bg-card)',
+              borderRadius: 14,
+              boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+              minHeight: card.cardType === 'quick' ? 130 : 160,
+              padding: 20,
+              position: 'relative',
+              textDecoration: 'none',
+            }}
+          >
+            {card.badge && (
+              <span style={{
+                position: 'absolute', top: 10, right: 10,
+                fontSize: 9, fontWeight: 800, letterSpacing: '0.08em',
+                color: 'var(--text-heading)', background: 'var(--nav-active-bg)',
+                borderRadius: 999, padding: '2px 7px',
+              }}>
+                {card.badge}
+              </span>
+            )}
+            <span style={{ fontSize: 24, lineHeight: 1, marginBottom: 8 }}>{card.emoji}</span>
+            <span style={{
+              fontSize: 18, fontWeight: 700, color: 'var(--text-primary)',
+              marginBottom: 3, lineHeight: 1.2,
+            }}>
+              {card.title}
+            </span>
+            <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+              {card.subtitle}
+            </span>
+            {card.progress !== undefined && (
+              <div style={{
+                marginTop: 12, width: '100%', height: 5,
+                background: 'var(--border)', borderRadius: 3, overflow: 'hidden',
+              }}>
+                <div style={{
+                  height: '100%',
+                  width: `${card.progress}%`,
+                  background: progressColor(card.progress),
+                  borderRadius: 3,
+                  transition: 'width 0.5s ease',
+                }} />
+              </div>
+            )}
+            {card.metric && (
+              <div style={{
+                marginTop: 10, display: 'flex', alignItems: 'baseline', gap: 4,
+              }}>
+                <span style={{
+                  fontSize: 28, fontWeight: 700, color: 'var(--text-heading)', lineHeight: 1,
+                }}>
+                  {card.metric}
+                </span>
+                {card.trend && (
+                  <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>
+                    {card.trend}
+                  </span>
+                )}
+              </div>
+            )}
+          </Link>
+        ))}
       </div>
     </div>
   )

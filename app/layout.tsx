@@ -16,11 +16,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="sv">
       <body className={`${jakarta.className} ${lora.className}`}>
-        <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
+        <div style={{ background: 'var(--bg-page)', minHeight: '100vh' }}>
           <BloomToast />
           <div className="flex min-h-screen">
             <Navigation />
-            <main className="flex-1 min-w-0 overflow-x-hidden pb-24 md:pb-8">
+            <main className="flex-1 min-w-0 overflow-x-hidden pb-24 md:pb-8" style={{ background: 'var(--bg-page)' }}>
               {children}
             </main>
           </div>
