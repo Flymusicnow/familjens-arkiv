@@ -150,7 +150,7 @@ export default function EkonomiClient({ workspaceId }: Props) {
 
         {/* Camera */}
         <div className="flex justify-end">
-          <label className="flex items-center gap-2 px-5 font-bold text-sm text-white cursor-pointer rounded-2xl"
+          <label className="flex items-center gap-2 px-5 font-bold text-sm text-[#1C1A17] cursor-pointer rounded-2xl"
             style={{ background:'#818CF8', height:44 }}>
             {ocrLoading ? '⏳' : '📷'} Fota kvitto
             <input ref={fileRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFileChange} />
@@ -188,7 +188,7 @@ export default function EkonomiClient({ workspaceId }: Props) {
               <div className="text-5xl font-black mb-2" style={{ color:F, letterSpacing:'-2px' }}>{fmt(franckDek)}</div>
               <p className="text-sm mb-5" style={{ color:'#8A9888' }}>Skicka in nu för att få pengarna</p>
               <a href="https://www.skatteverket.se" target="_blank" rel="noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-sm text-white"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-sm text-[#1C1A17]"
                 style={{ background:F }}>Öppna Skatteverket →</a>
             </div>
 
@@ -332,7 +332,7 @@ export default function EkonomiClient({ workspaceId }: Props) {
               style={{ background:'#FAF8F5', border:'1px solid rgba(0,0,0,0.10)', color:'#1A2018' }} />
             <div className="flex gap-3">
               <button onClick={() => setModal(null)} className="flex-1 py-3 rounded-xl font-bold text-sm" style={{ background:'rgba(0,0,0,0.05)', color:'#5A6858' }}>Avbryt</button>
-              <button onClick={saveEntry} disabled={saving || !form.description.trim() || !form.amount} className="flex-1 py-3 rounded-xl font-bold text-sm text-white"
+              <button onClick={saveEntry} disabled={saving || !form.description.trim() || !form.amount} className="flex-1 py-3 rounded-xl font-bold text-sm text-[#1C1A17]"
                 style={{ background: (saving || !form.description.trim() || !form.amount) ? '#8A9888' : '#6450B4' }}>
                 {saving ? 'Sparar...' : 'Spara'}
               </button>

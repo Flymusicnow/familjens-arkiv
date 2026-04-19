@@ -131,7 +131,7 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
           title="Räkningar"
           action={
             <button onClick={() => setShowAdd(true)}
-              className="flex items-center gap-2 px-5 text-sm font-semibold text-white rounded-2xl flex-shrink-0 mt-1"
+              className="flex items-center gap-2 px-5 text-sm font-semibold text-[#1C1A17] rounded-2xl flex-shrink-0 mt-1"
               style={{ background: '#C46040', height: 44 }}>
               + Lägg till
             </button>
@@ -226,7 +226,7 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
               </div>
               <Field label="OCR-nummer" placeholder="Betalningsreferens" value={form.ocr_number} onChange={v => setForm(f => ({ ...f, ocr_number: v }))} />
               <button onClick={addBill} disabled={saving}
-                className="w-full mt-8 font-bold text-base text-white rounded-2xl"
+                className="w-full mt-8 font-bold text-base text-[#1C1A17] rounded-2xl"
                 style={{ background: saving ? '#8A9888' : '#C46040', height: 56 }}>
                 {saving ? 'Sparar...' : 'Spara räkning'}
               </button>
@@ -320,7 +320,7 @@ function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, empty
                       <motion.button
                         whileTap={{ scale: 0.96 }}
                         onClick={() => onPaid(bill)}
-                        className="flex-1 h-[52px] rounded-xl flex items-center justify-center gap-2 text-sm font-bold text-white"
+                        className="flex-1 h-[52px] rounded-xl flex items-center justify-center gap-2 text-sm font-bold text-[#1C1A17]"
                         style={{ background: color }}>
                         ✓ Betald
                       </motion.button>
