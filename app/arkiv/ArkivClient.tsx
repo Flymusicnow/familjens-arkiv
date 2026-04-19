@@ -15,11 +15,13 @@ interface Props {
   memberId: string | null
 }
 
-const catStyles: Record<string, { color: string; label: string; emoji: string }> = {
+const catStyles: Record<string, { color: string; label: string; emoji: string; bg?: string; text?: string }> = {
+  'huset':     { color: '#2D5A27', label: 'HUSET',      emoji: '🏠', bg: '#D4E8CC', text: '#2D5A27' },
+  'bilen':     { color: '#A0522D', label: 'BILEN',      emoji: '🚗', bg: '#EDD5C4', text: '#A0522D' },
   'räkning':   { color: '#C46040', label: 'RÄKNING',    emoji: '💳' },
   'rakning':   { color: '#C46040', label: 'RÄKNING',    emoji: '💳' },
-  'myndighet': { color: '#4A8CB4', label: 'MYNDIGHET',  emoji: '🏛' },
-  'avtal':     { color: '#6450B4', label: 'AVTAL',      emoji: '📜' },
+  'myndighet': { color: '#3A6B8A', label: 'MYNDIGHET',  emoji: '🏛', bg: '#C8DDE8', text: '#3A6B8A' },
+  'avtal':     { color: '#5C4A7A', label: 'AVTAL',      emoji: '📜', bg: '#D8D0EC', text: '#5C4A7A' },
   'skola':     { color: '#4A8CB4', label: 'SKOLA',      emoji: '📚' },
   'kvitto':    { color: '#5A9A50', label: 'KVITTO',     emoji: '🧾' },
   'övrigt':    { color: '#907060', label: 'ÖVRIGT',     emoji: '📁' },
@@ -131,7 +133,7 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
 
         {/* Search */}
         <div className="flex items-center gap-3 rounded-2xl px-5 mb-1"
-          style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.08)', height: 56 }}>
+          style={{ background: '#FFFFFF', border: '1px solid rgba(28,26,23,0.16)', height: 56 }}>
           <span className="text-xl" style={{ color: '#8A9888' }}>🔍</span>
           <input value={search} onChange={e => setSearch(e.target.value)}
             placeholder="Sök företag, datum, belopp..."
@@ -188,7 +190,7 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
               <div key={doc.id} className="rounded-2xl px-5 py-4 flex items-center gap-3"
                 style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
                 <div className="w-[50px] h-[50px] rounded-[14px] flex items-center justify-center flex-shrink-0 text-2xl"
-                  style={{ background: `${s.color}15` }}>
+                  style={{ background: s.bg || `${s.color}15` }}>
                   {s.emoji}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -203,7 +205,7 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
                 </div>
                 <div className="flex-shrink-0">
                   <span className="text-xs font-bold px-2 py-1 rounded-lg"
-                    style={{ background: `${s.color}15`, color: s.color }}>
+                    style={{ background: s.bg || `${s.color}15`, color: s.text || s.color }}>
                     {s.label}
                   </span>
                 </div>
