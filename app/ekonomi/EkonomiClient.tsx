@@ -146,12 +146,12 @@ export default function EkonomiClient({ workspaceId }: Props) {
 
   return (
     <PageWrapper>
-      <div className="max-w-2xl mx-auto space-y-5">
+      <div className="max-w-3xl mx-auto space-y-6">
 
         {/* Camera */}
         <div className="flex justify-end">
-          <label className="flex items-center gap-2 px-5 font-bold text-sm text-[#1C1A17] cursor-pointer rounded-2xl"
-            style={{ background:'#818CF8', height:44 }}>
+          <label className="flex items-center gap-2 px-5 font-bold text-sm text-white cursor-pointer rounded-2xl"
+            style={{ background:'#556B2F', height:48 }}>
             {ocrLoading ? '⏳' : '📷'} Fota kvitto
             <input ref={fileRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFileChange} />
           </label>

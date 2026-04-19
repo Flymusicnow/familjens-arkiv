@@ -28,6 +28,13 @@ function getWeekDates(base: Date): Date[] {
   })
 }
 
+function getWeekNumber(d: Date) {
+  const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
+  date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7))
+  const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1))
+  return Math.ceil((((date.getTime() - yearStart.getTime()) / 86400000) + 1) / 7)
+}
+
 function formatTime(iso: string | null) {
   if (!iso) return ''
   if (iso.includes('T')) return iso.split('T')[1].slice(0, 5)
@@ -136,10 +143,24 @@ export default function KalenderClient() {
   }
 
   function prevWeek() {
-    const d = new Date(weekBase); d.setDate(d.getDate() - 7); setWeekBase(d)
+    const d = new Date(weekBase)
+    d.setDate(d.getDate() - 7)
+    setWeekBase(d)
+    // Select Monday of new week
+    const newMonday = new Date(d)
+    newMonday.setDate(d.getDate() - ((d.getDay() + 6) % 7))
+    newMonday.setHours(0, 0, 0, 0)
+    setSelectedDate(newMonday)
   }
   function nextWeek() {
-    const d = new Date(weekBase); d.setDate(d.getDate() + 7); setWeekBase(d)
+    const d = new Date(weekBase)
+    d.setDate(d.getDate() + 7)
+    setWeekBase(d)
+    // Select Monday of new week
+    const newMonday = new Date(d)
+    newMonday.setDate(d.getDate() - ((d.getDay() + 6) % 7))
+    newMonday.setHours(0, 0, 0, 0)
+    setSelectedDate(newMonday)
   }
 
   const selectedStr = toDateStr(selectedDate)
@@ -169,19 +190,25 @@ export default function KalenderClient() {
         </button>
       </div>
 
+      {/* Month/year label */}
+      <div style={{ padding: '14px 16px 2px' }}>
+        <p style={{ fontSize: 22, fontWeight: 700, color: 'var(--ink)', fontFamily: 'var(--serif)', textTransform: 'capitalize' }}>
+          {weekDates[0].toLocaleDateString('sv-SE', { month: 'long', year: 'numeric' })}
+        </p>
+      </div>
+
       {/* Week nav */}
-      <div style={{ padding: '14px 16px 4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ padding: '8px 16px 4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <button onClick={prevWeek}
-          style={{ padding: '5px 12px', borderRadius: 10, border: '1px solid var(--border)', background: 'var(--card)', color: 'var(--ink2)', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+          style={{ padding: '5px 14px', borderRadius: 10, border: '1px solid var(--border)', background: 'var(--card)', color: 'var(--ink2)', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
           ‹ Förra
         </button>
-        <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink2)' }}>
-          {weekDates[0].toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' })}
-          {' – '}
-          {weekDates[6].toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' })}
+        <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink3)' }}>
+          Vecka {getWeekNumber(weekDates[0])} ·{' '}
+          {weekDates[0].toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' })}–{weekDates[6].toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' })}
         </span>
         <button onClick={nextWeek}
-          style={{ padding: '5px 12px', borderRadius: 10, border: '1px solid var(--border)', background: 'var(--card)', color: 'var(--ink2)', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+          style={{ padding: '5px 14px', borderRadius: 10, border: '1px solid var(--border)', background: 'var(--card)', color: 'var(--ink2)', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
           Nästa ›
         </button>
       </div>
@@ -202,8 +229,12 @@ export default function KalenderClient() {
               <span style={{ fontSize: 15, fontWeight: 700, width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', background: isToday && !isSelected ? '#D4E8CC' : 'transparent', color: isSelected ? 'white' : isToday ? '#2D5A27' : 'var(--ink)' }}>
                 {d.getDate()}
               </span>
-              {/* Event dot */}
-              <span style={{ width: 4, height: 4, borderRadius: '50%', marginTop: 4, background: hasEvents ? (isSelected ? 'rgba(255,255,255,0.6)' : '#2D5A27') : 'transparent' }} />
+              {/* Event dots (up to 3, colored by category) */}
+              <div style={{ display: 'flex', gap: 2, marginTop: 4, minHeight: 5 }}>
+                {events.filter(e => e.start_time?.startsWith(ds)).slice(0, 3).map((e, ei) => (
+                  <span key={ei} style={{ width: 5, height: 5, borderRadius: '50%', background: isSelected ? 'rgba(255,255,255,0.7)' : (e.color || '#2D5A27') }} />
+                ))}
+              </div>
             </button>
           )
         })}

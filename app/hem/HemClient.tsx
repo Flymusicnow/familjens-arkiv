@@ -131,7 +131,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
     <div>
       {/* ── Sky hero ─────────────────────────────────────────────────────── */}
       <div style={{
-        height: 200,
+        height: 260,
         borderRadius: '0 0 32px 32px',
         overflow: 'hidden',
         position: 'relative',
@@ -179,7 +179,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       </div>
 
       {/* ── Content below hero ───────────────────────────────────────────── */}
-      <div style={{ padding:'14px 16px 100px' }}>
+      <div style={{ padding:'20px 20px 120px' }}>
 
         {/* Urgent banner */}
         {urgentBills.length > 0 && (
@@ -206,9 +206,10 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
         )}
 
         {/* Module grid */}
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
           {modules.map(mod => (
             <Link key={mod.href} href={mod.href}
+              className="card-lift"
               style={{
                 gridColumn: mod.wide ? '1 / -1' : undefined,
                 display:'flex', flexDirection:'column',
@@ -216,8 +217,8 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
                 border:`1px solid ${mod.accentL}`,
                 borderRadius:20,
                 boxShadow:'var(--shadow)',
-                minHeight:120,
-                padding:'18px 14px',
+                minHeight:136,
+                padding:'20px 18px',
                 position:'relative',
                 textDecoration:'none',
               }}>

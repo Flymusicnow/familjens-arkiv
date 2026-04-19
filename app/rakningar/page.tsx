@@ -91,25 +91,25 @@ export default function RakningarPage() {
   const total = [...akuta, ...snart].reduce((s, b) => s + b.amount, 0)
 
   return (
-    <div className="px-4 pt-6 pb-28 min-h-screen">
-      <div className="flex items-start justify-between mb-6">
+    <div className="px-5 pt-8 pb-32 min-h-screen max-w-3xl mx-auto">
+      <div className="flex items-start justify-between mb-8">
         <div>
-          <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-[#1C1A17]/30 mb-1">Ekonomi</p>
-          <h1 className="text-[32px] font-black text-[#1C1A17] tracking-tight">Räkningar</h1>
+          <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-[#9C9690] mb-2">Ekonomi</p>
+          <h1 className="text-[36px] font-black text-[#1C1A17] tracking-tight">Räkningar</h1>
         </div>
-        <button className="mt-1 bg-[#7C71FF] text-[#1C1A17] text-[13px] font-bold px-4 min-h-[44px] rounded-2xl active:scale-[0.97] transition-transform">+ Lägg till</button>
+        <button className="mt-2 bg-[#A0522D] text-white text-[14px] font-bold px-5 min-h-[48px] rounded-2xl">+ Lägg till</button>
       </div>
 
-      <div className="grid grid-cols-3 gap-3 mb-6">
+      <div className="grid grid-cols-3 gap-4 mb-8">
         {[
-          { label: "Totalt", value: loading ? "–" : total > 0 ? Math.round(total/1000)+"k" : "0", color: "text-[#1C1A17]", labelColor: "text-[#1C1A17]/30" },
-          { label: "Akuta", value: loading ? "–" : String(akuta.length), color: "text-[#F87171]", labelColor: "text-[#F87171]/70" },
-          { label: "Snart", value: loading ? "–" : String(snart.length), color: "text-[#FBBF24]", labelColor: "text-[#FBBF24]/70" },
+          { label: "Totalt", value: loading ? "–" : total > 0 ? Math.round(total/1000)+"k" : "0", color: "text-[#1C1A17]", labelColor: "text-[#9C9690]", sub: "kr" },
+          { label: "Akuta",  value: loading ? "–" : String(akuta.length),  color: "text-[#A0522D]", labelColor: "text-[#A0522D]", sub: "st" },
+          { label: "Snart",  value: loading ? "–" : String(snart.length),  color: "text-[#8B6914]", labelColor: "text-[#8B6914]", sub: "st" },
         ].map(s => (
-          <div key={s.label} className="bg-white border border-[rgba(28,26,23,0.10)] rounded-2xl p-4 text-center">
-            <p className={`text-[10px] font-bold tracking-[0.15em] uppercase mb-2 ${s.labelColor}`}>{s.label}</p>
-            <p className={`text-[28px] font-black leading-none ${s.color}`}>{s.value}</p>
-            <p className="text-[11px] text-[#1C1A17]/30 mt-1">kr</p>
+          <div key={s.label} className="bg-white border border-[rgba(28,26,23,0.10)] rounded-2xl p-5 text-center shadow-sm">
+            <p className={`text-[11px] font-bold tracking-[0.15em] uppercase mb-3 ${s.labelColor}`}>{s.label}</p>
+            <p className={`text-[32px] font-black leading-none mb-1 ${s.color}`}>{s.value}</p>
+            <p className="text-[12px] text-[#9C9690] mt-1">{s.sub}</p>
           </div>
         ))}
       </div>
