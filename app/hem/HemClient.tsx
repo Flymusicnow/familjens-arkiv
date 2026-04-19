@@ -128,7 +128,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
   ]
 
   return (
-    <div>
+    <div style={{ maxWidth: 672, margin: '0 auto' }}>
       {/* ── Sky hero ─────────────────────────────────────────────────────── */}
       <div style={{
         height: 260,

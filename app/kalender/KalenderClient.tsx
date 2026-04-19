@@ -176,6 +176,7 @@ export default function KalenderClient() {
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', paddingBottom: 100 }}>
+      <div style={{ maxWidth: 672, margin: '0 auto' }}>
 
       {/* Header */}
       <div style={{ padding: '24px 16px 0', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
@@ -245,7 +246,7 @@ export default function KalenderClient() {
 
       {/* Events for selected day */}
       <div style={{ padding: '0 16px' }}>
-        <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--ink3)', marginBottom: 14 }}>
+        <p style={{ fontSize: 19, fontWeight: 700, color: 'var(--ink)', fontFamily: 'var(--serif)', textTransform: 'capitalize', marginBottom: 14 }}>
           {selectedDate.toLocaleDateString('sv-SE', { weekday: 'long', day: 'numeric', month: 'long' })}
         </p>
 
@@ -288,6 +289,8 @@ export default function KalenderClient() {
           </div>
         )}
       </div>
+
+      </div>{/* end max-w-2xl */}
 
       {/* Add event modal */}
       {showModal && (

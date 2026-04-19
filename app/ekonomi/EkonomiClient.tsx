@@ -178,7 +178,7 @@ export default function EkonomiClient({ workspaceId }: Props) {
 
         {/* ── FRANCK ── */}
         {person === 'franck' && (
-          <div className="space-y-4">
+          <div className="space-y-6">
             <ViewHeader eyebrow="Din ekonomi" title="Franck" color={F} />
 
             {/* Deklaration hero */}
@@ -218,7 +218,7 @@ export default function EkonomiClient({ workspaceId }: Props) {
 
         {/* ── SALONA ── */}
         {person === 'salona' && (
-          <div className="space-y-4">
+          <div className="space-y-6">
             <ViewHeader eyebrow="Din ekonomi" title="Salona" color={S} />
 
             <div className="rounded-3xl p-7 relative overflow-hidden"
@@ -259,7 +259,7 @@ export default function EkonomiClient({ workspaceId }: Props) {
 
         {/* ── FAMILJEN ── */}
         {person === 'family' && (
-          <div className="space-y-4">
+          <div className="space-y-6">
             <ViewHeader eyebrow="Gemensam ekonomi" title="Familjen" color={G} />
 
             <div className="rounded-3xl p-7 text-center relative overflow-hidden"
@@ -359,9 +359,9 @@ function StatsRow({ stats }: { stats: { label: string; value: string; sub: strin
   return (
     <div className="grid grid-cols-3 gap-3">
       {stats.map((s, i) => (
-        <div key={i} className="rounded-2xl p-4 text-center" style={{ background:'#FFFFFF', border:'1px solid rgba(0,0,0,0.07)' }}>
+        <div key={i} className="rounded-2xl p-5 text-center" style={{ background:'#FFFFFF', border:'1px solid rgba(0,0,0,0.07)' }}>
           <p className="text-[10px] font-bold tracking-[0.18em] uppercase mb-2" style={{ color:'#8A9888' }}>{s.label}</p>
-          <p className="text-2xl font-black leading-none mb-1" style={{ color:s.color, letterSpacing:'-0.5px' }}>{s.value}</p>
+          <p className="text-3xl font-black leading-none mb-1" style={{ color:s.color, letterSpacing:'-0.5px' }}>{s.value}</p>
           <p className="text-[11px]" style={{ color:'#8A9888' }}>{s.sub}</p>
         </div>
       ))}
@@ -393,8 +393,8 @@ function Section({ title, total, totalColor, children }: { title: string; total:
   return (
     <div className="rounded-2xl overflow-hidden" style={{ background:'#FFFFFF', border:'1px solid rgba(0,0,0,0.07)' }}>
       <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom:'1px solid rgba(0,0,0,0.06)' }}>
-        <h3 className="font-bold text-sm" style={{ color:'#1A2018' }}>{title}</h3>
-        <span className="font-black text-sm" style={{ color:totalColor }}>{total}</span>
+        <h3 className="font-bold text-[16px]" style={{ color:'#1A2018' }}>{title}</h3>
+        <span className="font-black text-[15px]" style={{ color:totalColor }}>{total}</span>
       </div>
       <div className="py-1">{children}</div>
     </div>
@@ -403,14 +403,14 @@ function Section({ title, total, totalColor, children }: { title: string; total:
 
 function Row({ title, sub, amt, amtColor, badge, badgeColor }: { title: string; sub: string; amt: string; amtColor: string; badge?: string; badgeColor?: string }) {
   return (
-    <div className="flex items-center justify-between px-5 py-3.5" style={{ borderBottom:'1px solid rgba(0,0,0,0.04)' }}>
+    <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom:'1px solid rgba(0,0,0,0.04)' }}>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold" style={{ color:'#1A2018' }}>{title}</p>
-        {sub && <p className="text-xs mt-0.5 truncate" style={{ color:'#8A9888' }}>{sub}</p>}
+        <p className="text-[15px] font-semibold" style={{ color:'#1A2018' }}>{title}</p>
+        {sub && <p className="text-[13px] mt-0.5 truncate" style={{ color:'#8A9888' }}>{sub}</p>}
       </div>
       <div className="flex items-center gap-2.5 flex-shrink-0 ml-3">
-        <span className="text-sm font-bold" style={{ color:amtColor }}>{amt}</span>
-        {badge && <span className="text-sm" style={{ color: badgeColor || undefined }}>{badge}</span>}
+        <span className="text-[17px] font-bold" style={{ color:amtColor }}>{amt}</span>
+        {badge && <span className="text-[15px]" style={{ color: badgeColor || undefined }}>{badge}</span>}
       </div>
     </div>
   )
@@ -418,7 +418,7 @@ function Row({ title, sub, amt, amtColor, badge, badgeColor }: { title: string; 
 
 function AddRow({ label, onClick }: { label: string; onClick: () => void }) {
   return (
-    <button onClick={onClick} className="w-full flex items-center justify-center py-3.5 text-xs font-semibold transition-colors hover:opacity-80"
+    <button onClick={onClick} className="w-full flex items-center justify-center py-4 text-[14px] font-semibold transition-colors hover:opacity-80"
       style={{ borderTop:'1px dashed rgba(0,0,0,0.08)', color:'#8A9888' }}>
       {label}
     </button>
