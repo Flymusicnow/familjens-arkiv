@@ -1,10 +1,13 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase-browser'
 import { bloom } from '@/components/Bloom'
 import type { FamilyMember, Bill, Task } from '@/lib/types'
+
+const HERO_PHOTO = 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=900&q=85&auto=format'
 
 interface Props {
   member: FamilyMember & { family_workspace: { name: string; invite_code: string } }
@@ -132,28 +135,29 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
         borderRadius: '0 0 32px 32px',
         overflow: 'hidden',
         position: 'relative',
-        background: 'linear-gradient(180deg, #A8C8DC 0%, #C0D8C8 45%, #6A9A50 72%, #2D5A27 100%)',
         flexShrink: 0,
       }}>
-        {/* Clouds */}
-        <div style={{ position:'absolute', top:22, left:20, width:72, height:22, borderRadius:60, background:'white', opacity:0.7, filter:'blur(1.5px)' }} />
-        <div style={{ position:'absolute', top:18, left:64, width:44, height:16, borderRadius:60, background:'white', opacity:0.5, filter:'blur(1.5px)' }} />
-        <div style={{ position:'absolute', top:38, right:52, width:60, height:20, borderRadius:60, background:'white', opacity:0.65, filter:'blur(1.5px)' }} />
-        <div style={{ position:'absolute', top:50, right:88, width:36, height:14, borderRadius:60, background:'white', opacity:0.4, filter:'blur(1.5px)' }} />
-        <div style={{ position:'absolute', top:28, left:'45%', width:52, height:18, borderRadius:60, background:'white', opacity:0.55, filter:'blur(1.5px)' }} />
+        {/* Real landscape photo */}
+        <Image
+          src={HERO_PHOTO}
+          alt="Sky and green field"
+          fill
+          priority
+          style={{ objectFit: 'cover', objectPosition: 'center 55%' }}
+        />
 
-        {/* Tree silhouette */}
+        {/* Dark bottom vignette for readability */}
         <div style={{
-          position:'absolute', bottom:0, left:0, right:0, height:70,
-          background:'linear-gradient(to top, #1A3A14 0%, transparent 100%)',
+          position:'absolute', bottom:0, left:0, right:0, height:80,
+          background:'linear-gradient(to top, rgba(20,50,10,0.55) 0%, transparent 100%)',
         }} />
 
         {/* Text overlay */}
         <div style={{ position:'absolute', top:20, left:20, right:20 }}>
-          <p style={{ fontSize:12, color:'rgba(20,40,20,0.65)', fontWeight:500, marginBottom:4 }}>
+          <p style={{ fontSize:12, color:'rgba(255,255,255,0.80)', fontWeight:500, marginBottom:4, textShadow:'0 1px 4px rgba(0,0,0,0.3)' }}>
             {getGreeting()}, {familyName}
           </p>
-          <p style={{ fontSize:26, color:'#182A16', fontWeight:600, fontFamily:'var(--serif)', lineHeight:1.1 }}>
+          <p style={{ fontSize:26, color:'white', fontWeight:600, fontFamily:'var(--serif)', lineHeight:1.1, textShadow:'0 1px 8px rgba(0,0,0,0.35)' }}>
             {capitalize(getDayLabel())}
           </p>
         </div>
