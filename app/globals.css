@@ -18,6 +18,7 @@
   --r: 20px; --r2: 14px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
+* { transition: background-color 0.15s ease, color 0.15s ease; }
 html, body {
   background: var(--bg);
   color: var(--ink);
@@ -25,13 +26,21 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Soft card interaction — gentle for NPF/ADHD users */
+/* Soft lift on interactive cards */
 .card-lift {
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
 }
 .card-lift:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(28,26,23,0.11);
+  box-shadow: 0 8px 24px rgba(28,26,23,0.10) !important;
 }
-a, button { transition: opacity 0.15s ease, transform 0.15s ease; }
+
+/* Smooth active press */
 a:active, button:active { transform: scale(0.97); }
+
+/* Soft focus ring — accessible + friendly */
+button:focus-visible, a:focus-visible {
+  outline: 2px solid #2D5A27;
+  outline-offset: 3px;
+  border-radius: 8px;
+}

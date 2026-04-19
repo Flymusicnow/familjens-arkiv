@@ -9,10 +9,10 @@ type MailCategory = 'alla' | 'rakningar' | 'myndigheter' | 'avtal' | 'ovrigt'
 
 const categories: { id: MailCategory; label: string; emoji: string; color: string }[] = [
   { id: 'alla',        label: 'Alla',        emoji: '📬', color: '#8A9888' },
-  { id: 'rakningar',   label: 'Räkningar',   emoji: '💳', color: '#C46040' },
-  { id: 'myndigheter', label: 'Myndigheter', emoji: '🏛',  color: '#4A8CB4' },
-  { id: 'avtal',       label: 'Avtal',       emoji: '📜', color: '#6450B4' },
-  { id: 'ovrigt',      label: 'Övrigt',      emoji: '📁', color: '#907060' },
+  { id: 'rakningar',   label: 'Räkningar',   emoji: '💳', color: '#A0522D' },
+  { id: 'myndigheter', label: 'Myndigheter', emoji: '🏛',  color: '#3A6B8A' },
+  { id: 'avtal',       label: 'Avtal',       emoji: '📜', color: '#5C4A7A' },
+  { id: 'ovrigt',      label: 'Övrigt',      emoji: '📁', color: '#556B2F' },
 ]
 
 const FORWARD_ADDRESS = 'franck@inkorg.arkiv.app'
@@ -31,58 +31,58 @@ export default function MailClient() {
 
   return (
     <PageWrapper>
-      <div className="relative z-10 max-w-3xl mx-auto space-y-6">
+      <div className="relative z-10 space-y-6">
         <PageHeader eyebrow="Inkorg" title="Mail" />
 
         {/* Connect email providers */}
-        <div className="space-y-3">
+        <div className="space-y-4">
           <button
             onClick={() => bloom('Kommer snart 🔜', 'Gmail-integration är under utveckling')}
-            className="w-full flex items-center gap-4 rounded-2xl p-5 transition-all active:scale-95"
+            className="card-lift w-full flex items-center gap-5 rounded-2xl p-5"
             style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
-            <div className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-[#1C1A17] text-xl flex-shrink-0"
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-white text-xl flex-shrink-0"
               style={{ background: '#EA4335' }}>G</div>
-            <div className="text-left">
-              <p className="font-bold" style={{ color: '#1A2018' }}>Anslut Gmail</p>
-              <p className="text-sm" style={{ color: '#8A9888' }}>Importera räkningar automatiskt</p>
+            <div className="text-left flex-1">
+              <p className="font-bold text-[16px]" style={{ color: '#1C1A17' }}>Anslut Gmail</p>
+              <p className="text-[14px] mt-0.5" style={{ color: '#9C9690' }}>Importera räkningar automatiskt</p>
             </div>
-            <span className="ml-auto" style={{ color: '#8A9888' }}>→</span>
+            <span className="text-[18px]" style={{ color: '#9C9690' }}>→</span>
           </button>
 
           <button
             onClick={() => bloom('Kommer snart 🔜', 'Outlook-integration är under utveckling')}
-            className="w-full flex items-center gap-4 rounded-2xl p-5 transition-all active:scale-95"
+            className="card-lift w-full flex items-center gap-5 rounded-2xl p-5"
             style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
-            <div className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-[#1C1A17] text-xl flex-shrink-0"
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-white text-xl flex-shrink-0"
               style={{ background: '#0078D4' }}>O</div>
-            <div className="text-left">
-              <p className="font-bold" style={{ color: '#1A2018' }}>Anslut Outlook</p>
-              <p className="text-sm" style={{ color: '#8A9888' }}>Microsoft-konto</p>
+            <div className="text-left flex-1">
+              <p className="font-bold text-[16px]" style={{ color: '#1C1A17' }}>Anslut Outlook</p>
+              <p className="text-[14px] mt-0.5" style={{ color: '#9C9690' }}>Microsoft-konto</p>
             </div>
-            <span className="ml-auto" style={{ color: '#8A9888' }}>→</span>
+            <span className="text-[18px]" style={{ color: '#9C9690' }}>→</span>
           </button>
         </div>
 
         {/* Forward address card */}
-        <div className="rounded-2xl p-5" style={{ background: '#C8DDE8', border: '1px solid rgba(58,107,138,0.2)' }}>
-          <p className="text-xs font-bold tracking-[0.2em] uppercase mb-3" style={{ color: '#3A6B8A' }}>
-            📬 DIN VIDAREBEFORDRINGSADRESS
+        <div className="rounded-2xl p-5 w-full" style={{ background: '#C8DDE8', border: '1px solid rgba(58,107,138,0.2)' }}>
+          <p className="text-[11px] font-bold tracking-[0.2em] uppercase mb-4" style={{ color: '#3A6B8A' }}>
+            📬 Din vidarebefordringsadress
           </p>
           <div className="flex items-center gap-3">
-            <code className="flex-1 text-sm font-mono rounded-xl px-3 py-2 overflow-hidden text-ellipsis whitespace-nowrap"
-              style={{ background: 'rgba(58,107,138,0.1)', color: '#3A6B8A', border: '1px solid rgba(58,107,138,0.2)' }}>
+            <code className="flex-1 text-[14px] font-mono rounded-xl px-4 py-3 overflow-hidden text-ellipsis whitespace-nowrap"
+              style={{ background: 'rgba(58,107,138,0.12)', color: '#3A6B8A', border: '1px solid rgba(58,107,138,0.2)' }}>
               {FORWARD_ADDRESS}
             </code>
             <button onClick={copyAddress}
-              className="flex-shrink-0 px-5 py-2.5 rounded-xl text-sm font-bold text-white transition-all"
-              style={{ background: copied ? '#5A9A50' : '#3A6B8A' }}>
-              {copied ? '✓' : 'Kopiera'}
+              className="flex-shrink-0 min-h-[48px] px-5 rounded-xl text-[14px] font-bold text-white"
+              style={{ background: copied ? '#2D5A27' : '#3A6B8A' }}>
+              {copied ? '✓ Kopierat' : 'Kopiera'}
             </button>
           </div>
         </div>
 
         {/* How-to steps */}
-        <div className="rounded-2xl overflow-hidden"
+        <div className="rounded-2xl overflow-hidden w-full"
           style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
           {[
             'Kopiera adressen ovan',
@@ -90,25 +90,25 @@ export default function MailClient() {
             'Klistra in adressen och aktivera',
             'Inkommande mail dyker upp sorterat här',
           ].map((text, i, arr) => (
-            <div key={i} className="flex items-start gap-4 px-5 py-4"
+            <div key={i} className="flex items-start gap-4 px-5 py-5"
               style={{ borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none' }}>
-              <div className="w-7 h-7 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 mt-0.5"
+              <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[14px] flex-shrink-0"
                 style={{ background: '#D0DDB8', color: '#556B2F' }}>
                 {i + 1}
               </div>
-              <p className="text-[15px] leading-relaxed" style={{ color: '#5A6858' }}>{text}</p>
+              <p className="text-[15px] leading-relaxed pt-0.5" style={{ color: '#5C5650' }}>{text}</p>
             </div>
           ))}
         </div>
 
         {/* Category tabs */}
-        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+        <div className="flex gap-2 overflow-x-auto pb-1">
           {categories.map(cat => (
             <button key={cat.id} onClick={() => setActiveTab(cat.id)}
-              className="flex-shrink-0 flex items-center gap-1.5 px-4 h-[40px] rounded-full text-sm font-semibold transition-all whitespace-nowrap"
+              className="flex-shrink-0 flex items-center gap-1.5 px-4 h-[44px] rounded-full text-[14px] font-semibold whitespace-nowrap"
               style={{
                 background: activeTab === cat.id ? cat.color : 'rgba(0,0,0,0.03)',
-                color: activeTab === cat.id ? 'white' : '#8A9888',
+                color: activeTab === cat.id ? 'white' : '#9C9690',
                 border: activeTab === cat.id ? 'none' : '1px solid rgba(0,0,0,0.09)',
               }}>
               {cat.emoji} {cat.label}
@@ -117,14 +117,14 @@ export default function MailClient() {
         </div>
 
         {/* Empty state */}
-        <div className="rounded-2xl p-12 text-center" style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
+        <div className="rounded-2xl p-12 text-center w-full" style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
           <div className="text-[52px] mb-4">
             {categories.find(c => c.id === activeTab)?.emoji || '📭'}
           </div>
-          <div className="text-[20px] font-bold mb-2" style={{ color: '#1A2018' }}>
+          <div className="text-[20px] font-bold mb-3" style={{ color: '#1C1A17' }}>
             {activeTab === 'alla' ? 'Inga mail än' : `Inga ${categories.find(c => c.id === activeTab)?.label.toLowerCase()} än`}
           </div>
-          <div className="text-[15px] leading-relaxed" style={{ color: '#8A9888' }}>
+          <div className="text-[15px] leading-relaxed" style={{ color: '#9C9690' }}>
             Vidarebefordra din e-post till adressen ovan så sorteras den automatiskt hit
           </div>
         </div>
