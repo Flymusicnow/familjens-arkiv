@@ -192,9 +192,9 @@ export default function MatClient({
               onClick={() => setActiveTab(tab.key)}
               className="flex-1 h-[48px] rounded-xl text-sm font-bold transition-all"
               style={{
-                background: activeTab === tab.key ? 'rgba(106,168,96,0.15)' : 'rgba(0,0,0,0.03)',
-                color: activeTab === tab.key ? '#6AA860' : '#8A9888',
-                border: activeTab === tab.key ? '1px solid rgba(106,168,96,0.35)' : '1px solid rgba(0,0,0,0.07)',
+                background: activeTab === tab.key ? '#2D5A27' : 'rgba(0,0,0,0.03)',
+                color: activeTab === tab.key ? 'white' : '#8A9888',
+                border: activeTab === tab.key ? 'none' : '1px solid rgba(0,0,0,0.07)',
               }}>
               {tab.emoji} {tab.label}
             </button>
@@ -206,8 +206,8 @@ export default function MatClient({
           <div className="space-y-4">
             {/* AI-matförslag box */}
             <div className="rounded-2xl p-5"
-              style={{ background: 'rgba(106,168,96,0.07)', border: '1px solid rgba(106,168,96,0.2)' }}>
-              <h4 className="font-bold text-sm flex items-center gap-2 mb-2" style={{ color: '#6AA860' }}>
+              style={{ background: 'rgba(45,90,39,0.07)', border: '1px solid rgba(45,90,39,0.15)' }}>
+              <h4 className="font-bold text-sm flex items-center gap-2 mb-2" style={{ color: '#2D5A27' }}>
                 ✨ AI-matförslag
               </h4>
               <p className="text-sm mb-4 leading-relaxed" style={{ color: '#5A6858' }}>
@@ -237,7 +237,7 @@ export default function MatClient({
                   }}>
                   {/* Day header */}
                   <div className="flex items-center justify-between px-5 py-4"
-                    style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
+                    style={{ background: 'white', borderBottom: '1px solid rgba(28,26,23,0.08)' }}>
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="text-lg font-bold" style={{ color: isToday ? '#6AA860' : '#1A2018' }}>
@@ -283,8 +283,8 @@ export default function MatClient({
                         </div>
                         <button
                           onClick={() => { setShowAdd({ date, meal_type: key }); setForm({ name: '', recipe_url: '', notes: '' }) }}
-                          className="w-10 h-10 rounded-xl flex items-center justify-center text-xl font-light flex-shrink-0"
-                          style={{ background: 'rgba(0,0,0,0.03)', border: '1px dashed rgba(0,0,0,0.12)', color: '#8A9888' }}>
+                          className="w-10 h-10 rounded-xl flex items-center justify-center text-xl font-light flex-shrink-0 hover:border-[#556B2F] hover:text-[#556B2F]"
+                          style={{ background: 'rgba(0,0,0,0.03)', border: '1px dashed rgba(85,107,47,0.35)', color: '#8A9888' }}>
                           +
                         </button>
                       </div>
@@ -510,12 +510,12 @@ function SmoothieCard() {
   if (dismissed) return null
   return (
     <div className="rounded-2xl px-5 py-4 flex items-start justify-between gap-3"
-      style={{ background: 'rgba(106,168,96,0.08)', border: '1px solid rgba(106,168,96,0.22)' }}>
+      style={{ background: '#D4E8CC', border: '1px solid rgba(45,90,39,0.20)' }}>
       <div className="flex-1">
-        <div className="text-xs font-bold tracking-wider uppercase mb-1" style={{ color: '#6AA860' }}>
+        <div className="text-xs font-bold tracking-wider uppercase mb-1" style={{ color: '#2D5A27' }}>
           🥤 Smoothie-påminnelse
         </div>
-        <div className="text-sm" style={{ color: '#5A6858' }}>
+        <div className="text-sm" style={{ color: '#2D5A27' }}>
           Dags för kvällssmoothie! Recept: banan, spenat, ingefära
         </div>
       </div>
