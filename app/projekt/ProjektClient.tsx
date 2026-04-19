@@ -17,11 +17,17 @@ interface Props {
 }
 
 const DEFAULT_VENTURES = [
-  { name: 'FlyMusic',                        emoji: '🎵', category: 'Musik / Evenemang',         monthly_goal: 20000, color: '#6450B4' },
-  { name: 'Trading XAUUSD / NQ1!',           emoji: '📈', category: 'Trading',                   monthly_goal: 30000, color: '#5A9A50' },
-  { name: 'Salonas Massage / Vildblomman',   emoji: '💆', category: 'Hälsa & Välmående',          monthly_goal: 15000, color: '#C46040' },
+  { name: 'FlyMusic',                        emoji: '🎵', category: 'Musik / Evenemang',         monthly_goal: 20000, color: '#5C4A7A' },
+  { name: 'Trading XAUUSD / NQ1!',           emoji: '📈', category: 'Trading',                   monthly_goal: 30000, color: '#8B6914' },
+  { name: 'Salonas Massage / Vildblomman',   emoji: '💆', category: 'Hälsa & Välmående',          monthly_goal: 15000, color: '#2D5A27' },
   { name: 'Kommunen',                        emoji: '🏛', category: 'Anställning (avslutas 31 mars)', monthly_goal: 28000, color: '#60A5FA' },
 ]
+
+const LOGO_BG: Record<string, string> = {
+  '#5C4A7A': '#D8D0EC',
+  '#8B6914': '#EAD9AA',
+  '#2D5A27': '#D4E8CC',
+}
 
 function formatAmt(n: number) {
   return n.toLocaleString('sv-SE') + ' kr'
@@ -164,12 +170,12 @@ export default function ProjektClient({ ventures: initialVentures, incomeMap: in
         {/* Stats row — always visible */}
         <div className="grid grid-cols-3 gap-[10px]">
           {[
-            { label: 'Total/mån', value: ventures.length > 0 ? formatAmt(totalIncome) : '–', color: '#5A9A50', small: totalIncome >= 10000 },
-            { label: 'Aktiva',    value: String(ventures.length),  color: '#6450B4', small: false },
-            { label: 'Mål',       value: totalGoal > 0 ? `${Math.min(100, Math.round((totalIncome/totalGoal)*100))}%` : '–', color: '#9A7830', small: false },
+            { label: 'Total/mån', value: ventures.length > 0 ? formatAmt(totalIncome) : '–', bg: '#D4E8CC', color: '#2D5A27', small: totalIncome >= 10000 },
+            { label: 'Aktiva',    value: String(ventures.length),  bg: '#D8D0EC', color: '#5C4A7A', small: false },
+            { label: 'Mål',       value: totalGoal > 0 ? `${Math.min(100, Math.round((totalIncome/totalGoal)*100))}%` : '–', bg: '#EAD9AA', color: '#8B6914', small: false },
           ].map(s => (
             <div key={s.label} className="rounded-2xl py-4 px-[10px] text-center"
-              style={{ background: '#F5F3F0', border: '1px solid rgba(0,0,0,0.07)' }}>
+              style={{ background: s.bg, border: '1px solid rgba(0,0,0,0.07)' }}>
               <p className="text-[9px] font-bold tracking-[0.15em] uppercase mb-2" style={{ color: '#8A9888' }}>{s.label}</p>
               <p className={`${s.small ? 'text-[18px]' : 'text-[26px]'} font-black leading-tight`} style={{ color: s.color }}>{s.value}</p>
             </div>
@@ -204,7 +210,7 @@ export default function ProjektClient({ ventures: initialVentures, incomeMap: in
                 style={{ background: '#FFFFFF', border: `1px solid ${venture.color || '#6450B4'}25` }}>
                 <div className="flex items-start gap-4">
                   <div className="w-[52px] h-[52px] rounded-2xl flex items-center justify-center text-2xl flex-shrink-0"
-                    style={{ background: `${venture.color || '#6450B4'}18`, border: `1px solid ${venture.color || '#6450B4'}30` }}>
+                    style={{ background: LOGO_BG[venture.color || ''] || `${venture.color || '#5C4A7A'}18`, border: `1px solid ${venture.color || '#5C4A7A'}30` }}>
                     {venture.emoji}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -216,7 +222,7 @@ export default function ProjektClient({ ventures: initialVentures, incomeMap: in
                       </div>
                     )}
                     <div className="flex items-baseline gap-2 mt-2">
-                      <span className="font-black text-[22px]" style={{ color: '#5A9A50', letterSpacing: '-0.5px' }}>+{formatAmt(income)}</span>
+                      <span className="font-black text-[22px]" style={{ color: '#2D5A27', letterSpacing: '-0.5px' }}>+{formatAmt(income)}</span>
                     </div>
                   </div>
                 </div>
@@ -228,7 +234,7 @@ export default function ProjektClient({ ventures: initialVentures, incomeMap: in
                   </div>
                   <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(0,0,0,0.06)' }}>
                     <div className="h-full rounded-full transition-all duration-700"
-                      style={{ width: `${pct}%`, background: barColor }} />
+                      style={{ width: `${pct}%`, background: 'linear-gradient(90deg, #2D5A27, #7AAB6E)' }} />
                   </div>
                 </div>
 
