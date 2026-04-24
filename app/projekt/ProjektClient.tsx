@@ -176,8 +176,8 @@ export default function ProjektClient({ ventures: initialVentures, incomeMap: in
           ].map(s => (
             <div key={s.label} className="rounded-2xl py-4 px-[10px] text-center"
               style={{ background: s.bg, border: '1px solid rgba(0,0,0,0.07)' }}>
-              <p className="text-[9px] font-bold tracking-[0.15em] uppercase mb-2" style={{ color: '#8A9888' }}>{s.label}</p>
-              <p className={`${s.small ? 'text-[18px]' : 'text-[26px]'} font-black leading-tight`} style={{ color: s.color }}>{s.value}</p>
+              <p className="text-[10px] font-bold tracking-[0.15em] uppercase mb-2" style={{ color: '#8A9888' }}>{s.label}</p>
+              <p className={`${s.small ? 'text-[18px]' : 'text-[28px]'} font-bold leading-tight`} style={{ color: s.color }}>{s.value}</p>
             </div>
           ))}
         </div>
