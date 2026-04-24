@@ -149,13 +149,11 @@ export default function EkonomiClient({ workspaceId }: Props) {
       <div className="max-w-3xl mx-auto space-y-6">
 
         {/* Camera */}
-        <div className="flex justify-end">
-          <label className="flex items-center gap-2 px-5 font-bold text-sm text-white cursor-pointer rounded-2xl"
-            style={{ background:'#556B2F', height:48 }}>
-            {ocrLoading ? '⏳' : '📷'} Fota kvitto
-            <input ref={fileRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFileChange} />
-          </label>
-        </div>
+        <label className="flex items-center justify-center gap-2 px-5 w-full font-bold text-sm text-white cursor-pointer rounded-xl"
+          style={{ background:'#556B2F', minHeight:48 }}>
+          {ocrLoading ? '⏳' : '📷'} Fota kvitto
+          <input ref={fileRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFileChange} />
+        </label>
 
         {/* Person toggle */}
         <div className="flex rounded-2xl p-1.5 gap-1" style={{ background:'#F5F3F0', border:'1px solid rgba(0,0,0,0.07)' }}>
@@ -359,9 +357,9 @@ function StatsRow({ stats }: { stats: { label: string; value: string; sub: strin
   return (
     <div className="grid grid-cols-3 gap-3">
       {stats.map((s, i) => (
-        <div key={i} className="rounded-2xl p-5 text-center" style={{ background:'#FFFFFF', border:'1px solid rgba(0,0,0,0.07)' }}>
+        <div key={i} className="rounded-2xl p-4 text-center" style={{ background:'#FFFFFF', border:'1px solid rgba(0,0,0,0.07)' }}>
           <p className="text-[10px] font-bold tracking-[0.18em] uppercase mb-2" style={{ color:'#8A9888' }}>{s.label}</p>
-          <p className="text-3xl font-black leading-none mb-1" style={{ color:s.color, letterSpacing:'-0.5px' }}>{s.value}</p>
+          <p className="text-[28px] font-bold leading-none mb-1" style={{ color:s.color, letterSpacing:'-0.5px' }}>{s.value}</p>
           <p className="text-[11px]" style={{ color:'#8A9888' }}>{s.sub}</p>
         </div>
       ))}
@@ -409,7 +407,7 @@ function Row({ title, sub, amt, amtColor, badge, badgeColor }: { title: string; 
         {sub && <p className="text-[13px] mt-0.5 truncate" style={{ color:'#8A9888' }}>{sub}</p>}
       </div>
       <div className="flex items-center gap-2.5 flex-shrink-0 ml-3">
-        <span className="text-[17px] font-bold" style={{ color:amtColor }}>{amt}</span>
+        <span className="text-[16px] font-bold" style={{ color:amtColor }}>{amt}</span>
         {badge && <span className="text-[15px]" style={{ color: badgeColor || undefined }}>{badge}</span>}
       </div>
     </div>

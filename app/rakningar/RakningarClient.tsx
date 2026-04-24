@@ -148,9 +148,9 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
             <div key={stat.label}
               className="rounded-2xl p-4 text-center"
               style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
-              <p className="text-[9px] font-bold tracking-[0.15em] uppercase mb-2"
+              <p className="text-[10px] font-bold tracking-[0.15em] uppercase mb-2"
                 style={{ color: '#8A9888' }}>{stat.label}</p>
-              <p className="text-[26px] font-black leading-tight"
+              <p className="text-[28px] font-bold leading-tight"
                 style={{ color: stat.color }}>{stat.value}</p>
             </div>
           ))}
@@ -287,7 +287,7 @@ function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, empty
                 <div className="relative rounded-2xl overflow-hidden"
                   style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
                   <div className="absolute left-0 w-1 rounded-full" style={{ background: color, top: 24, bottom: 24 }} />
-                  <div className="pl-6 pr-5 py-6">
+                  <div className="p-5">
                     <div className="flex items-start justify-between gap-3 mb-4">
                       <div className="flex-1 min-w-0">
                         <div className="font-bold text-[17px] truncate" style={{ color: '#1A2018' }}>{bill.title}</div>
@@ -296,7 +296,7 @@ function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, empty
                         )}
                       </div>
                       <div className="text-right flex-shrink-0">
-                        <div className="font-black text-[26px] leading-none" style={{ color, letterSpacing: '-0.5px' }}>
+                        <div className="font-bold text-[24px] leading-none" style={{ color, letterSpacing: '-0.5px', fontFamily: 'var(--serif)' }}>
                           {formatAmt(bill.amount)}
                         </div>
                         {bill.due_date && (
@@ -313,14 +313,14 @@ function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, empty
                     )}
                     <div className="flex gap-3">
                       <button onClick={() => onSnooze(bill)}
-                        className="flex-1 h-[52px] rounded-xl flex items-center justify-center gap-2 text-sm font-semibold"
+                        className="flex-1 min-h-[48px] rounded-xl flex items-center justify-center gap-2 text-[14px] font-semibold"
                         style={{ background: 'rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.08)', color: '#5A6858' }}>
                         ⏱ Snooze
                       </button>
                       <motion.button
                         whileTap={{ scale: 0.96 }}
                         onClick={() => onPaid(bill)}
-                        className="flex-1 h-[52px] rounded-xl flex items-center justify-center gap-2 text-sm font-bold text-[#1C1A17]"
+                        className="flex-1 min-h-[48px] rounded-xl flex items-center justify-center gap-2 text-[14px] font-bold text-[#1C1A17]"
                         style={{ background: color }}>
                         ✓ Betald
                       </motion.button>
