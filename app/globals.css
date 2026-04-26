@@ -38,6 +38,20 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Prevent horizontal overflow */
+html, body { overflow-x: hidden; }
+
+/* All cards breathe */
+.card, [class*="rounded-xl"], [class*="rounded-2xl"] {
+  overflow: hidden;
+}
+
+/* Touch targets */
+button, a { min-height: 44px; }
+
+/* Smooth page transitions */
+main { transition: opacity 0.15s ease; }
+
 /* Soft lift on interactive cards */
 .card-lift {
   transition: transform 0.2s ease, box-shadow 0.2s ease !important;

@@ -74,14 +74,14 @@ export default function StuderaClient() {
 
         {/* Stats */}
         <div className="grid grid-cols-2 gap-3">
-          <div className="rounded-2xl p-5 text-center" style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
+          <div className="rounded-2xl p-4 text-center" style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
             <p className="text-[10px] font-bold tracking-[0.18em] uppercase mb-2" style={{ color: '#8A9888' }}>Poäng intjänade</p>
-            <p className="text-[32px] font-black leading-tight" style={{ color: SKY }}>{earnedCredits}</p>
+            <p className="text-[28px] font-bold leading-tight" style={{ color: SKY }}>{earnedCredits}</p>
             <p className="text-xs mt-1" style={{ color: '#8A9888' }}>av {totalCredits} hp</p>
           </div>
-          <div className="rounded-2xl p-5 text-center" style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
+          <div className="rounded-2xl p-4 text-center" style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
             <p className="text-[10px] font-bold tracking-[0.18em] uppercase mb-2" style={{ color: '#8A9888' }}>Mål idag</p>
-            <p className="text-[32px] font-black leading-tight" style={{ color: SKY }}>{doneCount}/{goals.length}</p>
+            <p className="text-[28px] font-bold leading-tight" style={{ color: SKY }}>{doneCount}/{goals.length}</p>
             <p className="text-xs mt-1" style={{ color: '#8A9888' }}>slutförda</p>
           </div>
         </div>

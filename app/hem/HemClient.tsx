@@ -213,7 +213,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       )}
 
       {/* Card grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-4 md:p-6 pb-28 md:pb-10">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 p-4 md:p-6 pb-28 md:pb-10">
         {cards.map(card => (
           <Link
             key={card.href}
@@ -226,15 +226,15 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
               background: card.bg ?? 'var(--bg-card)',
               borderRadius: 14,
               boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-              minHeight: card.cardType === 'quick' ? 130 : 160,
-              padding: 20,
+              minHeight: 140,
+              padding: 16,
               position: 'relative',
               textDecoration: 'none',
             }}
           >
             {card.badge && (
               <span style={{
-                position: 'absolute', top: 10, right: 10,
+                position: 'absolute', top: 8, right: 8,
                 fontSize: 9, fontWeight: 800, letterSpacing: '0.08em',
                 color: 'var(--text-heading)', background: 'var(--nav-active-bg)',
                 borderRadius: 999, padding: '2px 7px',
@@ -242,14 +242,14 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
                 {card.badge}
               </span>
             )}
-            <span style={{ fontSize: 24, lineHeight: 1, marginBottom: 8 }}>{card.emoji}</span>
+            <span style={{ fontSize: 22, lineHeight: 1, marginBottom: 8 }}>{card.emoji}</span>
             <span style={{
-              fontSize: 18, fontWeight: 700, color: 'var(--text-primary)',
+              fontSize: 15, fontWeight: 700, color: 'var(--text-primary)',
               marginBottom: 3, lineHeight: 1.2,
             }}>
               {card.title}
             </span>
-            <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+            <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>
               {card.subtitle}
             </span>
             {card.progress !== undefined && (
