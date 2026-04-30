@@ -36,7 +36,7 @@ export default function AktiviteterClient() {
 
   return (
     <PageWrapper>
-      <div className="max-w-xl mx-auto space-y-6">
+      <div className="max-w-2xl mx-auto space-y-6">
         <PageHeader eyebrow="Rörelse & Hälsa" title="Aktiviteter" />
 
         {/* Stats */}

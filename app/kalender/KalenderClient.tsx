@@ -176,7 +176,7 @@ export default function KalenderClient() {
 
   return (
     <div style={{ background: 'transparent', minHeight: '100vh', paddingBottom: 100 }}>
-      <div style={{ maxWidth: 672, margin: '0 auto' }}>
+      <div style={{ maxWidth: 840, margin: '0 auto' }}>
 
       {/* Header */}
       <div style={{ padding: '24px 16px 0', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>

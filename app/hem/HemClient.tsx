@@ -144,9 +144,9 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
   ]
 
   return (
-    <div style={{ position: 'relative', zIndex: 1 }}>
+    <div className="px-4 pt-6 pb-28 md:px-6 md:pt-8 md:pb-12 lg:px-8 xl:px-12 xl:pt-10" style={{ position: 'relative', zIndex: 1 }}>
       {/* Greeting header */}
-      <div className="px-4 pt-8 pb-2 md:px-6 md:pt-10">
+      <div className="pb-2">
         <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', fontWeight: 500, marginBottom: 6 }}>
           {getGreeting()}, {familyName}
         </p>
@@ -160,7 +160,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
 
       {/* Urgent bills banner */}
       {urgentBills.length > 0 && (
-        <div className="mx-4 mt-4 md:mx-6">
+        <div className="mt-4">
           <Link href="/rakningar" style={{ textDecoration: 'none' }}>
             <div style={{
               background: 'rgba(160,82,45,0.35)',
@@ -186,7 +186,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
       )}
 
       {/* Card grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 p-4 md:p-6 pb-28 md:pb-10">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5 xl:gap-6 pt-4">
         {cards.map(card => (
           <Link
             key={card.href}
@@ -204,10 +204,10 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
                     border: '1px solid rgba(255,112,67,0.40)',
                   }
                 : GLASS),
-              borderRadius: 14,
+              borderRadius: 20,
               boxShadow: '0 4px 24px rgba(0,0,0,0.35)',
               minHeight: 140,
-              padding: 16,
+              padding: 20,
               position: 'relative',
               textDecoration: 'none',
             }}

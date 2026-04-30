@@ -34,7 +34,7 @@ export default function MailClient() {
 
   return (
     <PageWrapper>
-      <div className="relative z-10 space-y-6">
+      <div className="relative z-10 max-w-2xl mx-auto space-y-6">
         <PageHeader eyebrow="Inkorg" title="Mail" />
 
         {/* Connect email providers */}
