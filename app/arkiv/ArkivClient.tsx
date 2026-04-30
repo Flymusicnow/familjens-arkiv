@@ -115,7 +115,7 @@ export default function ArkivClient({ initialDocs, workspaceId, memberId }: Prop
 
   return (
     <PageWrapper>
-      <div className="relative z-10 max-w-xl mx-auto space-y-5">
+      <div className="relative z-10 max-w-2xl mx-auto space-y-5">
         <PageHeader
           eyebrow="Familjens minne"
           title="Arkiv"

@@ -172,7 +172,7 @@ export default function MatClient({
           style={{ background: '#6AA860', filter: 'blur(80px)' }} />
       </div>
 
-      <div className="relative z-10 max-w-xl mx-auto space-y-6">
+      <div className="relative z-10 max-w-2xl mx-auto space-y-6">
         <PageHeader
           eyebrow="Familjen"
           title="Mat & Hälsa"

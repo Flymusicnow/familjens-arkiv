@@ -106,7 +106,7 @@ export default function ProjektClient({ ventures: initialVentures, incomeMap: in
 
   return (
     <PageWrapper>
-      <div className="relative z-10 max-w-xl mx-auto space-y-6">
+      <div className="relative z-10 max-w-2xl mx-auto space-y-6">
         <PageHeader
           eyebrow="Dina ventures"
           title="Projekt"

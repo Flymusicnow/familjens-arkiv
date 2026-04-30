@@ -75,7 +75,7 @@ export default function Navigation() {
       <aside
         className="hidden md:flex flex-col sticky top-0 h-screen flex-shrink-0 overflow-y-auto"
         style={{
-          width: 220,
+          width: 240,
           background: 'rgba(10, 15, 25, 0.55)',
           backdropFilter: 'saturate(180%) blur(24px)',
           WebkitBackdropFilter: 'saturate(180%) blur(24px)',
