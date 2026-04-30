@@ -2,46 +2,72 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --bg: #F7F3EE; --bg2: #EAE4DC; --card: #FDFAF7;
-  --ink: #1C1A17; --ink2: #5C5650; --ink3: #9C9690;
-  --border: #EEEEEE; --border2: rgba(28,26,23,0.16);
-  --shadow: 0 2px 16px rgba(28,26,23,0.08);
-  --forest: #2D5A27; --sage: #7AAB6E; --sage-l: #D4E8CC;
-  --sky: #3A6B8A; --sky-l: #C8DDE8;
-  --terra: #A0522D; --terra-l: #EDD5C4;
-  --amber: #8B6914; --amber-l: #EAD9AA;
-  --moss: #556B2F; --moss-l: #D0DDB8;
-  --dusk: #5C4A7A; --dusk-l: #D8D0EC;
-  --rose: #8B3A52; --rose-l: #EDD0D8;
-  --serif: 'Lora', Georgia, serif;
-  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
-  --r: 20px; --r2: 14px;
-  /* Design system tokens */
-  --bg-page: #F7F3EE;
-  --bg-card: #FFFFFF;
-  --bg-sidebar: #FAFAFA;
-  --text-heading: #1B4D3E;
-  --text-primary: #1a1a1a;
-  --text-muted: #888888;
-  --accent-green: #4CAF50;
+  /* Glass system */
+  --glass-card:    rgba(10, 15, 25, 0.45);
+  --glass-sidebar: rgba(10, 15, 25, 0.55);
+  --glass-modal:   rgba(15, 20, 35, 0.75);
+  --glass-input:   rgba(255, 255, 255, 0.08);
+  --glass-border:  rgba(255, 255, 255, 0.12);
+  --glass-divider: rgba(255, 255, 255, 0.08);
+
+  /* Text */
+  --text-primary:  #FFFFFF;
+  --text-muted:    rgba(255, 255, 255, 0.60);
+  --text-dim:      rgba(255, 255, 255, 0.35);
+  --text-heading:  #FFFFFF;
+
+  /* Accent palette */
+  --forest: #2D5A27; --sage: #7AAB6E; --sage-l: rgba(212,232,204,0.25);
+  --sky: #3A6B8A;    --sky-l: rgba(200,221,232,0.25);
+  --terra: #A0522D;  --terra-l: rgba(237,213,196,0.25);
+  --amber: #8B6914;  --amber-l: rgba(234,217,170,0.25);
+  --moss: #556B2F;   --moss-l: rgba(208,221,184,0.25);
+  --dusk: #5C4A7A;   --dusk-l: rgba(216,208,236,0.25);
+  --rose: #8B3A52;   --rose-l: rgba(237,208,216,0.25);
+
+  /* Semantic accents */
+  --accent-green:  #4CAF50;
   --accent-yellow: #FFC107;
-  --accent-red: #FF7043;
-  --nav-active-bg: #E8F3F0;
-  --nav-active-border: #1B4D3E;
+  --accent-red:    #FF7043;
+
+  /* Nav active — glass */
+  --nav-active-bg:     rgba(255, 255, 255, 0.15);
+  --nav-active-border: rgba(255, 255, 255, 0.90);
+
+  /* Typography */
+  --serif: 'Lora', Georgia, serif;
+  --sans:  'Plus Jakarta Sans', system-ui, sans-serif;
+  --r: 20px; --r2: 14px;
+
+  /* Legacy aliases — so CSS-var-using components auto-inherit */
+  --ink:    #FFFFFF;
+  --ink2:   rgba(255, 255, 255, 0.70);
+  --ink3:   rgba(255, 255, 255, 0.45);
+  --border: rgba(255, 255, 255, 0.10);
+  --border2: rgba(255, 255, 255, 0.18);
+  --card:   rgba(10, 15, 25, 0.45);
+  --bg:     transparent;
+  --bg2:    rgba(255, 255, 255, 0.06);
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
 }
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 * { transition: background-color 0.15s ease, color 0.15s ease; }
+
 html, body {
-  background: var(--bg);
-  color: var(--ink);
+  background: transparent;
+  color: var(--text-primary);
   font-family: var(--sans);
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
-/* Prevent horizontal overflow */
-html, body { overflow-x: hidden; }
+/* Placeholders */
+input::placeholder, textarea::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
 
-/* All cards breathe */
+/* Prevent overflow */
 .card, [class*="rounded-xl"], [class*="rounded-2xl"] {
   overflow: hidden;
 }
@@ -49,24 +75,32 @@ html, body { overflow-x: hidden; }
 /* Touch targets */
 button, a { min-height: 44px; }
 
-/* Smooth page transitions */
+/* Page transitions */
 main { transition: opacity 0.15s ease; }
 
-/* Soft lift on interactive cards */
+/* Glass card helper */
+.glass-card {
+  background: var(--glass-card);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid var(--glass-border);
+}
+
+/* Lift on interactive cards */
 .card-lift {
   transition: transform 0.2s ease, box-shadow 0.2s ease !important;
 }
 .card-lift:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(28,26,23,0.10) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45) !important;
 }
 
-/* Smooth active press */
+/* Active press */
 a:active, button:active { transform: scale(0.97); }
 
-/* Soft focus ring — accessible + friendly */
+/* Focus ring */
 button:focus-visible, a:focus-visible {
-  outline: 2px solid #2D5A27;
+  outline: 2px solid rgba(255, 255, 255, 0.70);
   outline-offset: 3px;
   border-radius: 8px;
 }

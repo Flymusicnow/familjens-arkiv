@@ -1,13 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase-browser'
 import { bloom } from '@/components/Bloom'
 import type { FamilyMember, Bill, Task } from '@/lib/types'
-
-const HERO_PHOTO = 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=900&q=85&auto=format'
 
 interface Props {
   member: FamilyMember & { family_workspace: { name: string; invite_code: string } }
@@ -48,11 +45,18 @@ type DashCard = {
   progress?: number
   metric?: string
   trend?: string
-  bg?: string
+  urgent?: boolean
   badge?: string
   wide?: boolean
   cardType: 'stat' | 'status' | 'quick'
 }
+
+const GLASS = {
+  background: 'rgba(10, 15, 25, 0.45)',
+  backdropFilter: 'saturate(180%) blur(20px)',
+  WebkitBackdropFilter: 'saturate(180%) blur(20px)',
+  border: '1px solid rgba(255,255,255,0.12)',
+} as const
 
 export default function HemClient({ member, bills, tasks: initialTasks, today }: Props) {
   const supabase = createClient()
@@ -118,7 +122,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
     {
       href: '/rakningar', emoji: '🧾', title: 'Räkningar',
       subtitle: urgentBills.length > 0 ? `${urgentBills.length} att betala` : 'Allt klart',
-      bg: urgentBills.length > 0 ? '#FFF8F6' : undefined,
+      urgent: urgentBills.length > 0,
       cardType: 'quick',
     },
     {
@@ -140,70 +144,39 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
   ]
 
   return (
-    <div>
-      {/* Hero banner */}
-      <div
-        className="mx-4 mt-4 md:mx-6 md:mt-6 rounded-xl overflow-hidden relative flex-shrink-0"
-        style={{ height: 'clamp(160px, 20vw, 200px)' }}
-      >
-        <Image
-          src={HERO_PHOTO}
-          alt="Naturlandskap"
-          fill
-          priority
-          style={{ objectFit: 'cover', objectPosition: 'center 55%' }}
-        />
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(to right, rgba(0,0,0,0.45) 0%, transparent 60%)',
-        }} />
-        <div style={{ position: 'absolute', top: 20, left: 22, right: 22 }}>
-          <p style={{
-            fontSize: 12, color: 'rgba(255,255,255,0.82)', fontWeight: 500,
-            marginBottom: 6, textShadow: '0 1px 4px rgba(0,0,0,0.3)',
-          }}>
-            {getGreeting()}, {familyName}
-          </p>
-          <p style={{
-            fontSize: 28, color: 'white', fontWeight: 600,
-            fontFamily: 'var(--serif)', lineHeight: 1.15,
-            textShadow: '0 1px 8px rgba(0,0,0,0.35)',
-          }}>
-            {capitalize(getDayLabel())}
-          </p>
-        </div>
-        <div style={{
-          position: 'absolute', bottom: 14, right: 14,
-          background: urgentBills.length === 0 ? 'rgba(76,175,80,0.88)' : 'rgba(255,112,67,0.88)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
-          borderRadius: 999,
-          padding: '4px 12px',
-          display: 'flex', alignItems: 'center', gap: 5,
+    <div style={{ position: 'relative', zIndex: 1 }}>
+      {/* Greeting header */}
+      <div className="px-4 pt-8 pb-2 md:px-6 md:pt-10">
+        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', fontWeight: 500, marginBottom: 6 }}>
+          {getGreeting()}, {familyName}
+        </p>
+        <h1 style={{
+          fontSize: 'clamp(28px, 5vw, 40px)', color: '#FFFFFF', fontWeight: 700,
+          fontFamily: 'var(--serif)', lineHeight: 1.1,
         }}>
-          <span style={{ fontSize: 11, color: 'white', fontWeight: 700 }}>
-            {urgentBills.length === 0 ? '✓ Allt ser bra ut' : `${urgentBills.length} räkningar att betala`}
-          </span>
-        </div>
+          {capitalize(getDayLabel())}
+        </h1>
       </div>
 
       {/* Urgent bills banner */}
       {urgentBills.length > 0 && (
-        <div className="mx-4 mt-3 md:mx-6">
+        <div className="mx-4 mt-4 md:mx-6">
           <Link href="/rakningar" style={{ textDecoration: 'none' }}>
             <div style={{
-              background: '#EDD5C4',
-              border: '1px solid rgba(160,82,45,0.2)',
+              background: 'rgba(160,82,45,0.35)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              border: '1px solid rgba(160,82,45,0.50)',
               borderRadius: 14,
               padding: '12px 16px',
               display: 'flex', alignItems: 'center', gap: 10,
             }}>
               <span style={{ fontSize: 20 }}>💳</span>
-              <span style={{ fontSize: 14, fontWeight: 600, color: '#A0522D', flex: 1 }}>
+              <span style={{ fontSize: 14, fontWeight: 600, color: '#FFCBA8', flex: 1 }}>
                 Räkningar att betala
               </span>
               {urgentTotal > 0 && (
-                <span style={{ fontSize: 14, fontWeight: 700, color: '#A0522D' }}>
+                <span style={{ fontSize: 14, fontWeight: 700, color: '#FFCBA8' }}>
                   {urgentTotal.toLocaleString('sv-SE')} kr
                 </span>
               )}
@@ -223,9 +196,16 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
               gridColumn: card.wide ? '1 / -1' : undefined,
               display: 'flex',
               flexDirection: 'column',
-              background: card.bg ?? 'var(--bg-card)',
+              ...(card.urgent
+                ? {
+                    background: 'rgba(255,112,67,0.20)',
+                    backdropFilter: 'saturate(180%) blur(20px)',
+                    WebkitBackdropFilter: 'saturate(180%) blur(20px)',
+                    border: '1px solid rgba(255,112,67,0.40)',
+                  }
+                : GLASS),
               borderRadius: 14,
-              boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+              boxShadow: '0 4px 24px rgba(0,0,0,0.35)',
               minHeight: 140,
               padding: 16,
               position: 'relative',
@@ -236,7 +216,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
               <span style={{
                 position: 'absolute', top: 8, right: 8,
                 fontSize: 9, fontWeight: 800, letterSpacing: '0.08em',
-                color: 'var(--text-heading)', background: 'var(--nav-active-bg)',
+                color: '#FFFFFF', background: 'rgba(255,255,255,0.18)',
                 borderRadius: 999, padding: '2px 7px',
               }}>
                 {card.badge}
@@ -244,18 +224,18 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
             )}
             <span style={{ fontSize: 22, lineHeight: 1, marginBottom: 8 }}>{card.emoji}</span>
             <span style={{
-              fontSize: 15, fontWeight: 700, color: 'var(--text-primary)',
+              fontSize: 15, fontWeight: 700, color: '#FFFFFF',
               marginBottom: 3, lineHeight: 1.2,
             }}>
               {card.title}
             </span>
-            <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>
+            <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.60)' }}>
               {card.subtitle}
             </span>
             {card.progress !== undefined && (
               <div style={{
                 marginTop: 12, width: '100%', height: 5,
-                background: 'var(--border)', borderRadius: 3, overflow: 'hidden',
+                background: 'rgba(255,255,255,0.15)', borderRadius: 3, overflow: 'hidden',
               }}>
                 <div style={{
                   height: '100%',
@@ -271,12 +251,12 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
                 marginTop: 10, display: 'flex', alignItems: 'baseline', gap: 4,
               }}>
                 <span style={{
-                  fontSize: 28, fontWeight: 700, color: 'var(--text-heading)', lineHeight: 1,
+                  fontSize: 28, fontWeight: 700, color: '#FFFFFF', lineHeight: 1,
                 }}>
                   {card.metric}
                 </span>
                 {card.trend && (
-                  <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>
+                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.60)' }}>
                     {card.trend}
                   </span>
                 )}
