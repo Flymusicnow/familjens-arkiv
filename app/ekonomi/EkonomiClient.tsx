@@ -150,7 +150,7 @@ export default function EkonomiClient({ workspaceId }: Props) {
 
   return (
     <PageWrapper>
-      <div className="max-w-3xl mx-auto space-y-6">
+      <div className="space-y-6">
 
         {/* Camera */}
         <label className="flex items-center justify-center gap-2 px-5 w-full font-bold text-sm text-white cursor-pointer rounded-xl"
