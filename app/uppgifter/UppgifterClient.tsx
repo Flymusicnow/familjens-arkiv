@@ -15,6 +15,11 @@ interface Props {
   today: string
 }
 
+const GLASS = 'rgba(10,15,25,0.45)'
+const GB = { backdropFilter: 'saturate(180%) blur(20px)', WebkitBackdropFilter: 'saturate(180%) blur(20px)' }
+const GLASS_BORDER = '1px solid rgba(255,255,255,0.12)'
+const INPUT_STYLE = { background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.18)', color: '#FFFFFF' }
+
 export default function UppgifterClient({ tasks: initialTasks, members, currentMemberId, workspaceId, today }: Props) {
   const supabase = createClient()
   const [tasks, setTasks] = useState<Task[]>(initialTasks)
@@ -68,8 +73,9 @@ export default function UppgifterClient({ tasks: initialTasks, members, currentM
 
   return (
     <PageWrapper>
+      {/* Ambient glow — more visible on dark bg */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute top-[-100px] right-[-80px] w-96 h-96 rounded-full opacity-5"
+        <div className="absolute top-[-100px] right-[-80px] w-96 h-96 rounded-full opacity-[0.12]"
           style={{ background: '#5A9A50', filter: 'blur(80px)' }} />
       </div>
 
@@ -88,14 +94,14 @@ export default function UppgifterClient({ tasks: initialTasks, members, currentM
 
         {/* Points banner */}
         <div className="rounded-2xl p-6 flex items-center justify-between"
-          style={{ background: 'rgba(154,120,48,0.07)', border: '1px solid rgba(154,120,48,0.18)' }}>
+          style={{ background: 'rgba(154,120,48,0.22)', ...GB, border: '1px solid rgba(154,120,48,0.35)' }}>
           <div>
-            <p className="text-[11px] font-bold tracking-[0.18em] uppercase mb-2" style={{ color: 'rgba(154,120,48,0.7)' }}>
+            <p className="text-[11px] font-bold tracking-[0.18em] uppercase mb-2" style={{ color: 'rgba(255,200,100,0.80)' }}>
               Familjepoäng idag
             </p>
             <div className="flex items-baseline gap-2">
-              <span className="text-[56px] font-black leading-none" style={{ color: '#9A7830', letterSpacing: '-2px' }}>{totalPoints}</span>
-              <span className="text-[22px] font-semibold" style={{ color: 'rgba(154,120,48,0.4)' }}>poäng</span>
+              <span className="text-[56px] font-black leading-none" style={{ color: '#FBBF24', letterSpacing: '-2px' }}>{totalPoints}</span>
+              <span className="text-[22px] font-semibold" style={{ color: 'rgba(251,191,36,0.50)' }}>poäng</span>
             </div>
           </div>
           <span className="text-[56px] leading-none">🏆</span>
@@ -103,31 +109,31 @@ export default function UppgifterClient({ tasks: initialTasks, members, currentM
 
         {/* Add form */}
         {showAdd && (
-          <div className="rounded-2xl p-5 space-y-3" style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.08)' }}>
-            <h3 className="font-bold" style={{ color: '#1A2018' }}>Ny uppgift</h3>
+          <div className="rounded-2xl p-5 space-y-3" style={{ background: GLASS, ...GB, border: GLASS_BORDER }}>
+            <h3 className="font-bold" style={{ color: '#FFFFFF' }}>Ny uppgift</h3>
             <div className="flex gap-2">
               <input value={form.emoji} onChange={e => setForm(f => ({ ...f, emoji: e.target.value }))}
                 className="w-14 px-2 py-2.5 rounded-xl text-center text-xl outline-none"
-                style={{ background: '#FAF8F5', border: '1px solid rgba(0,0,0,0.10)', color: '#1A2018' }} />
+                style={INPUT_STYLE} />
               <input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
                 placeholder="Uppgiftstitel..."
                 className="flex-1 px-3 py-2.5 rounded-xl text-sm outline-none"
-                style={{ background: '#FAF8F5', border: '1px solid rgba(0,0,0,0.10)', color: '#1A2018' }} />
+                style={INPUT_STYLE} />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-xs font-semibold mb-1 block" style={{ color: '#8A9888' }}>Vem</label>
+                <label className="text-xs font-semibold mb-1 block" style={{ color: 'rgba(255,255,255,0.60)' }}>Vem</label>
                 <select value={form.assigned_to} onChange={e => setForm(f => ({ ...f, assigned_to: e.target.value }))}
                   className="w-full px-3 py-2.5 rounded-xl text-sm outline-none"
-                  style={{ background: '#FAF8F5', border: '1px solid rgba(0,0,0,0.10)', color: '#1A2018' }}>
+                  style={INPUT_STYLE}>
                   {members.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
                 </select>
               </div>
               <div>
-                <label className="text-xs font-semibold mb-1 block" style={{ color: '#8A9888' }}>Återkommande</label>
+                <label className="text-xs font-semibold mb-1 block" style={{ color: 'rgba(255,255,255,0.60)' }}>Återkommande</label>
                 <select value={form.recurring} onChange={e => setForm(f => ({ ...f, recurring: e.target.value as 'daily' | 'weekly' | 'none' }))}
                   className="w-full px-3 py-2.5 rounded-xl text-sm outline-none"
-                  style={{ background: '#FAF8F5', border: '1px solid rgba(0,0,0,0.10)', color: '#1A2018' }}>
+                  style={INPUT_STYLE}>
                   <option value="none">Engång</option>
                   <option value="daily">Dagligen</option>
                   <option value="weekly">Veckovis</option>
@@ -136,7 +142,7 @@ export default function UppgifterClient({ tasks: initialTasks, members, currentM
             </div>
             <button onClick={addTask} disabled={saving}
               className="w-full min-h-[52px] rounded-2xl font-bold text-[15px] text-white"
-              style={{ background: saving ? '#8A9888' : '#9A7830' }}>
+              style={{ background: saving ? 'rgba(255,255,255,0.20)' : '#9A7830' }}>
               {saving ? 'Sparar...' : 'Spara uppgift'}
             </button>
           </div>
@@ -160,11 +166,11 @@ export default function UppgifterClient({ tasks: initialTasks, members, currentM
         {/* Progress */}
         {total > 0 && (
           <div>
-            <div className="flex justify-between text-xs mb-1.5" style={{ color: '#8A9888' }}>
+            <div className="flex justify-between text-xs mb-1.5" style={{ color: 'rgba(255,255,255,0.55)' }}>
               <span>{done} av {total} klara</span>
               <span>{Math.round((done / total) * 100)}%</span>
             </div>
-            <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(0,0,0,0.07)' }}>
+            <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.15)' }}>
               <div className="h-full rounded-full transition-all" style={{ background: '#5A9A50', width: `${(done / total) * 100}%` }} />
             </div>
           </div>
@@ -172,11 +178,10 @@ export default function UppgifterClient({ tasks: initialTasks, members, currentM
 
         {/* Tasks */}
         {filtered.length === 0 ? (
-          <div className="rounded-2xl p-12 text-center"
-            style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
+          <div className="rounded-2xl p-12 text-center" style={{ background: GLASS, ...GB, border: GLASS_BORDER }}>
             <div className="text-[52px] mb-4">🎉</div>
-            <div className="text-[20px] font-bold mb-2" style={{ color: '#1A2018' }}>Inga uppgifter!</div>
-            <div className="text-[15px] leading-relaxed" style={{ color: '#8A9888' }}>Lägg till uppgifter och tjäna familjepoäng.</div>
+            <div className="text-[20px] font-bold mb-2" style={{ color: '#FFFFFF' }}>Inga uppgifter!</div>
+            <div className="text-[15px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>Lägg till uppgifter och tjäna familjepoäng.</div>
           </div>
         ) : (
           <div className="space-y-2">
@@ -186,14 +191,15 @@ export default function UppgifterClient({ tasks: initialTasks, members, currentM
                 <button key={task.id} onClick={() => toggleTask(task)}
                   className="w-full flex items-center gap-3 px-5 py-4 rounded-2xl text-left transition-all"
                   style={{
-                    background: task.status === 'done' ? 'rgba(90,154,80,0.06)' : '#FFFFFF',
-                    border: '1px solid ' + (task.status === 'done' ? 'rgba(90,154,80,0.2)' : 'rgba(0,0,0,0.07)'),
-                    opacity: task.status === 'done' ? 0.6 : 1,
+                    background: task.status === 'done' ? 'rgba(90,154,80,0.15)' : GLASS,
+                    ...GB,
+                    border: '1px solid ' + (task.status === 'done' ? 'rgba(90,154,80,0.30)' : 'rgba(255,255,255,0.12)'),
+                    opacity: task.status === 'done' ? 0.7 : 1,
                   }}>
                   <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-all"
                     style={{
                       background: task.status === 'done' ? '#5A9A50' : 'transparent',
-                      border: task.status === 'done' ? 'none' : '2px solid rgba(0,0,0,0.18)',
+                      border: task.status === 'done' ? 'none' : '2px solid rgba(255,255,255,0.30)',
                     }}>
                     {task.status === 'done' && (
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3">
@@ -203,17 +209,17 @@ export default function UppgifterClient({ tasks: initialTasks, members, currentM
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="font-semibold text-[15px]" style={{
-                      color: '#1A2018',
+                      color: task.status === 'done' ? 'rgba(255,255,255,0.40)' : '#FFFFFF',
                       textDecoration: task.status === 'done' ? 'line-through' : 'none'
                     }}>
                       {task.emoji} {task.title}
                     </div>
                     {assignee && (
-                      <div className="text-xs mt-0.5" style={{ color: '#8A9888' }}>{assignee.name}</div>
+                      <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.55)' }}>{assignee.name}</div>
                     )}
                   </div>
                   <div className="flex-shrink-0 text-xs font-bold px-2 py-1 rounded-lg"
-                    style={{ background: 'rgba(154,120,48,0.10)', color: '#9A7830' }}>
+                    style={{ background: 'rgba(154,120,48,0.25)', color: '#FBBF24' }}>
                     +{task.points_value}p
                   </div>
                 </button>
@@ -231,9 +237,9 @@ function FilterTab({ active, onClick, children }: { active: boolean; onClick: ()
     <button onClick={onClick}
       className="flex-shrink-0 h-[40px] px-4 rounded-full text-[13px] font-semibold transition-all whitespace-nowrap"
       style={{
-        background: active ? '#9A7830' : 'none',
-        color: active ? 'white' : '#8A9888',
-        border: active ? 'none' : '1px solid rgba(0,0,0,0.08)',
+        background: active ? '#9A7830' : 'rgba(255,255,255,0.08)',
+        color: active ? 'white' : 'rgba(255,255,255,0.55)',
+        border: active ? 'none' : '1px solid rgba(255,255,255,0.12)',
       }}>
       {children}
     </button>

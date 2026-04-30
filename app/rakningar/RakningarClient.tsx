@@ -16,6 +16,11 @@ interface Props {
   klarBills: Bill[]
 }
 
+const GLASS = 'rgba(10,15,25,0.45)'
+const GB = { backdropFilter: 'saturate(180%) blur(20px)', WebkitBackdropFilter: 'saturate(180%) blur(20px)' }
+const GLASS_BORDER = '1px solid rgba(255,255,255,0.12)'
+const GLASS_MODAL = 'rgba(15,20,35,0.92)'
+
 function formatAmt(n: number | null) {
   if (!n) return '–'
   return n.toLocaleString('sv-SE') + ' kr'
@@ -131,7 +136,7 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
           title="Räkningar"
           action={
             <button onClick={() => setShowAdd(true)}
-              className="flex items-center gap-2 px-5 text-sm font-semibold text-[#1C1A17] rounded-2xl flex-shrink-0 mt-1"
+              className="flex items-center gap-2 px-5 text-sm font-semibold text-white rounded-2xl flex-shrink-0 mt-1"
               style={{ background: '#C46040', height: 44 }}>
               + Lägg till
             </button>
@@ -141,15 +146,15 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
         {/* Stats row */}
         <div className="grid grid-cols-3 gap-3">
           {[
-            { label: 'Totalt', value: formatAmt(totalOwed), color: '#1A2018' },
+            { label: 'Totalt', value: formatAmt(totalOwed), color: '#FFFFFF' },
             { label: 'Akuta',  value: String(akut.length),  color: '#C46040' },
-            { label: 'Snart',  value: String(snart.length), color: '#9A7830' },
+            { label: 'Snart',  value: String(snart.length), color: '#FBBF24' },
           ].map(stat => (
             <div key={stat.label}
               className="rounded-2xl p-4 text-center"
-              style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
+              style={{ background: 'rgba(255,255,255,0.08)', ...GB, border: GLASS_BORDER }}>
               <p className="text-[10px] font-bold tracking-[0.15em] uppercase mb-2"
-                style={{ color: '#8A9888' }}>{stat.label}</p>
+                style={{ color: 'rgba(255,255,255,0.55)' }}>{stat.label}</p>
               <p className="text-[28px] font-bold leading-tight"
                 style={{ color: stat.color }}>{stat.value}</p>
             </div>
@@ -172,7 +177,7 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
         <Section
           title="Snart förfaller"
           emoji="🟡"
-          color="#9A7830"
+          color="#FBBF24"
           bills={snart}
           removing={removing}
           onPaid={markPaid}
@@ -190,14 +195,14 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
             <div className="space-y-2">
               {klar.slice(0, 10).map(bill => (
                 <div key={bill.id} className="relative rounded-2xl overflow-hidden px-6 py-4 flex items-center gap-3"
-                  style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.05)', opacity: 0.6 }}>
+                  style={{ background: GLASS, ...GB, border: '1px solid rgba(90,154,80,0.20)', opacity: 0.6 }}>
                   <div className="absolute left-0 w-[3px] rounded-full" style={{ background: '#5A9A50', top: 16, bottom: 16 }} />
                   <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-sm truncate" style={{ color: '#5A6858', textDecoration: 'line-through' }}>{bill.title}</div>
-                    <div className="text-xs mt-0.5" style={{ color: '#8A9888' }}>{bill.sender} · {formatAmt(bill.amount)}</div>
+                    <div className="font-semibold text-sm truncate" style={{ color: 'rgba(255,255,255,0.55)', textDecoration: 'line-through' }}>{bill.title}</div>
+                    <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.40)' }}>{bill.sender} · {formatAmt(bill.amount)}</div>
                   </div>
                   <span className="text-xs font-bold px-2 py-1 rounded-lg flex-shrink-0"
-                    style={{ background: 'rgba(90,154,80,0.10)', color: '#5A9A50' }}>BETALD</span>
+                    style={{ background: 'rgba(90,154,80,0.15)', color: '#5A9A50' }}>BETALD</span>
                 </div>
               ))}
             </div>
@@ -209,15 +214,15 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
       {showAdd && (
         <div
           className="fixed inset-0 z-[100] flex items-end md:items-center justify-center p-4 md:p-6"
-          style={{ background: 'rgba(26,32,24,0.5)', backdropFilter: 'blur(8px)' }}
+          style={{ background: 'rgba(0,5,15,0.55)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
           onClick={e => { if (e.target === e.currentTarget) setShowAdd(false) }}>
           <div className="w-full max-w-[min(480px,calc(100vw-32px))] rounded-3xl overflow-hidden"
-            style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.08)' }}>
+            style={{ background: GLASS_MODAL, backdropFilter: 'saturate(180%) blur(28px)', WebkitBackdropFilter: 'saturate(180%) blur(28px)', border: '1px solid rgba(255,255,255,0.14)' }}>
             <div className="flex justify-center pt-3 pb-0">
-              <div className="w-10 h-1 rounded-full" style={{ background: 'rgba(0,0,0,0.12)' }} />
+              <div className="w-10 h-1 rounded-full" style={{ background: 'rgba(255,255,255,0.20)' }} />
             </div>
             <div className="px-6 pt-4 pb-8 space-y-5">
-              <h3 className="text-xl font-bold" style={{ color: '#1A2018' }}>Ny räkning</h3>
+              <h3 className="text-xl font-bold" style={{ color: '#FFFFFF' }}>Ny räkning</h3>
               <Field label="Titel" placeholder="T.ex. Elräkning" value={form.title} onChange={v => setForm(f => ({ ...f, title: v }))} />
               <Field label="Avsändare" placeholder="T.ex. Vattenfall" value={form.sender} onChange={v => setForm(f => ({ ...f, sender: v }))} />
               <div className="grid grid-cols-2 gap-4">
@@ -226,8 +231,8 @@ export default function RakningarClient({ workspaceId, memberId, akutBills: ia, 
               </div>
               <Field label="OCR-nummer" placeholder="Betalningsreferens" value={form.ocr_number} onChange={v => setForm(f => ({ ...f, ocr_number: v }))} />
               <button onClick={addBill} disabled={saving}
-                className="w-full mt-8 font-bold text-base text-[#1C1A17] rounded-2xl"
-                style={{ background: saving ? '#8A9888' : '#C46040', height: 56 }}>
+                className="w-full mt-8 font-bold text-base text-white rounded-2xl"
+                style={{ background: saving ? 'rgba(255,255,255,0.20)' : '#C46040', height: 56 }}>
                 {saving ? 'Sparar...' : 'Spara räkning'}
               </button>
             </div>
@@ -259,19 +264,19 @@ function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, empty
         <h2 className="text-[11px] font-bold tracking-[0.18em] uppercase" style={{ color }}>{title}</h2>
         {bills.length > 0 && (
           <span className="text-[10px] font-bold px-2 py-0.5 rounded-full"
-            style={{ background: `${color}15`, color }}>
+            style={{ background: `${color}25`, color }}>
             {bills.length}
           </span>
         )}
-        <div className="flex-1 h-px ml-1" style={{ background: 'rgba(0,0,0,0.08)' }} />
+        <div className="flex-1 h-px ml-1" style={{ background: 'rgba(255,255,255,0.12)' }} />
       </div>
 
       {bills.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-12 px-6 text-center rounded-2xl"
-          style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.06)' }}>
+          style={{ background: GLASS, backdropFilter: 'saturate(180%) blur(20px)', WebkitBackdropFilter: 'saturate(180%) blur(20px)', border: GLASS_BORDER }}>
           <div className="text-[48px] mb-3">✅</div>
-          <h3 className="text-[20px] font-bold mb-2" style={{ color: '#1A2018' }}>Allt klart!</h3>
-          <p className="text-[14px] leading-relaxed" style={{ color: '#8A9888' }}>{emptyMsg}</p>
+          <h3 className="text-[20px] font-bold mb-2" style={{ color: '#FFFFFF' }}>Allt klart!</h3>
+          <p className="text-[14px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>{emptyMsg}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -285,14 +290,14 @@ function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, empty
                 transition={{ delay: i * 0.06, duration: 0.35, ease: [0.25, 0.4, 0.25, 1] }}
               >
                 <div className="relative rounded-2xl overflow-hidden"
-                  style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
+                  style={{ background: GLASS, backdropFilter: 'saturate(180%) blur(20px)', WebkitBackdropFilter: 'saturate(180%) blur(20px)', border: GLASS_BORDER }}>
                   <div className="absolute left-0 w-1 rounded-full" style={{ background: color, top: 24, bottom: 24 }} />
                   <div className="p-5">
                     <div className="flex items-start justify-between gap-3 mb-4">
                       <div className="flex-1 min-w-0">
-                        <div className="font-bold text-[17px] truncate" style={{ color: '#1A2018' }}>{bill.title}</div>
+                        <div className="font-bold text-[17px] truncate" style={{ color: '#FFFFFF' }}>{bill.title}</div>
                         {bill.sender && (
-                          <div className="text-[13px] mt-0.5" style={{ color: '#8A9888' }}>{bill.sender}</div>
+                          <div className="text-[13px] mt-0.5" style={{ color: 'rgba(255,255,255,0.55)' }}>{bill.sender}</div>
                         )}
                       </div>
                       <div className="text-right flex-shrink-0">
@@ -300,27 +305,27 @@ function Section({ title, emoji, color, bills, removing, onPaid, onSnooze, empty
                           {formatAmt(bill.amount)}
                         </div>
                         {bill.due_date && (
-                          <div className="text-xs mt-1" style={{ color: '#8A9888' }}>
+                          <div className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.55)' }}>
                             {formatDate(bill.due_date)}
                           </div>
                         )}
                       </div>
                     </div>
                     {bill.ocr_number && (
-                      <div className="mb-4 px-4 py-2 rounded-xl text-xs font-mono" style={{ background: 'rgba(0,0,0,0.04)', color: '#8A9888' }}>
+                      <div className="mb-4 px-4 py-2 rounded-xl text-xs font-mono" style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.60)' }}>
                         OCR: {bill.ocr_number}
                       </div>
                     )}
                     <div className="flex gap-3">
                       <button onClick={() => onSnooze(bill)}
                         className="flex-1 min-h-[48px] rounded-xl flex items-center justify-center gap-2 text-[14px] font-semibold"
-                        style={{ background: 'rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.08)', color: '#5A6858' }}>
+                        style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.70)' }}>
                         ⏱ Snooze
                       </button>
                       <motion.button
                         whileTap={{ scale: 0.96 }}
                         onClick={() => onPaid(bill)}
-                        className="flex-1 min-h-[48px] rounded-xl flex items-center justify-center gap-2 text-[14px] font-bold text-[#1C1A17]"
+                        className="flex-1 min-h-[48px] rounded-xl flex items-center justify-center gap-2 text-[14px] font-bold text-white"
                         style={{ background: color }}>
                         ✓ Betald
                       </motion.button>
@@ -343,14 +348,14 @@ function Field({ label, placeholder, value, onChange, type = 'text' }: {
   return (
     <div>
       <label className="block text-[11px] font-semibold tracking-[0.15em] uppercase mb-2"
-        style={{ color: '#8A9888' }}>{label}</label>
+        style={{ color: 'rgba(255,255,255,0.60)' }}>{label}</label>
       <input type={type} placeholder={placeholder} value={value}
         onChange={e => onChange(e.target.value)}
         className="w-full rounded-xl text-base outline-none transition-all"
         style={{
-          background: '#FAF8F5',
-          border: '1px solid rgba(0,0,0,0.10)',
-          color: '#1A2018',
+          background: 'rgba(255,255,255,0.08)',
+          border: '1px solid rgba(255,255,255,0.18)',
+          color: '#FFFFFF',
           padding: '14px 16px',
         }} />
     </div>

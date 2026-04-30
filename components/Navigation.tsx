@@ -76,16 +76,18 @@ export default function Navigation() {
         className="hidden md:flex flex-col sticky top-0 h-screen flex-shrink-0 overflow-y-auto"
         style={{
           width: 220,
-          background: 'var(--bg-sidebar)',
-          borderRight: '1px solid var(--border)',
+          background: 'rgba(10, 15, 25, 0.55)',
+          backdropFilter: 'saturate(180%) blur(24px)',
+          WebkitBackdropFilter: 'saturate(180%) blur(24px)',
+          borderRight: '1px solid rgba(255,255,255,0.10)',
         }}
       >
         {/* Logo */}
-        <div className="px-6 py-7" style={{ borderBottom: '1px solid var(--border)' }}>
-          <div className="text-xl font-bold tracking-[0.15em]" style={{ color: 'var(--text-heading)' }}>
+        <div className="px-6 py-7" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+          <div className="text-xl font-bold tracking-[0.15em]" style={{ color: '#FFFFFF' }}>
             ARKIV
           </div>
-          <div className="text-xs font-medium mt-1" style={{ color: 'var(--text-muted)' }}>
+          <div className="text-xs font-medium mt-1" style={{ color: 'rgba(255,255,255,0.50)' }}>
             Familjens centrum
           </div>
         </div>
@@ -105,10 +107,10 @@ export default function Navigation() {
       {/* ── Mobile bottom bar ───────────────────────────────────────────── */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50"
         style={{
-          background: 'rgba(242,237,230,0.96)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          borderTop: '1px solid rgba(28,26,23,0.10)',
+          background: 'rgba(8, 12, 22, 0.80)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          borderTop: '1px solid rgba(255,255,255,0.12)',
           height: 72,
         }}>
         <div className="flex items-center justify-around h-full px-2">
@@ -120,14 +122,14 @@ export default function Navigation() {
                 style={{ minWidth: 0 }}>
                 <div className="flex items-center justify-center rounded-2xl transition-all"
                   style={{
-                    background: active ? '#2D5A27' : 'transparent',
+                    background: active ? 'rgba(255,255,255,0.18)' : 'transparent',
                     width: 44, height: 32,
                   }}>
                   {mobileNavIcon(item.label, active)}
                 </div>
                 <span style={{
                   fontSize: 10, fontWeight: 600, lineHeight: 1,
-                  color: active ? '#2D5A27' : '#9C9690',
+                  color: active ? '#FFFFFF' : 'rgba(255,255,255,0.45)',
                 }}>
                   {item.label}
                 </span>
@@ -142,14 +144,14 @@ export default function Navigation() {
             style={{ minWidth: 0 }}>
             <div className="flex items-center justify-center rounded-2xl transition-all"
               style={{
-                background: (merActive || showMore) ? '#2D5A27' : 'transparent',
+                background: (merActive || showMore) ? 'rgba(255,255,255,0.18)' : 'transparent',
                 width: 44, height: 32,
               }}>
               {mobileNavIcon('Mer', merActive || showMore)}
             </div>
             <span style={{
               fontSize: 10, fontWeight: 600, lineHeight: 1,
-              color: (merActive || showMore) ? '#2D5A27' : '#9C9690',
+              color: (merActive || showMore) ? '#FFFFFF' : 'rgba(255,255,255,0.45)',
             }}>Mer</span>
           </button>
         </div>
@@ -160,19 +162,21 @@ export default function Navigation() {
         <>
           <div className="fixed inset-0 z-[60] md:hidden"
             onClick={() => setShowMore(false)}
-            style={{ background: 'rgba(26,32,24,0.4)', backdropFilter: 'blur(4px)' }} />
+            style={{ background: 'rgba(0,5,15,0.55)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }} />
           <div className="fixed left-0 right-0 z-[70] md:hidden"
             style={{
               bottom: 'calc(68px + env(safe-area-inset-bottom, 0px))',
-              background: '#FFFFFF',
-              border: '1px solid rgba(0,0,0,0.08)',
+              background: 'rgba(12, 18, 32, 0.92)',
+              backdropFilter: 'saturate(180%) blur(28px)',
+              WebkitBackdropFilter: 'saturate(180%) blur(28px)',
+              border: '1px solid rgba(255,255,255,0.12)',
               borderRadius: '20px 20px 0 0',
               padding: '16px 16px 8px',
             }}>
             <div className="w-10 h-1 rounded-full mx-auto mb-4"
-              style={{ background: 'rgba(0,0,0,0.12)' }} />
+              style={{ background: 'rgba(255,255,255,0.20)' }} />
             <div className="text-[10px] font-bold tracking-[0.2em] uppercase mb-3 px-2"
-              style={{ color: '#8A9888' }}>Mer</div>
+              style={{ color: 'rgba(255,255,255,0.40)' }}>Mer</div>
             <div className="grid grid-cols-2 gap-2">
               {merDrawer.map(item => {
                 const active = path.startsWith(item.href)
@@ -181,12 +185,12 @@ export default function Navigation() {
                     onClick={() => handleDrawerNav(item.href)}
                     className="flex items-center gap-3 px-4 py-3 rounded-2xl text-left transition-all"
                     style={{
-                      background: active ? 'var(--nav-active-bg)' : 'rgba(0,0,0,0.03)',
-                      border: active ? '1px solid rgba(27,77,62,0.25)' : '1px solid rgba(0,0,0,0.07)',
+                      background: active ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.05)',
+                      border: active ? '1px solid rgba(255,255,255,0.22)' : '1px solid rgba(255,255,255,0.10)',
                     }}>
                     <span style={{ fontSize: 18 }}>{item.emoji}</span>
                     <span className="text-sm font-semibold"
-                      style={{ color: active ? 'var(--nav-active-border)' : '#5A6858' }}>
+                      style={{ color: active ? '#FFFFFF' : 'rgba(255,255,255,0.70)' }}>
                       {item.label}
                     </span>
                   </button>
@@ -206,7 +210,7 @@ function NavSection({ label }: { label: string }) {
   return (
     <div className="px-5 pt-5 pb-1">
       <span className="text-[10px] font-semibold tracking-[0.2em] uppercase"
-        style={{ color: 'var(--text-muted)' }}>{label}</span>
+        style={{ color: 'rgba(255,255,255,0.40)' }}>{label}</span>
     </div>
   )
 }
@@ -221,9 +225,9 @@ function SidebarItem({ item, path }: { item: NavEntry; path: string }) {
         paddingLeft: active ? 13 : 16,
         paddingRight: 16,
         marginRight: 10,
-        background: active ? 'var(--nav-active-bg)' : 'transparent',
-        color: active ? 'var(--nav-active-border)' : '#5A6858',
-        borderLeft: `3px solid ${active ? 'var(--nav-active-border)' : 'transparent'}`,
+        background: active ? 'rgba(255,255,255,0.14)' : 'transparent',
+        color: active ? '#FFFFFF' : 'rgba(255,255,255,0.65)',
+        borderLeft: `3px solid ${active ? 'rgba(255,255,255,0.85)' : 'transparent'}`,
         borderRadius: '0 10px 10px 0',
         textDecoration: 'none',
       }}
@@ -319,10 +323,10 @@ function HeartIcon(active: boolean) {
   </>)
 }
 
-// ── Mobile nav icons (SVG, white when active on forest pill) ──────────────────
+// ── Mobile nav icons ──────────────────────────────────────────────────────────
 
 function mobileNavIcon(label: string, active: boolean) {
-  const stroke = active ? 'white' : '#9C9690'
+  const stroke = active ? '#FFFFFF' : 'rgba(255,255,255,0.45)'
   const sw = active ? 2.2 : 1.8
   const paths: Record<string, React.ReactNode> = {
     'Hem': <>

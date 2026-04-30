@@ -7,6 +7,10 @@ import { PageHeader } from '@/components/PageHeader'
 
 const SKY = '#4A8CB4'
 
+const GLASS = 'rgba(10,15,25,0.45)'
+const GLASS_BLUR = { backdropFilter: 'saturate(180%) blur(20px)', WebkitBackdropFilter: 'saturate(180%) blur(20px)' }
+const GLASS_BORDER = '1px solid rgba(255,255,255,0.12)'
+
 const courses = [
   { id: 'matematik', label: 'Matematik A', emoji: '📐', credits: 100, progress: 72 },
   { id: 'svenska',   label: 'Svenska 1',   emoji: '📖', credits: 100, progress: 45 },
@@ -74,25 +78,25 @@ export default function StuderaClient() {
 
         {/* Stats */}
         <div className="grid grid-cols-2 gap-3">
-          <div className="rounded-2xl p-4 text-center" style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
-            <p className="text-[10px] font-bold tracking-[0.18em] uppercase mb-2" style={{ color: '#8A9888' }}>Poäng intjänade</p>
+          <div className="rounded-2xl p-4 text-center" style={{ background: GLASS, ...GLASS_BLUR, border: GLASS_BORDER }}>
+            <p className="text-[10px] font-bold tracking-[0.18em] uppercase mb-2" style={{ color: 'rgba(255,255,255,0.55)' }}>Poäng intjänade</p>
             <p className="text-[28px] font-bold leading-tight" style={{ color: SKY }}>{earnedCredits}</p>
-            <p className="text-xs mt-1" style={{ color: '#8A9888' }}>av {totalCredits} hp</p>
+            <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.55)' }}>av {totalCredits} hp</p>
           </div>
-          <div className="rounded-2xl p-4 text-center" style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
-            <p className="text-[10px] font-bold tracking-[0.18em] uppercase mb-2" style={{ color: '#8A9888' }}>Mål idag</p>
+          <div className="rounded-2xl p-4 text-center" style={{ background: GLASS, ...GLASS_BLUR, border: GLASS_BORDER }}>
+            <p className="text-[10px] font-bold tracking-[0.18em] uppercase mb-2" style={{ color: 'rgba(255,255,255,0.55)' }}>Mål idag</p>
             <p className="text-[28px] font-bold leading-tight" style={{ color: SKY }}>{doneCount}/{goals.length}</p>
-            <p className="text-xs mt-1" style={{ color: '#8A9888' }}>slutförda</p>
+            <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.55)' }}>slutförda</p>
           </div>
         </div>
 
         {/* Pomodoro timer */}
-        <div className="rounded-2xl p-6 text-center space-y-4" style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
-          <p className="text-[11px] font-bold tracking-[0.18em] uppercase" style={{ color: '#8A9888' }}>🍅 Pomodoro-timer</p>
+        <div className="rounded-2xl p-6 text-center space-y-4" style={{ background: GLASS, ...GLASS_BLUR, border: GLASS_BORDER }}>
+          <p className="text-[11px] font-bold tracking-[0.18em] uppercase" style={{ color: 'rgba(255,255,255,0.55)' }}>🍅 Pomodoro-timer</p>
           <div className="text-[56px] font-black tabular-nums leading-none" style={{ color: SKY }}>
             {mins}:{secs}
           </div>
-          <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(0,0,0,0.06)' }}>
+          <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.15)' }}>
             <div className="h-full rounded-full transition-all duration-1000"
               style={{ background: SKY, width: `${(seconds / (25 * 60)) * 100}%` }} />
           </div>
@@ -104,7 +108,7 @@ export default function StuderaClient() {
             </button>
             <button onClick={resetTimer}
               className="px-5 py-3 rounded-xl font-semibold text-sm"
-              style={{ background: 'rgba(0,0,0,0.05)', color: '#5A6858' }}>
+              style={{ background: 'rgba(255,255,255,0.10)', color: 'rgba(255,255,255,0.70)' }}>
               Återställ
             </button>
           </div>
@@ -112,7 +116,7 @@ export default function StuderaClient() {
 
         {/* Daily goals */}
         <div>
-          <p className="text-[11px] font-bold tracking-[0.18em] uppercase mb-3" style={{ color: '#8A9888' }}>
+          <p className="text-[11px] font-bold tracking-[0.18em] uppercase mb-3" style={{ color: 'rgba(255,255,255,0.55)' }}>
             Dagens mål
           </p>
           <div className="space-y-2">
@@ -120,16 +124,17 @@ export default function StuderaClient() {
               <button key={goal.id} onClick={() => toggleGoal(goal.id)}
                 className="w-full flex items-center gap-4 rounded-2xl px-5 py-4 text-left transition-all active:scale-[0.99]"
                 style={{
-                  background: goal.done ? `rgba(74,140,180,0.08)` : '#FFFFFF',
-                  border: `1px solid ${goal.done ? 'rgba(74,140,180,0.25)' : 'rgba(0,0,0,0.07)'}`,
+                  background: goal.done ? 'rgba(74,140,180,0.22)' : GLASS,
+                  ...GLASS_BLUR,
+                  border: `1px solid ${goal.done ? 'rgba(74,140,180,0.40)' : 'rgba(255,255,255,0.12)'}`,
                 }}>
                 <div className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center border-2"
-                  style={{ borderColor: goal.done ? SKY : '#C8D4C8', background: goal.done ? SKY : 'transparent' }}>
+                  style={{ borderColor: goal.done ? SKY : 'rgba(255,255,255,0.30)', background: goal.done ? SKY : 'transparent' }}>
                   {goal.done && <span className="text-white text-xs">✓</span>}
                 </div>
                 <span className="text-xl">{goal.emoji}</span>
                 <span className="flex-1 font-semibold text-[15px]"
-                  style={{ color: goal.done ? '#8A9888' : '#1A2018', textDecoration: goal.done ? 'line-through' : 'none' }}>
+                  style={{ color: goal.done ? 'rgba(255,255,255,0.40)' : '#FFFFFF', textDecoration: goal.done ? 'line-through' : 'none' }}>
                   {goal.label}
                 </span>
               </button>
@@ -139,22 +144,22 @@ export default function StuderaClient() {
 
         {/* Courses */}
         <div>
-          <p className="text-[11px] font-bold tracking-[0.18em] uppercase mb-3" style={{ color: '#8A9888' }}>
+          <p className="text-[11px] font-bold tracking-[0.18em] uppercase mb-3" style={{ color: 'rgba(255,255,255,0.55)' }}>
             Kurser
           </p>
           <div className="space-y-3">
             {courses.map(course => (
               <div key={course.id} className="rounded-2xl p-5"
-                style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.07)' }}>
+                style={{ background: GLASS, ...GLASS_BLUR, border: GLASS_BORDER }}>
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-2xl">{course.emoji}</span>
                   <div className="flex-1">
-                    <div className="font-bold text-[15px]" style={{ color: '#1A2018' }}>{course.label}</div>
-                    <div className="text-xs" style={{ color: '#8A9888' }}>{course.credits} hp</div>
+                    <div className="font-bold text-[15px]" style={{ color: '#FFFFFF' }}>{course.label}</div>
+                    <div className="text-xs" style={{ color: 'rgba(255,255,255,0.55)' }}>{course.credits} hp</div>
                   </div>
                   <span className="font-bold text-sm" style={{ color: SKY }}>{course.progress}%</span>
                 </div>
-                <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(0,0,0,0.06)' }}>
+                <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.15)' }}>
                   <div className="h-full rounded-full transition-all"
                     style={{ background: SKY, width: `${course.progress}%` }} />
                 </div>
@@ -164,7 +169,7 @@ export default function StuderaClient() {
         </div>
 
         {/* CSN info */}
-        <div className="rounded-2xl p-5" style={{ background: `rgba(74,140,180,0.06)`, border: `1px solid rgba(74,140,180,0.2)` }}>
+        <div className="rounded-2xl p-5" style={{ background: 'rgba(74,140,180,0.20)', ...GLASS_BLUR, border: `1px solid rgba(74,140,180,0.35)` }}>
           <p className="text-[11px] font-bold tracking-[0.18em] uppercase mb-3" style={{ color: SKY }}>📋 CSN</p>
           <div className="space-y-2">
             {[
@@ -173,8 +178,8 @@ export default function StuderaClient() {
               { label: 'Studietakt', value: '100%' },
             ].map(row => (
               <div key={row.label} className="flex justify-between text-sm">
-                <span style={{ color: '#5A6858' }}>{row.label}</span>
-                <span className="font-bold" style={{ color: '#1A2018' }}>{row.value}</span>
+                <span style={{ color: 'rgba(255,255,255,0.70)' }}>{row.label}</span>
+                <span className="font-bold" style={{ color: '#FFFFFF' }}>{row.value}</span>
               </div>
             ))}
           </div>

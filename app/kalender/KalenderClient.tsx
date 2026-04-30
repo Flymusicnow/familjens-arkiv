@@ -63,6 +63,10 @@ interface CalEvent {
   created_at: string
 }
 
+const GLASS = 'rgba(10,15,25,0.45)'
+const GLASS_BORDER = '1px solid rgba(255,255,255,0.12)'
+const GB_STYLE = 'saturate(180%) blur(20px)'
+
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function KalenderClient() {
@@ -83,7 +87,6 @@ export default function KalenderClient() {
 
   const weekDates = getWeekDates(weekBase)
 
-  // Init: get workspace
   useEffect(() => {
     async function init() {
       const { data: { user } } = await supabase.auth.getUser()
@@ -99,7 +102,6 @@ export default function KalenderClient() {
     init()
   }, [])
 
-  // Load events when workspace or week changes
   useEffect(() => {
     if (!workspaceId) return
     loadEvents()
@@ -146,7 +148,6 @@ export default function KalenderClient() {
     const d = new Date(weekBase)
     d.setDate(d.getDate() - 7)
     setWeekBase(d)
-    // Select Monday of new week
     const newMonday = new Date(d)
     newMonday.setDate(d.getDate() - ((d.getDay() + 6) % 7))
     newMonday.setHours(0, 0, 0, 0)
@@ -156,7 +157,6 @@ export default function KalenderClient() {
     const d = new Date(weekBase)
     d.setDate(d.getDate() + 7)
     setWeekBase(d)
-    // Select Monday of new week
     const newMonday = new Date(d)
     newMonday.setDate(d.getDate() - ((d.getDay() + 6) % 7))
     newMonday.setHours(0, 0, 0, 0)
@@ -175,14 +175,14 @@ export default function KalenderClient() {
   // ── Render ─────────────────────────────────────────────────────────────────
 
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '100vh', paddingBottom: 100 }}>
+    <div style={{ background: 'transparent', minHeight: '100vh', paddingBottom: 100 }}>
       <div style={{ maxWidth: 672, margin: '0 auto' }}>
 
       {/* Header */}
       <div style={{ padding: '24px 16px 0', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
         <div>
-          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--ink3)', marginBottom: 4 }}>Schema</p>
-          <h1 style={{ fontSize: 32, fontWeight: 800, color: 'var(--ink)', letterSpacing: '-0.5px', fontFamily: 'var(--sans)' }}>Kalender</h1>
+          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)', marginBottom: 4 }}>Schema</p>
+          <h1 style={{ fontSize: 32, fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.5px', fontFamily: 'var(--sans)' }}>Kalender</h1>
         </div>
         <button
           onClick={() => { setShowModal(true); setForm(f => ({ ...f, date: selectedStr })) }}
@@ -193,7 +193,7 @@ export default function KalenderClient() {
 
       {/* Month/year label */}
       <div style={{ padding: '14px 16px 2px' }}>
-        <p style={{ fontSize: 22, fontWeight: 700, color: 'var(--ink)', fontFamily: 'var(--serif)', textTransform: 'capitalize' }}>
+        <p style={{ fontSize: 22, fontWeight: 700, color: '#FFFFFF', fontFamily: 'var(--serif)', textTransform: 'capitalize' }}>
           {weekDates[0].toLocaleDateString('sv-SE', { month: 'long', year: 'numeric' })}
         </p>
       </div>
@@ -201,15 +201,15 @@ export default function KalenderClient() {
       {/* Week nav */}
       <div style={{ padding: '8px 16px 4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <button onClick={prevWeek}
-          style={{ padding: '5px 14px', borderRadius: 10, border: '1px solid var(--border)', background: 'var(--card)', color: 'var(--ink2)', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+          style={{ padding: '5px 14px', borderRadius: 10, border: GLASS_BORDER, background: GLASS, backdropFilter: GB_STYLE, WebkitBackdropFilter: GB_STYLE, color: 'rgba(255,255,255,0.70)', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
           ‹ Förra
         </button>
-        <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink3)' }}>
+        <span style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.45)' }}>
           Vecka {getWeekNumber(weekDates[0])} ·{' '}
           {weekDates[0].toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' })}–{weekDates[6].toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' })}
         </span>
         <button onClick={nextWeek}
-          style={{ padding: '5px 14px', borderRadius: 10, border: '1px solid var(--border)', background: 'var(--card)', color: 'var(--ink2)', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+          style={{ padding: '5px 14px', borderRadius: 10, border: GLASS_BORDER, background: GLASS, backdropFilter: GB_STYLE, WebkitBackdropFilter: GB_STYLE, color: 'rgba(255,255,255,0.70)', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
           Nästa ›
         </button>
       </div>
@@ -224,13 +224,12 @@ export default function KalenderClient() {
           return (
             <button key={i} onClick={() => setSelectedDate(startOfDay(d))}
               style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '8px 2px 10px', borderRadius: 14, border: 'none', cursor: 'pointer', background: isSelected ? '#2D5A27' : 'transparent' }}>
-              <span style={{ fontSize: 10, fontWeight: 600, marginBottom: 5, color: isSelected ? 'rgba(255,255,255,0.65)' : 'var(--ink3)' }}>
+              <span style={{ fontSize: 10, fontWeight: 600, marginBottom: 5, color: isSelected ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.45)' }}>
                 {DAY_NAMES[i]}
               </span>
-              <span style={{ fontSize: 15, fontWeight: 700, width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', background: isToday && !isSelected ? '#D4E8CC' : 'transparent', color: isSelected ? 'white' : isToday ? '#2D5A27' : 'var(--ink)' }}>
+              <span style={{ fontSize: 15, fontWeight: 700, width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', background: isToday && !isSelected ? 'rgba(255,255,255,0.20)' : 'transparent', color: isSelected ? 'white' : isToday ? '#FFFFFF' : '#FFFFFF' }}>
                 {d.getDate()}
               </span>
-              {/* Event dots (up to 3, colored by category) */}
               <div style={{ display: 'flex', gap: 2, marginTop: 4, minHeight: 5 }}>
                 {events.filter(e => e.start_time?.startsWith(ds)).slice(0, 3).map((e, ei) => (
                   <span key={ei} style={{ width: 5, height: 5, borderRadius: '50%', background: isSelected ? 'rgba(255,255,255,0.7)' : (e.color || '#2D5A27') }} />
@@ -242,45 +241,45 @@ export default function KalenderClient() {
       </div>
 
       {/* Divider */}
-      <div style={{ height: 1, background: 'var(--border)', margin: '14px 16px 16px' }} />
+      <div style={{ height: 1, background: 'rgba(255,255,255,0.10)', margin: '14px 16px 16px' }} />
 
       {/* Events for selected day */}
       <div style={{ padding: '0 16px' }}>
-        <p style={{ fontSize: 19, fontWeight: 700, color: 'var(--ink)', fontFamily: 'var(--serif)', textTransform: 'capitalize', marginBottom: 14 }}>
+        <p style={{ fontSize: 19, fontWeight: 700, color: '#FFFFFF', fontFamily: 'var(--serif)', textTransform: 'capitalize', marginBottom: 14 }}>
           {selectedDate.toLocaleDateString('sv-SE', { weekday: 'long', day: 'numeric', month: 'long' })}
         </p>
 
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '48px 0', color: 'var(--ink3)', fontSize: 14 }}>Laddar...</div>
+          <div style={{ textAlign: 'center', padding: '48px 0', color: 'rgba(255,255,255,0.45)', fontSize: 14 }}>Laddar...</div>
         ) : dayEvents.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '48px 16px', background: 'var(--card)', borderRadius: 20, border: '1px solid var(--border)' }}>
+          <div style={{ textAlign: 'center', padding: '48px 16px', background: GLASS, backdropFilter: GB_STYLE, WebkitBackdropFilter: GB_STYLE, borderRadius: 20, border: GLASS_BORDER }}>
             <div style={{ fontSize: 42, marginBottom: 12 }}>📅</div>
-            <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--ink)', marginBottom: 6 }}>Inga händelser</p>
-            <p style={{ fontSize: 13, color: 'var(--ink3)' }}>Tryck + för att lägga till</p>
+            <p style={{ fontSize: 16, fontWeight: 700, color: '#FFFFFF', marginBottom: 6 }}>Inga händelser</p>
+            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>Tryck + för att lägga till</p>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {dayEvents.map(ev => {
               const color = barColor(ev)
               return (
-                <div key={ev.id} style={{ display: 'flex', background: 'var(--card)', borderRadius: 16, border: '1px solid var(--border)', overflow: 'hidden', boxShadow: 'var(--shadow)' }}>
+                <div key={ev.id} style={{ display: 'flex', background: GLASS, backdropFilter: GB_STYLE, WebkitBackdropFilter: GB_STYLE, borderRadius: 16, border: GLASS_BORDER, overflow: 'hidden' }}>
                   <div style={{ width: 4, background: color, flexShrink: 0 }} />
                   <div style={{ padding: '14px 16px', flex: 1, minWidth: 0 }}>
                     <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
-                      <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>{ev.title}</p>
+                      <p style={{ fontSize: 15, fontWeight: 700, color: '#FFFFFF', lineHeight: 1.3 }}>{ev.title}</p>
                       {ev.category && (
-                        <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: 999, background: color + '22', color, flexShrink: 0 }}>
+                        <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: 999, background: color + '33', color, flexShrink: 0 }}>
                           {ev.category}
                         </span>
                       )}
                     </div>
                     {(ev.start_time || ev.end_time) && (
-                      <p style={{ fontSize: 12, color: 'var(--ink3)', marginTop: 5 }}>
+                      <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', marginTop: 5 }}>
                         🕐 {formatTime(ev.start_time)}{ev.end_time && formatTime(ev.end_time) ? ` – ${formatTime(ev.end_time)}` : ''}
                       </p>
                     )}
                     {ev.notes && (
-                      <p style={{ fontSize: 12, color: 'var(--ink2)', marginTop: 4 }}>{ev.notes}</p>
+                      <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.70)', marginTop: 4 }}>{ev.notes}</p>
                     )}
                   </div>
                 </div>
@@ -296,10 +295,10 @@ export default function KalenderClient() {
       {showModal && (
         <>
           <div onClick={() => setShowModal(false)}
-            style={{ position: 'fixed', inset: 0, background: 'rgba(28,26,23,0.45)', backdropFilter: 'blur(4px)', zIndex: 60 }} />
-          <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 70, background: 'var(--card)', borderRadius: '24px 24px 0 0', padding: '0 20px 48px' }}>
-            <div style={{ width: 40, height: 4, borderRadius: 2, background: 'var(--border2)', margin: '14px auto 22px' }} />
-            <h3 style={{ fontSize: 20, fontWeight: 800, color: 'var(--ink)', marginBottom: 22 }}>Ny händelse</h3>
+            style={{ position: 'fixed', inset: 0, background: 'rgba(0,5,15,0.55)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', zIndex: 60 }} />
+          <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 70, background: 'rgba(15,20,35,0.92)', backdropFilter: 'saturate(180%) blur(28px)', WebkitBackdropFilter: 'saturate(180%) blur(28px)', borderRadius: '24px 24px 0 0', border: '1px solid rgba(255,255,255,0.14)', padding: '0 20px 48px' }}>
+            <div style={{ width: 40, height: 4, borderRadius: 2, background: 'rgba(255,255,255,0.20)', margin: '14px auto 22px' }} />
+            <h3 style={{ fontSize: 20, fontWeight: 800, color: '#FFFFFF', marginBottom: 22 }}>Ny händelse</h3>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               <ModalField label="Titel" placeholder="T.ex. Läkartid" value={form.title}
@@ -315,14 +314,14 @@ export default function KalenderClient() {
 
               {/* Person picker */}
               <div>
-                <label style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--ink3)', display: 'block', marginBottom: 10 }}>Vem</label>
+                <label style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)', display: 'block', marginBottom: 10 }}>Vem</label>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
                   {(['Franck', 'Salona', 'Familjen', 'Båda'] as Person[]).map(p => (
                     <button key={p} onClick={() => setForm(f => ({ ...f, person: p }))}
                       style={{ padding: '10px 4px', borderRadius: 12, border: '1px solid', fontSize: 12, fontWeight: 700, cursor: 'pointer',
                         background: form.person === p ? PERSON_COLOR[p] : 'transparent',
-                        borderColor: form.person === p ? PERSON_COLOR[p] : 'var(--border2)',
-                        color: form.person === p ? 'white' : 'var(--ink2)',
+                        borderColor: form.person === p ? PERSON_COLOR[p] : 'rgba(255,255,255,0.18)',
+                        color: form.person === p ? 'white' : 'rgba(255,255,255,0.70)',
                       }}>
                       {p}
                     </button>
@@ -332,7 +331,7 @@ export default function KalenderClient() {
 
               <button onClick={saveEvent} disabled={saving || !form.title.trim()}
                 style={{ width: '100%', height: 54, borderRadius: 16, border: 'none', fontSize: 16, fontWeight: 800, cursor: saving || !form.title.trim() ? 'not-allowed' : 'pointer',
-                  background: saving || !form.title.trim() ? 'var(--ink3)' : '#2D5A27', color: 'white', marginTop: 4 }}>
+                  background: saving || !form.title.trim() ? 'rgba(255,255,255,0.20)' : '#2D5A27', color: 'white', marginTop: 4 }}>
                 {saving ? 'Sparar...' : 'Spara händelse'}
               </button>
             </div>
@@ -351,12 +350,12 @@ function ModalField({ label, placeholder = '', value, onChange, type = 'text', a
 }) {
   return (
     <div>
-      <label style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--ink3)', display: 'block', marginBottom: 7 }}>
+      <label style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)', display: 'block', marginBottom: 7 }}>
         {label}
       </label>
       <input type={type} placeholder={placeholder} value={value} autoFocus={autoFocus}
         onChange={e => onChange(e.target.value)}
-        style={{ width: '100%', padding: '13px 14px', borderRadius: 12, border: '1px solid var(--border2)', background: 'var(--bg2)', color: 'var(--ink)', fontSize: 15, outline: 'none', fontFamily: 'var(--sans)' }} />
+        style={{ width: '100%', padding: '13px 14px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.18)', background: 'rgba(255,255,255,0.08)', color: '#FFFFFF', fontSize: 15, outline: 'none', fontFamily: 'var(--sans)', boxSizing: 'border-box' }} />
     </div>
   )
 }

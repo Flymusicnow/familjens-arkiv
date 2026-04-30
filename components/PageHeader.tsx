@@ -12,12 +12,12 @@ export function PageHeader({
       <div>
         {eyebrow && (
           <p className="text-[11px] font-semibold tracking-[0.2em] uppercase mb-2"
-            style={{ color: 'var(--t3)' }}>
+            style={{ color: 'rgba(255,255,255,0.50)' }}>
             {eyebrow}
           </p>
         )}
         <h1 className="text-[32px] font-black leading-tight tracking-tight"
-          style={{ color: '#1A2018' }}>
+          style={{ color: '#FFFFFF' }}>
           {title}
         </h1>
       </div>
