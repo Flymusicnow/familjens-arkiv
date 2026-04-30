@@ -145,48 +145,49 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
 
   return (
     <div style={{ position: 'relative', zIndex: 1 }}>
-      {/* Greeting header */}
-      <div className="px-4 pt-8 pb-2 md:px-6 md:pt-10">
-        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', fontWeight: 500, marginBottom: 6 }}>
-          {getGreeting()}, {familyName}
-        </p>
-        <h1 style={{
-          fontSize: 'clamp(28px, 5vw, 40px)', color: '#FFFFFF', fontWeight: 700,
-          fontFamily: 'var(--serif)', lineHeight: 1.1,
-        }}>
-          {capitalize(getDayLabel())}
-        </h1>
-      </div>
-
-      {/* Urgent bills banner */}
-      {urgentBills.length > 0 && (
-        <div className="mx-4 mt-4 md:mx-6">
-          <Link href="/rakningar" style={{ textDecoration: 'none' }}>
-            <div style={{
-              background: 'rgba(160,82,45,0.35)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
-              border: '1px solid rgba(160,82,45,0.50)',
-              borderRadius: 14,
-              padding: '12px 16px',
-              display: 'flex', alignItems: 'center', gap: 10,
-            }}>
-              <span style={{ fontSize: 20 }}>💳</span>
-              <span style={{ fontSize: 14, fontWeight: 600, color: '#FFCBA8', flex: 1 }}>
-                Räkningar att betala
-              </span>
-              {urgentTotal > 0 && (
-                <span style={{ fontSize: 14, fontWeight: 700, color: '#FFCBA8' }}>
-                  {urgentTotal.toLocaleString('sv-SE')} kr
-                </span>
-              )}
-            </div>
-          </Link>
+      <div className="max-w-6xl mx-auto px-4 pt-8 pb-28 md:px-8 md:pt-10 md:pb-10 lg:px-10 xl:px-12 xl:pt-10">
+        {/* Greeting header */}
+        <div className="pb-2">
+          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', fontWeight: 500, marginBottom: 6 }}>
+            {getGreeting()}, {familyName}
+          </p>
+          <h1 style={{
+            fontSize: 'clamp(28px, 5vw, 40px)', color: '#FFFFFF', fontWeight: 700,
+            fontFamily: 'var(--serif)', lineHeight: 1.1,
+          }}>
+            {capitalize(getDayLabel())}
+          </h1>
         </div>
-      )}
 
-      {/* Card grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 p-4 md:p-6 pb-28 md:pb-10">
+        {/* Urgent bills banner */}
+        {urgentBills.length > 0 && (
+          <div className="mt-4">
+            <Link href="/rakningar" style={{ textDecoration: 'none' }}>
+              <div style={{
+                background: 'rgba(160,82,45,0.35)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                border: '1px solid rgba(160,82,45,0.50)',
+                borderRadius: 14,
+                padding: '12px 16px',
+                display: 'flex', alignItems: 'center', gap: 10,
+              }}>
+                <span style={{ fontSize: 20 }}>💳</span>
+                <span style={{ fontSize: 14, fontWeight: 600, color: '#FFCBA8', flex: 1 }}>
+                  Räkningar att betala
+                </span>
+                {urgentTotal > 0 && (
+                  <span style={{ fontSize: 14, fontWeight: 700, color: '#FFCBA8' }}>
+                    {urgentTotal.toLocaleString('sv-SE')} kr
+                  </span>
+                )}
+              </div>
+            </Link>
+          </div>
+        )}
+
+        {/* Card grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5 xl:gap-6 pt-4 md:pt-6">
         {cards.map(card => (
           <Link
             key={card.href}
@@ -264,6 +265,7 @@ export default function HemClient({ member, bills, tasks: initialTasks, today }:
             )}
           </Link>
         ))}
+        </div>
       </div>
     </div>
   )

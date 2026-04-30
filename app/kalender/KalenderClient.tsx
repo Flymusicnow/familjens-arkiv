@@ -176,10 +176,10 @@ export default function KalenderClient() {
 
   return (
     <div style={{ background: 'transparent', minHeight: '100vh', paddingBottom: 100 }}>
-      <div style={{ maxWidth: 672, margin: '0 auto' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto' }}>
 
       {/* Header */}
-      <div style={{ padding: '24px 16px 0', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+      <div style={{ padding: '32px 24px 0', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
         <div>
           <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)', marginBottom: 4 }}>Schema</p>
           <h1 style={{ fontSize: 32, fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.5px', fontFamily: 'var(--sans)' }}>Kalender</h1>
@@ -192,14 +192,14 @@ export default function KalenderClient() {
       </div>
 
       {/* Month/year label */}
-      <div style={{ padding: '14px 16px 2px' }}>
+      <div style={{ padding: '16px 24px 2px' }}>
         <p style={{ fontSize: 22, fontWeight: 700, color: '#FFFFFF', fontFamily: 'var(--serif)', textTransform: 'capitalize' }}>
           {weekDates[0].toLocaleDateString('sv-SE', { month: 'long', year: 'numeric' })}
         </p>
       </div>
 
       {/* Week nav */}
-      <div style={{ padding: '8px 16px 4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ padding: '8px 24px 4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <button onClick={prevWeek}
           style={{ padding: '5px 14px', borderRadius: 10, border: GLASS_BORDER, background: GLASS, backdropFilter: GB_STYLE, WebkitBackdropFilter: GB_STYLE, color: 'rgba(255,255,255,0.70)', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
           ‹ Förra
@@ -215,7 +215,7 @@ export default function KalenderClient() {
       </div>
 
       {/* Day strip */}
-      <div style={{ padding: '8px 12px 0', display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 3 }}>
+      <div style={{ padding: '8px 24px 0', display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4 }}>
         {weekDates.map((d, i) => {
           const ds        = toDateStr(d)
           const isToday   = ds === todayStr
@@ -241,10 +241,10 @@ export default function KalenderClient() {
       </div>
 
       {/* Divider */}
-      <div style={{ height: 1, background: 'rgba(255,255,255,0.10)', margin: '14px 16px 16px' }} />
+      <div style={{ height: 1, background: 'rgba(255,255,255,0.10)', margin: '14px 24px 16px' }} />
 
       {/* Events for selected day */}
-      <div style={{ padding: '0 16px' }}>
+      <div style={{ padding: '0 24px' }}>
         <p style={{ fontSize: 19, fontWeight: 700, color: '#FFFFFF', fontFamily: 'var(--serif)', textTransform: 'capitalize', marginBottom: 14 }}>
           {selectedDate.toLocaleDateString('sv-SE', { weekday: 'long', day: 'numeric', month: 'long' })}
         </p>
